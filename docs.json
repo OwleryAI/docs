@@ -54,8 +54,7 @@
   },
   "logo": {
     "light": "/images/Owlery-Logo-RGB.svg",
-    "dark": "/images/Owlery-Logo-Reversed.svg",
-    "href": "https://owlery.ai/dashboard"
+    "dark": "/images/Owlery-Logo-Reversed.svg"
   },
   "navbar": {
     "links": [],
