@@ -34,8 +34,8 @@
         "icon": "layer-group",
         "pages": [
           "orders",
-          "invoices",
-          "loads"
+          "loads",
+          "invoices"
         ]
       },
       "item-master",
@@ -68,5 +68,8 @@
     "socials": {
       "linkedin": "https://linkedin.com/in/owlery"
     }
+  },
+  "fonts": {
+    "family": "Open Sans"
   }
 }
