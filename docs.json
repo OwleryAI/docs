@@ -28,7 +28,13 @@
   "navigation": {
     "directory": "card",
     "pages": [
-      "getting-started-in-4-steps",
+      {
+        "group": "Getting Started",
+        "pages": [
+          "getting-started-in-4-steps",
+          "welcome"
+        ]
+      },
       {
         "group": "Platform",
         "icon": "layer-group",
