@@ -22,7 +22,8 @@
       "chatgpt",
       "claude",
       "download-pdf"
-    ]
+    ],
+    "display": "toc"
   },
   "navigation": {
     "directory": "card",
