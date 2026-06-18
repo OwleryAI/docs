@@ -1,0 +1,79 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "almond",
+  "name": "How to Use Owlery",
+  "description": "Step-by-step guides for every product—platform setup, analytics, and integrations in one place.",
+  "colors": {
+    "primary": "#166E3F",
+    "light": "#26BD6C",
+    "dark": "#166E3F"
+  },
+  "favicon": "/favicon.ico",
+  "icons": {
+    "library": "lucide"
+  },
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
+  "contextual": {
+    "options": ["copy", "view", "assistant", "mcp", "add-mcp"]
+  },
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Back to Owlery ↗",
+          "icon": "bird",
+          "color": {
+            "light": "#32D17E",
+            "dark": "#32D17E"
+          },
+          "href": "https://owlery.ai/dashboard"
+        }
+      ]
+    },
+    "directory": "card",
+    "pages": [
+      "getting-started-in-4-steps",
+      {
+        "group": "Platform",
+        "icon": "layers",
+        "pages": [
+          "orders",
+          "invoices",
+          "loads"
+        ]
+      },
+      "item-master",
+      "contract-rates",
+      "shipper-settings",
+      "integrations",
+      {
+        "group": "Analytics",
+        "icon": "chart-no-axes-combined",
+        "pages": [
+          "coming-soon"
+        ]
+      },
+      "need-help"
+    ]
+  },
+  "logo": {
+    "light": "/images/Owlery-Logo-RGB.svg",
+    "dark": "/images/Owlery-Logo-Reversed.svg",
+    "href": "https://owlery.ai/dashboard"
+  },
+  "navbar": {
+    "links": [],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://dashboard.mintlify.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "linkedin": "https://linkedin.com/in/owlery"
+    }
+  }
+}
