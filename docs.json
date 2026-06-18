@@ -10,7 +10,7 @@
   },
   "favicon": "/favicon.ico",
   "icons": {
-    "library": "lucide"
+    "library": "fontawesome"
   },
   "styling": {
     "eyebrows": "breadcrumbs"
@@ -37,7 +37,7 @@
       "getting-started-in-4-steps",
       {
         "group": "Platform",
-        "icon": "layers",
+        "icon": "layer-group",
         "pages": [
           "orders",
           "invoices",
@@ -50,7 +50,7 @@
       "integrations",
       {
         "group": "Analytics",
-        "icon": "chart-no-axes-combined",
+        "icon": "chart-line",
         "pages": [
           "coming-soon"
         ]
