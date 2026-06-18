@@ -64,16 +64,11 @@
     "href": "https://owlery.ai/dashboard"
   },
   "navbar": {
-    "links": [
-      {
-        "href": "https://owlery.ai/dashboard",
-        "label": "Log in to Owlery"
-      }
-    ],
+    "links": [],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Log in to Owlery",
+      "href": "https://owlery.ai/dashboard"
     }
   },
   "footer": {
