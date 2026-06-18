@@ -19,19 +19,6 @@
     "options": ["copy", "view", "assistant", "mcp", "add-mcp"]
   },
   "navigation": {
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Back to Owlery ↗",
-          "icon": "bird",
-          "color": {
-            "light": "#32D17E",
-            "dark": "#32D17E"
-          },
-          "href": "https://owlery.ai/dashboard"
-        }
-      ]
-    },
     "directory": "card",
     "pages": [
       "getting-started-in-4-steps",
