@@ -64,7 +64,12 @@
     "href": "https://owlery.ai/dashboard"
   },
   "navbar": {
-    "links": [],
+    "links": [
+      {
+        "href": "https://owlery.ai/dashboard",
+        "label": "Log in to Owlery"
+      }
+    ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
