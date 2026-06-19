@@ -1,0 +1,77 @@
+---
+title: "Create an Invoice"
+description: "How to invoice shippers in Owlery — manually for a single load or in bulk via CSV upload."
+sidebarTitle: "Create an Invoice"
+---
+
+There are two ways to create invoices in Owlery: one at a time from a load, or in bulk by uploading a CSV. Pick whichever fits your workflow.
+
+<Warning>
+  Uploading a PDF is not the same as creating an invoice. Owlery needs structured line-item data to process an invoice — a PDF alone won't do it.
+</Warning>
+
+<Tabs>
+  <Tab title="Manual (single load)">
+    <Steps>
+      <Step title="Open the load">
+        Go to **Shipments (Loads)**, find the load, and click the **Invoice** tab in the drawer.
+      </Step>
+      <Step title="Add line items">
+        Click **Add Line Item** and fill in:
+
+        - **Category** (required)
+        - **Description** (optional)
+        - **Due Date** (required)
+        - **Total** (required)
+
+        Repeat for each charge on the load.
+      </Step>
+      <Step title="Finalize the invoice">
+        Click **Create Invoice**, confirm or enter your **Invoice Number**, and submit. The invoice is sent to the shipper right away.
+
+        <Frame>
+        </Frame>
+
+        {/*  📸 SCREENSHOT: The Invoice tab inside the load drawer with one or two line items filled in, showing the Category, Description, Due Date, and Total fields. The Create Invoice button should be visible at the bottom.  */}
+      </Step>
+    </Steps>
+
+    Need to make a correction? Finalized invoices can be edited from the **Invoices** page under **Finances** as long as the status is `Unpaid` or `Disputing`.
+  </Tab>
+  <Tab title="CSV upload (bulk)">
+    <Steps>
+      <Step title="Download the template">
+        Go to **Invoices** under **Finances**. Click the dropdown arrow next to the **Upload** button and select **Download Template**.
+      </Step>
+      <Step title="Fill out the CSV">
+        Open the template and fill in the required fields:
+
+        - Invoice Number
+        - PRO/Load Number
+        - Bill to Account
+        - Invoice Date
+        - Shipper and Consignee location info
+        - Line-Item Total
+
+        To add multiple charges to one invoice, use multiple rows with the same Invoice Number.
+      </Step>
+      <Step title="Upload and validate">
+        Back in Owlery, click **Upload**, select a **Shipper**, attach your file, and click **Validate CSV**. If there are errors, fix them in your file and resubmit.
+
+        <Frame>
+        </Frame>
+
+        {/*  📸 SCREENSHOT: The CSV upload modal showing the Shipper dropdown, the file attachment area (ideally with a file already attached), and the Validate CSV button. If possible, also show what a validation error looks like.  */}
+      </Step>
+      <Step title="Submit your invoices">
+        Once validation passes, click **Submit Invoices**. Invoices are sent to the shipper and start in `Needs Review` status.
+      </Step>
+    </Steps>
+
+    Need to make a correction? Finalized invoices can be edited from the **Invoices** page as long as the status is `Unpaid` or `Disputing`.
+  </Tab>
+</Tabs>
+
+<Note>
+  Only one invoice per load — if you try to submit a duplicate, Owlery will flag it.
+</Note>

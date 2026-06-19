@@ -62,7 +62,24 @@
       },
       {
         "tab": "Carriers",
-        "icon": "truck"
+        "icon": "truck",
+        "pages": [
+          "overview",
+          "submit-a-quote",
+          "accept-a-tender",
+          "update-shipment-tracking",
+          "upload-proof-of-delivery",
+          "create-an-invoice",
+          "invite-teammates"
+        ]
+      },
+      {
+        "tab": "Facilities",
+        "icon": "warehouse"
+      },
+      {
+        "tab": "Appointment Booking",
+        "icon": "calendar-alt"
       }
     ]
   },
