@@ -29,7 +29,8 @@
       {
         "tab": "Owlery Product Guide",
         "pages": [
-          "welcome-1"
+          "welcome",
+          "signing-in"
         ]
       },
       {
@@ -84,8 +85,8 @@
         "icon": "warehouse"
       },
       {
-        "tab": "Appointment Booking",
-        "icon": "calendar-alt"
+        "tab": "Dock Scheduling",
+        "icon": "calendar-clock"
       }
     ]
   },

@@ -1,0 +1,78 @@
+---
+title: "Signing In to Owlery"
+description: "How to sign in with your work email using Google, Microsoft, or a magic link."
+sidebarTitle: "Signing In"
+icon: "key-skeleton"
+---
+
+Owlery uses Single Sign-On (SSO), so there's no separate password to create or remember. Sign in with your work email through Google or Microsoft, and Owlery matches you to your company based on your email domain.
+
+<Note>
+  You must use your **work email**. Personal email accounts (Gmail, Outlook.com, etc.) won't work.
+</Note>
+
+{/*  📸 SCREENSHOT: The Owlery sign-in page at its default state — showing the Owlery logo, "Sign in to Owlery" heading, work email notice, both SSO buttons, and the magic link option at the bottom. Crop tight to the sign-in card.  */}
+
+<Frame>
+  <img
+    src="/images/image.png"
+    alt="Image"
+    title="Image"
+    className="mx-auto"
+    style={{ width:"49%" }}
+  />
+</Frame>
+
+## Sign in with Google or Microsoft
+
+<Steps>
+  <Step title="Go to Owlery">
+    Open Owlery in your browser. You'll land on the sign-in screen.
+
+    {/*  TODO: Add the Owlery sign-in URL (e.g., app.owlery.ai)  */}
+  </Step>
+  <Step title="Pick your provider">
+    Click **Continue with Microsoft** or **Continue with Google** — whichever one your company uses for work email.
+  </Step>
+  <Step title="Authorize with your provider">
+    Sign in with your work email credentials through your provider's standard login screen. If you're already signed in to Google or Microsoft in your browser, this may happen automatically.
+  </Step>
+</Steps>
+
+That's it — you're in. Owlery never sees or stores your password; your identity provider handles all of that.
+
+## Use a magic link instead
+
+If your company doesn't use Google or Microsoft, you can sign in with an email link.
+
+<Steps>
+  <Step title="Click the magic link option">
+    On the sign-in screen, click **Get a secure sign-in link by email**.
+  </Step>
+  <Step title="Enter your work email">
+    Type your work email address and submit.
+  </Step>
+  <Step title="Check your inbox">
+    Open the sign-in email from Owlery and click the link. It'll sign you straight in.
+  </Step>
+</Steps>
+
+<Tip>
+  If your company uses an email security tool like Proofpoint, the sign-in link may not work when clicked. Copy the link and paste it into your browser instead.
+</Tip>
+
+## What Owlery stores about you
+
+When you sign in, Owlery only stores three things: your **name**, your **email address**, and an internal system ID. That's it — no passwords, no extra profile data.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="I can't sign in with my work email">
+    Your IT team may need to whitelist Owlery in your organization's Google or Microsoft admin settings. Check with them first — if that doesn't fix it, email [support@owlery.ai](mailto:support@owlery.ai) with your company name and the error you're seeing.
+  </Accordion>
+
+  <Accordion title="I signed in but don't see my data">
+    Owlery matches you to your organization by your email domain. If you're signed in with your correct work email and still don't see what you expect, check with a teammate - they probably just need to add you to the right team.
+  </Accordion>
+</AccordionGroup>
