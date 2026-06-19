@@ -111,5 +111,11 @@
   },
   "fonts": {
     "family": "Open Sans"
-  }
+  },
+  "redirects": [
+    {
+      "source": "/carriers/create-an-invoice",
+      "destination": "/carriers/submit-an-invoice"
+    }
+  ]
 }
