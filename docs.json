@@ -77,7 +77,7 @@
           "carriers/accept-a-tender",
           "carriers/update-shipment-tracking",
           "carriers/upload-proof-of-delivery",
-          "carriers/create-an-invoice",
+          "carriers/submit-an-invoice",
           "carriers/invite-teammates"
         ]
       },
@@ -111,5 +111,11 @@
   },
   "fonts": {
     "family": "Open Sans"
-  }
+  },
+  "redirects": [
+    {
+      "source": "/carriers/create-an-invoice",
+      "destination": "/carriers/submit-an-invoice"
+    }
+  ]
 }
