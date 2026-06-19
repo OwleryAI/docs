@@ -27,27 +27,33 @@
     "directory": "card",
     "tabs": [
       {
+        "tab": "Owlery Product Guide",
+        "pages": [
+          "welcome-1"
+        ]
+      },
+      {
         "tab": "Shippers",
         "pages": [
           {
             "group": "Getting Started",
             "pages": [
-              "welcome",
-              "getting-started-in-4-steps"
+              "shippers/welcome",
+              "shippers/getting-started-in-4-steps"
             ]
           },
           {
             "group": "Platform",
             "icon": "layer-group",
             "pages": [
-              "orders",
-              "loads",
-              "invoices"
+              "shippers/orders",
+              "shippers/loads",
+              "shippers/invoices"
             ]
           },
-          "item-master",
-          "contract-rates",
-          "shipper-settings",
+          "shippers/item-master",
+          "shippers/contract-rates",
+          "shippers/shipper-settings",
           "integrations",
           {
             "group": "Analytics",
