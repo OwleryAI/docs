@@ -70,13 +70,13 @@
         "tab": "Carriers",
         "icon": "truck",
         "pages": [
-          "carrier-portal/overview",
-          "carrier-portal/submit-a-quote",
-          "carrier-portal/accept-a-tender",
-          "carrier-portal/update-shipment-tracking",
-          "carrier-portal/upload-proof-of-delivery",
-          "carrier-portal/create-an-invoice",
-          "carrier-portal/invite-teammates"
+          "carriers/overview",
+          "carriers/portal/submit-a-quote",
+          "carriers/portal/accept-a-tender",
+          "carriers/portal/update-shipment-tracking",
+          "carriers/portal/upload-proof-of-delivery",
+          "carriers/portal/create-an-invoice",
+          "carriers/portal/invite-teammates"
         ]
       },
       {
