@@ -82,11 +82,17 @@
       },
       {
         "tab": "Facilities",
-        "icon": "warehouse"
+        "icon": "warehouse",
+        "pages": [
+          "facilities/coming-soon"
+        ]
       },
       {
         "tab": "Dock Scheduling",
-        "icon": "calendar-clock"
+        "icon": "calendar-clock",
+        "pages": [
+          "dock-scheduling/coming-soon"
+        ]
       }
     ]
   },
