@@ -17,9 +17,7 @@
   },
   "contextual": {
     "options": [
-      "assistant",
-      "claude",
-      "chatgpt"
+      "assistant"
     ],
     "display": "toc"
   },
