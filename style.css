@@ -147,3 +147,7 @@ img.nav-logo {
   max-width: 220px;
   height: 44px !important;
 }
+
+footer {
+  visibility: hidden;
+}
