@@ -54,15 +54,15 @@
           "shippers/item-master",
           "shippers/contract-rates",
           "shippers/shipper-settings",
-          "integrations",
+          "shippers/integrations",
           {
             "group": "Analytics",
             "icon": "chart-line",
             "pages": [
-              "coming-soon"
+              "shippers/coming-soon"
             ]
           },
-          "need-help"
+          "shippers/need-help"
         ],
         "icon": "star"
       },
@@ -71,12 +71,12 @@
         "icon": "truck",
         "pages": [
           "carriers/overview",
-          "carriers/portal/submit-a-quote",
-          "carriers/portal/accept-a-tender",
-          "carriers/portal/update-shipment-tracking",
-          "carriers/portal/upload-proof-of-delivery",
-          "carriers/portal/create-an-invoice",
-          "carriers/portal/invite-teammates"
+          "carriers/submit-a-quote",
+          "carriers/accept-a-tender",
+          "carriers/update-shipment-tracking",
+          "carriers/upload-proof-of-delivery",
+          "carriers/create-an-invoice",
+          "carriers/invite-teammates"
         ]
       },
       {
