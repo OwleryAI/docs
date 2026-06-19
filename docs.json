@@ -17,45 +17,51 @@
   },
   "contextual": {
     "options": [
-      "copy",
       "assistant",
-      "chatgpt",
       "claude",
-      "download-pdf"
+      "chatgpt"
     ],
     "display": "toc"
   },
   "navigation": {
     "directory": "card",
-    "pages": [
+    "tabs": [
       {
-        "group": "Getting Started",
+        "tab": "Shippers",
         "pages": [
-          "welcome",
-          "getting-started-in-4-steps"
+          {
+            "group": "Getting Started",
+            "pages": [
+              "welcome",
+              "getting-started-in-4-steps"
+            ]
+          },
+          {
+            "group": "Platform",
+            "icon": "layer-group",
+            "pages": [
+              "orders",
+              "loads",
+              "invoices"
+            ]
+          },
+          "item-master",
+          "contract-rates",
+          "shipper-settings",
+          "integrations",
+          {
+            "group": "Analytics",
+            "icon": "chart-line",
+            "pages": [
+              "coming-soon"
+            ]
+          },
+          "need-help"
         ]
       },
       {
-        "group": "Platform",
-        "icon": "layer-group",
-        "pages": [
-          "orders",
-          "loads",
-          "invoices"
-        ]
-      },
-      "item-master",
-      "contract-rates",
-      "shipper-settings",
-      "integrations",
-      {
-        "group": "Analytics",
-        "icon": "chart-line",
-        "pages": [
-          "coming-soon"
-        ]
-      },
-      "need-help"
+        "tab": "Carriers"
+      }
     ]
   },
   "logo": {
