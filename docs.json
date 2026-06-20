@@ -31,7 +31,8 @@
         "tab": "Owlery Product Guide",
         "pages": [
           "welcome",
-          "signing-in"
+          "signing-in",
+          "switch-to-dark-mode"
         ]
       },
       {
