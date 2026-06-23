@@ -50,6 +50,7 @@
             "icon": "layer-group",
             "pages": [
               "shippers/orders",
+              "shippers/quotes",
               "shippers/loads",
               "shippers/invoices"
             ]
