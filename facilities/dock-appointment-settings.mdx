@@ -1,0 +1,88 @@
+---
+title: "Set Up Dock Appointment Settings"
+description: "Configure how appointments are scheduled at your facility — timeslots, capacity, booking rules, and notifications."
+sidebarTitle: "Dock Appointment Settings"
+---
+
+Dock appointment settings control how carriers book pickup and delivery appointments at your facility. You'll configure things like operating hours, appointment length, how far in advance someone can book, and whether appointments need your approval.
+
+Each facility has separate settings for **Pickup** and **Dropoff** traffic, so you can run different rules for inbound and outbound freight.
+
+<Note>
+  Your facility profile needs to exist before you can configure appointment settings. If you don't see your facility listed, reach out to Owlery Support.
+</Note>
+
+## Open your facility's settings
+
+<Steps>
+  <Step title="Go to Facilities">
+    In the left sidebar under **Master Data**, click **Facilities**.
+  </Step>
+  <Step title="Select your facility">
+    Find your facility in the list and click it to open the detail drawer.
+  </Step>
+  <Step title="Open the Settings tab">
+    In the drawer, click the **Settings** icon on the left-hand side. You'll see tabs for **Pickup** and **Dropoff** — start with whichever direction you want to configure first.
+
+    {/*  📸 SCREENSHOT: The facility drawer with the Settings tab active. Show the Pickup tab selected with the full form visible — Pickup/Dropoff dropdown, Appointment Type, Days Open, operating hours, Appointment Length, direct booking capacity, scheduling restrictions, and email notifications. Crop to the drawer only.  */}
+  </Step>
+</Steps>
+
+## Configure your appointment settings
+
+Work through each section on the form. The settings you see depend on the appointment type you choose.
+
+### Appointment type
+
+Pick how carriers book time at your dock:
+
+- **By Appointment** — Carriers pick a specific timeslot. You control the slot length and operating hours.
+- **First Come First Served (FCFS)** — No timeslots. Carriers book a day, and you set a daily cap on how many appointments are allowed.
+
+{/*  TODO: Confirm whether Live/Drop is a separate field on this form or configured elsewhere. The spec mentions up to 4 settings per facility (Pickup/Live, Pickup/Drop, Dropoff/Live, Dropoff/Drop), but the screenshot only shows Pickup/Dropoff tabs.  */}
+
+### Operating hours and days open
+
+Set which days your facility accepts appointments and the hours for each day. Each day can be toggled open or closed individually.
+
+If your facility runs overnight shifts, check **Closes next day (after midnight)** so the closing time rolls past midnight correctly.
+
+### Appointment length
+
+_By Appointment mode only._ Choose how long each timeslot is — options range from 15 minutes to 3 hours. Owlery uses this plus your operating hours to calculate how many slots are available each day.
+
+<Tip>
+  Shorter slots mean more appointments per day but tighter scheduling. If you're not sure, start with 1 hour and adjust once you see how traffic flows.
+</Tip>
+
+### Daily max appointments
+
+_FCFS mode only._ Set the maximum number of appointments allowed per day. If you don't want a cap, choose **No Max Limit**.
+
+### Direct booking capacity
+
+This controls whether appointments are auto-confirmed or need your approval:
+
+- **All** — Every appointment is confirmed automatically. Good for low-traffic docks where you don't need to gatekeep.
+- **None** — Every appointment request goes to your facility for approval before it's confirmed. Use this for high-demand docks where you need full control.
+- **Some** — Set a specific number of appointments that auto-confirm per day. Once that limit is hit, additional requests require your approval.
+
+### Appointment scheduling restrictions
+
+Prevent last-minute bookings by blocking appointments that are too close to today:
+
+- **Allow Appointments Any Time** — No restrictions.
+- **Disable Same Day Appointments** — Carriers can't book for today.
+- **Disable Same & Next Day Appointments** — Carriers need at least two days' lead time.
+
+You can also set a custom number of days if you need a longer buffer.
+
+### Email notifications
+
+Choose which appointment statuses trigger an email to your facility contacts. Check the statuses you want notifications for — for example, **Arrived**, **Departed**, or **Loaded/Unloaded**.
+
+{/*  TODO: Confirm the full list of available statuses for email notifications (Arrived, Departed, Loaded/Unloaded — any others?).  */}
+
+### Driver info collection
+
+_Info coming soon.._
