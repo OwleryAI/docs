@@ -1,5 +1,74 @@
 ---
 title: "Quotes"
+description: "Find, filter, and follow your quotes — plus what every status and drawer tab means."
+sidebarTitle: "Quotes"
 ---
 
-### dfghh
+Below the create form, the **Quotes** table is your home base for everything you've sent — what's still open, what's been quoted, and what's already booked.
+
+## The Quotes table
+
+Each row is one quote. The key columns:
+
+- **ID** — short quote identifier, like `Q-1234`.
+- **Status** — where the quote stands (see statuses below).
+- **# Quotes** — a breakdown of responses: **green** = quoted, **orange** = pending or expired, **grey** = unavailable.
+- **Tendered At** — the price of the accepted or tendered response.
+- **Equipment** — the equipment type you requested.
+- **Pickup / Dropoff** — locations and dates.
+- **Items** — a quick freight summary.
+- **Created At / Created By** — when it was made and by whom.
+- **Action** — the re-quote button to re-send the same request.
+
+Filter the table by status, equipment type, pickup or dropoff date, or who created the quote. You can also sort by created, pickup, or dropoff date. Click **Download CSV** to export whatever you're currently viewing.
+
+<Frame>
+</Frame>
+
+{/* 📸 SCREENSHOT: The full Quotes table with several rows in different statuses, the filter controls and sort options visible at the top, and the Download CSV button. Show enough columns to give a sense of the layout. */}
+
+## Quote statuses
+
+- **Open** — request sent, waiting on responses.
+- **Quoted** — at least one carrier rate has come in.
+- **Tendered** — a carrier was selected and the load was tendered.
+- **Accepted** — the carrier accepted the tender.
+- **Carrier Selected** — a carrier was chosen but not yet fully tendered (two-step tendering).
+- **Cancelled** — the tender was cancelled.
+
+## What's in the quote drawer
+
+Click any row to open the drawer. Besides the **Details** tab — where you review responses and tender — you'll find:
+
+- **Lane History** — a historical rate chart for this exact lane (origin–destination), so you can gauge whether a quote is competitive.
+- **Order Items** — the order line items tied to this quote.
+- **Documents** — files attached to the tendered response (BOL, packing list, shipping label, and so on), ready to download.
+- **Tender History** — the full tender lifecycle, including cancellations, re-tenders, and load status if a load was created.
+- **Linked Items** — everything connected to this quote: related orders, loads, and other records.
+
+<Card title="Reviewing responses and tendering?" icon="circle-check" href="/shippers/review-responses-and-tender">
+  The Details tab gets its own walkthrough — comparing carrier rates, sending rate cons and BOLs, and booking the load.
+</Card>
+
+## Re-quote an existing quote
+
+Want to send a fresh request with the same details? You can re-quote two ways:
+
+<Steps>
+  <Step title="Start the re-quote">
+    Click the **re-quote** button (↺) in the **Action** column of the table, or open the quote drawer and click **Re-quote**.
+  </Step>
+  <Step title="Adjust and send">
+    The create form at the top of the page fills in with the original quote's route, shipment details, and carrier selections. Change anything you need, then submit.
+  </Step>
+</Steps>
+
+## Handy to know
+
+- **Jump straight here** — use the search bar at the top of any page and type `rate quote` or `quotes` to land on the Quotes page.
+- **New quotes are easy to spot** — they carry a **New** badge for five minutes after you create them.
+- **Responses refresh on their own** — a spinning **Quoting…** indicator shows in the **# Quotes** column while carrier responses are still coming in.
+
+---
+
+Stuck on something? Email [support@owlery.ai](mailto:support@owlery.ai)
