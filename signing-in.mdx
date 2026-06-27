@@ -41,6 +41,18 @@ Owlery uses Single Sign-On (SSO), so there's no separate password to create or r
 
 That's it — you're in. Owlery never sees or stores your password; your identity provider handles all of that.
 
+## If your IT team manages access
+
+If your organization controls which third-party apps employees can use, your IT team may need to approve Owlery before you can sign in. Reach out to your IT team to request access.
+
+_What your IT team will need to do:_
+
+- Configure Owlery as an approved application in your identity provider (Google Workspace, Microsoft Entra ID, etc.)
+- Allow the appropriate users or groups to access Owlery
+- Optionally, manage ongoing access through groups
+
+Your IT team maintains authentication entirely on their side — Owlery does not store or manage customer user passwords as part of this login flow.
+
 ## Use a magic link instead
 
 If your company doesn't use Google or Microsoft, you can sign in with an email link.
@@ -69,7 +81,7 @@ When you sign in, Owlery only stores three things: your **name**, your **email a
 
 <AccordionGroup>
   <Accordion title="I can't sign in with my work email">
-    Your IT team may need to whitelist Owlery in your organization's Google or Microsoft admin settings. Check with them first — if that doesn't fix it, email [support@owlery.ai](mailto:support@owlery.ai) with your company name and the error you're seeing.
+    Your IT team may need to whitelist Owlery in your organization's Google or Microsoft admin settings. See _If your IT team manages access_ above. Check with them first — if that doesn't fix it, email [support@owlery.ai](mailto:support@owlery.ai) with your company name and the error you're seeing.
   </Accordion>
 
   <Accordion title="I signed in but don't see my data">
