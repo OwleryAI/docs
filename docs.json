@@ -125,7 +125,7 @@
     "404": {
       "redirect": false,
       "title": "Uh oh. This page doesn't exist.",
-      "description": "It's Jake... from Owlery. Looks like this page went off-script. Here's what I'd recommend:\n\n**Double-check the URL** — a small typo can send you to the wrong neighborhood.\n\nTry the **search box** or **AI Assistant** at the top of the page — they're like a good neighbor, always there when you need them.\n\nOr head back to the [Help Homepage](https://help.owlery.ai) and start fresh.\n\nAnd hey, while you're here... [enjoy this](https://www.youtube.com/watch?v=insM7oUYNOE). You've earned it. 🏈"
+      "description": "Well, that's not great. But don't worry — we can get you back on track.\n\n**Double-check the URL** — even a small typo can send you to the wrong place.\n\nYou can also use the **search box** or **AI Assistant** right up there at the top of the page. They're pretty good at finding things.\n\nOr hey, just head back to the [Help Homepage](https://help.owlery.ai) — we'll get you taken care of.\n\nIn the meantime, here's something for the wait:\n\n<iframe src=\"https://www.youtube.com/embed/insM7oUYNOE\" title=\"Jake from State Farm\" frameBorder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowFullScreen style={{width: '100%', maxWidth: '560px', aspectRatio: '16/9'}}></iframe>"
     }
   }
 }
