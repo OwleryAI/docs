@@ -59,6 +59,24 @@ _By Appointment mode only._ Choose how long each timeslot is — options range f
 
 _FCFS mode only._ Set the maximum number of appointments allowed per day. If you don't want a cap, choose **No Max Limit**.
 
+### Concurrent appointment capacity
+
+Cap how many appointments can run **in parallel** at your facility, regardless of how many timeslots are technically open. The cap applies across pickup and dropoff combined — so if you set it to 3, only 3 trucks total (inbound + outbound) can be on-site at the same time.
+
+Use this when your team or dock space is the bottleneck rather than the number of doors. Leave it unset to let every available slot book independently.
+
+<Note>
+  This setting is rolling out gradually. If you don't see it on your facility yet, reach out to Owlery Support.
+</Note>
+
+### Drop trailer docks
+
+If you have docks reserved for carriers that leave a trailer parked overnight (for example, parcel carriers like UPS or FedEx), mark them as **drop trailer** on the [facility profile](/facilities/facility-profile). Drop trailer docks are excluded from normal live-load scheduling so the trailer's slot isn't double-booked.
+
+<Note>
+  Only **Admin** and **Owner** roles can edit drop trailer settings. This setting is rolling out gradually — contact Owlery Support if you need it enabled.
+</Note>
+
 ### Direct booking capacity
 
 This controls whether appointments are auto-confirmed or need your approval:
@@ -83,6 +101,22 @@ Choose which appointment statuses trigger an email to your facility contacts. Ch
 
 {/*  TODO: Confirm the full list of available statuses for email notifications (Arrived, Departed, Loaded/Unloaded — any others?).  */}
 
+Appointment confirmation emails also pull content directly from your [facility profile](/facilities/facility-profile):
+
+- **Facility notes** — check-in instructions, paperwork requirements, and the facility address are included on every confirmation.
+- **Facility contacts** — anyone listed as a contact on the facility is automatically included on the email.
+
+Keep your facility profile up to date so carriers always get the right instructions and the right people are looped in.
+
 ### Driver info collection
 
-_Info coming soon.._
+For inbound (dropoff) appointments, you can require carriers to provide freight details at booking time when the WMS doesn't already have them. When enabled, the **Add Appointment** form prompts the scheduler for:
+
+- **Temperature range** — the temperature zone the freight needs (for example, frozen, refrigerated, ambient).
+- **Pallet count** — the total number of pallets on the load.
+
+This is configured per facility and only applies to inbound traffic. Use it when your WMS often has incomplete order data and you want the carrier to fill the gaps before they arrive.
+
+<Note>
+  Driver info collection is rolling out gradually. If you don't see the toggle on your facility yet, reach out to Owlery Support.
+</Note>
