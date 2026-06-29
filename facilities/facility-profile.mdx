@@ -1,0 +1,60 @@
+---
+title: "Set Up Your Facility Profile"
+description: "Configure your facility's address, contacts, notes, and dock details so the rest of Owlery has what it needs."
+sidebarTitle: "Facility Profile"
+---
+
+The facility profile is the source of truth for everything Owlery needs to know about a physical site — where it is, who to contact, what carriers should know before arriving, and how its docks are set up. Several other features (confirmation emails, dock scheduling, driver check-in) pull from this profile, so keeping it accurate pays off everywhere.
+
+## Open your facility profile
+
+<Steps>
+  <Step title="Go to Facilities">
+    In the left sidebar under **Master Data**, click **Facilities**.
+  </Step>
+  <Step title="Select your facility">
+    Click the facility you want to edit to open the detail drawer.
+  </Step>
+  <Step title="Open the Profile tab">
+    In the drawer, the **Profile** tab is selected by default.
+  </Step>
+</Steps>
+
+## What to fill in
+
+### Address
+
+The street address Owlery uses on appointment confirmation emails and for distance/ETA calculations.
+
+### Facility notes
+
+Free-form notes that carriers see on every appointment confirmation email. Use this for things like:
+
+- Check-in instructions (which gate, where to park, who to call on arrival)
+- Paperwork requirements (BOL, packing list, seals)
+- Anything else a driver needs before they pull in
+
+<Tip>
+  Treat facility notes as your standing instructions to every driver. If you find yourself answering the same question over and over, it probably belongs here.
+</Tip>
+
+### Facility contacts
+
+The people at your facility responsible for receiving and shipping. Contacts you add here are automatically included on appointment confirmation emails, so add anyone who needs visibility into the day's dock activity (managers, dock leads, shared group inboxes).
+
+### Docks
+
+List each dock door at the site and its label or number (for example, `1`–`7`). Dock labels show up throughout the scheduling UI, so use the names your team actually uses on the floor.
+
+#### Drop trailer docks
+
+Mark a dock as **drop trailer** if a carrier keeps a trailer parked at it (for example, UPS and FedEx trailers that stay overnight). Drop trailer docks are excluded from normal live-load scheduling so the same slot can't be double-booked.
+
+<Note>
+  Only users with **Admin** or **Owner** roles can edit drop trailer settings. The setting is rolling out gradually — contact Owlery Support if you don't see it on your facility yet.
+</Note>
+
+## Related settings
+
+- [Set up dock appointment settings](/facilities/dock-appointment-settings) — operating hours, appointment length, booking rules, and notifications.
+- [Check in a driver](/facilities/driver-check-in) — how arrivals and late reasons flow through the dock schedule.
