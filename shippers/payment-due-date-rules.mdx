@@ -1,0 +1,80 @@
+---
+title: "Payment Due Date Rules"
+description: "Set up rules that automatically calculate payment due dates on carrier invoices."
+sidebarTitle: "Payment Due Date Rules"
+---
+
+**Where to find it:** `Dashboard → Shipper Settings → Freight Audit & Pay → Payment Due Date Rules`
+
+<Note>
+  Payment Due Date Rules require **Bill Pay** to be activated for your organization. If you don't see the Freight Audit & Pay card, reach out to [support@owlery.ai](mailto:support@owlery.ai) to get it turned on.
+</Note>
+
+{/*  TODO: Confirm "Bill Pay" is the customer-facing name for this add-on.  */}
+
+Payment Due Date Rules is how Owlery calculates a payment due date for every carrier invoice. You set the terms (e.g., Net 30 from the date you received the invoice), and Owlery does the math automatically. The Due Date shows up in your **Invoices** table, the invoice detail drawer, and data exports — so you can sort, filter, and report on payment timelines your way.
+
+<Frame>
+  ![Image](/images/image-2.png)
+</Frame>
+
+{/*  📸 SCREENSHOT: The Payment Due Date Rules editor inside Shipper Settings → Freight Audit & Pay. Show the default rule configured (e.g., Net 30), at least one carrier override visible, and the preset shortcut buttons (Net 15, Net 30, etc.).  */}
+
+## How rules work
+
+Each rule has two parts:
+
+- **"From" (base date):** the starting point for the calculation. Either **Invoice Date** (the date the carrier put on their invoice) or **Invoice Received** (the date Owlery first recorded the invoice).
+- **Payment Terms:** the number of calendar days added to the base date. Use one of the preset shortcuts (Net 15, 30, 45, 60, 75, or 90) or type in any number.
+
+### Default rule vs. carrier overrides
+
+You can set up a **default rule** that applies to all carriers, then add **carrier overrides** for carriers with different payment terms.
+
+Here's how Owlery decides which rule to use:
+
+- **Carrier has an override?** → Uses the override.
+- **No override, but a default rule exists?** → Uses the default.
+- **No override and no default?** → No due date — the column stays blank for that carrier's invoices.
+
+**Example:** Say you set a default of Net 30 from Invoice Received, but you've negotiated Net 75 with Carrier A and Net 15 with Carrier B. Carrier A's invoices get a 75-day window, Carrier B's get 15, and every other carrier gets 30.
+
+## Setting up your rules
+
+<Steps>
+  <Step title="Open the rule editor">
+    Go to **Dashboard → Shipper Settings**, click the **Freight Audit & Pay** card, then click **Payment Due Date Rules**.
+  </Step>
+  <Step title="Set a default rule">
+    Pick a the "From" base date (**Invoice Date** or **Invoice Received**), then set the terms — click a preset like **Net 30** or type a custom number.
+  </Step>
+  <Step title="Add carrier overrides (optional)">
+    If certain carriers have different terms, add an override for each one. Select the carrier, choose the base date, and set the offset.
+  </Step>
+  <Step title="Save">
+    Click **Save**. Owlery recalculates payment due dates on all existing invoices for your organization — you don't need to go back and update anything manually.
+  </Step>
+</Steps>
+
+{/*  📸 SCREENSHOT: The Invoices table (under Finances) with the "Payment due date" column visible and populated. Ideally show a few rows with different dates so it's clear the column is sortable/filterable.  */}
+
+## What happens when the two dates differ
+
+The carrier's invoice has its own due date, and Owlery calculates a separate one based on your rules. If they don't match, the invoice detail drawer shows a heads-up: **"Vendor due date differs from your payment due date."** Neither date overwrites the other — both stay visible so you can spot discrepancies.
+
+{/*  📸 SCREENSHOT: The invoice detail drawer showing both the vendor-stated due date and the Owlery-calculated payment due date, with the warning message visible.  */}
+
+## When Owlery calculates (or recalculates) the date
+
+Owlery runs the calculation automatically whenever:
+
+- A draft invoice is finalized
+- An invoice comes in through an integration (EDI, CSV upload, etc.)
+- An invoice is created manually
+- You save or update your Payment Due Date Rules (recalculates all existing invoices)
+
+If the base date is missing on an invoice (e.g., you chose "Invoice Date" but the invoice doesn't have one), Owlery skips the calculation and leaves the payment due date blank for that invoice.
+
+<Tip>
+  Invoices that arrive through integration re-syncs keep their original "received" date — the payment due date won't shift forward just because an invoice re-synced.
+</Tip>

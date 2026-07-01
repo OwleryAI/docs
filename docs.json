@@ -57,7 +57,14 @@
           },
           "shippers/item-master",
           "shippers/contract-rates",
-          "shippers/shipper-settings",
+          {
+            "group": "Shipper Settings",
+            "icon": "gear",
+            "pages": [
+              "shippers/shipper-settings",
+              "shippers/payment-due-date-rules"
+            ]
+          },
           "shippers/integrations",
           {
             "group": "Analytics",
