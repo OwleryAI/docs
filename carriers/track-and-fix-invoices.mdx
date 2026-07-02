@@ -1,0 +1,94 @@
+---
+title: "Track and fix invoices"
+---
+
+**Where to find it:** `Dashboard → Finances → Invoices`
+
+Once you've submitted an invoice, the Invoices page is where you track its status, find out if it was disputed and why, and correct it if needed.
+
+### The tabs
+
+Your Invoices page has five tabs. Each groups invoices by their current status, and the number badge shows how many are in that state.
+
+| Tab | What it means |
+| --- | --- |
+| **Under Review** | You've submitted the invoice and the shipper hasn't acted on it yet. |
+| **Approved** | The shipper approved the invoice for payment. Payment hasn't been initiated yet. |
+| **Disputed** | The shipper is contesting the invoice. Open it to see the reason. |
+| **Payment Created** | Payment has been initiated but hasn't fully cleared. |
+| **Paid** | Payment has cleared. |
+
+- To find **paid** invoices, open the **Paid** tab.
+- To find **disputed** invoices, open the **Disputed** tab.
+
+### What the table shows
+
+- **Shipper**, **Invoice #**, **Status**, **Loads**, and **Reference #s** (BOL, PO, etc.)
+- **Invoice date**, **Payment due date**, **Pickup date**, **Delivery date**
+- **Awarded** (the quoted amount) vs. **Actual** (what you invoiced) and the **Difference**
+- **Dispute Label** and **Dispute Reason** columns when an invoice is disputed
+- **Approval Label** and **Approval Reason** columns when an invoice is approved
+
+### Finding out why an invoice was disputed
+
+Click any invoice on the **Disputed** tab to open its drawer. You'll see the reason in three places:
+
+1. **A red *"Why this invoice is disputed"* alert** at the top of the **Details** tab — this shows the labels the shipper selected and the free-text reason they entered.
+2. **The Dispute Reason column** in the invoice table.
+3. **The History tab** in the invoice drawer, which shows the full status-change timeline for the invoice.
+
+Common auto-dispute labels include **Rate variance**, **ERP mismatch**, and **Missing POD** — these tell you exactly what needs to be fixed.
+
+### Fixing an invoice that's Under Review or Disputed
+
+You can update and resubmit an invoice as long as it's in **Under Review** or **Disputed**. Once it moves to **Approved**, **Payment Created**, or **Paid**, it's locked — you'll need to contact the shipper to move it back before you can resubmit.
+
+Use the same channel you used to submit the invoice originally. In every case, keep the **same invoice number** so Owlery matches your resubmission to the existing invoice.
+
+<Tabs>
+  <Tab title="EDI (210)">
+    Re-send the EDI 210 with the **same invoice number** and the corrected data. Owlery matches on invoice number and replaces the existing invoice in place — line items, totals, load numbers, dates, and reference numbers are all updated.
+  </Tab>
+
+  <Tab title="API">
+    Re-submit to `POST /api/external/invoices` with the **same invoice number** and the corrected payload. Behavior is identical to EDI — the existing invoice is updated in place.
+  </Tab>
+
+  <Tab title="CSV upload">
+    On the **Invoices** page, click **Upload**, select the shipper, attach your corrected CSV, and click **Validate CSV**.
+
+    - If any invoice number matches an existing **Under Review** or **Disputed** invoice, you'll see a warning that it will be replaced. Proceed to submit.
+    - If any invoice number matches an **Approved**, **Payment Created**, or **Paid** invoice, submission is blocked. Contact the shipper to change the status before re-uploading.
+  </Tab>
+
+  <Tab title="Manually created in Owlery">
+    Open the invoice from the **Invoices** table. When the status is **Under Review** or **Disputed**, the line items in the drawer are editable — update the totals, line items, or other details and save.
+  </Tab>
+</Tabs>
+
+### What happens after you resubmit
+
+Every resubmission runs through the same flow:
+
+1. **Duplicate detection.** If the resubmission is byte-for-byte identical to what's already on file, Owlery skips the update — nothing to change.
+2. **Lock check.** If the invoice is **Approved**, **Payment Created**, or **Paid**, the update is blocked. Otherwise it proceeds.
+3. **In-place replacement.** Line items, total, load numbers, invoice date, party info, and reference numbers are updated on the existing invoice. The invoice number and current status stay the same, so a disputed invoice remains on the **Disputed** tab until the shipper's rules re-evaluate it.
+4. **Automatic re-evaluation.** The shipper's Auto-Decision Rules run immediately against the corrected data. If your fix clears the issue (e.g., the total is now within their threshold or a missing POD is now on file), the invoice can auto-approve or move back to **Under Review** within seconds. Watch the status on the Invoices page to confirm.
+5. **Exceptions refresh.** Price variance, missing POD, and ERP mismatch flags are recomputed against the new data.
+
+<Note>
+  If a person on the shipper's team **manually disputed** the invoice (rather than it being auto-disputed by a rule), resubmitting will update the invoice data but **won't** override their decision — the invoice stays on **Disputed**. Reach out to the shipper directly to resolve.
+</Note>
+
+### What the shipper sees vs. what stays internal
+
+The dispute label and reason the shipper enters are shared with you — that's what powers the red alert and the Dispute Reason column.
+
+Internal shipper details are not shared: their accounting tags and GL codes, which teammate approved or disputed the invoice, auto-batch state, and their internal accounting sync records.
+
+### Quick reference
+
+- **Same invoice number = update.** Different invoice number = new invoice.
+- **Under Review / Disputed = editable.** Approved / Payment Created / Paid = locked.
+- **Fix and resubmit through the same channel** you used originally.
+- **Auto-decision runs immediately** on resubmission — no need to wait.
