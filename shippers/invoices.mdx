@@ -47,12 +47,12 @@ Carriers can't see internal fields like tags, GL codes, auto-batch status, accou
 
 - **Auto-Decision Rules** can approve or dispute invoices that clearly match (or miss) your thresholds.
 - Set default approve/dispute rules, with per-carrier overrides where needed.
-- Rules evaluate three checks (any subset can be enabled):
+- Rules evaluate checks (any subset can be enabled), for example:
   - **Quote threshold** — is the invoice total within the allowed variance of the awarded quote?
-  - **ERP quote match** — does the invoiced amount match the ERP-recorded quote?
   - **Missing POD** — is a proof of delivery document on file for the load?
-- Anything that meets neither rule stays in **Needs Review** for you.
-- Auto-disputed invoices are labeled with reasons like *Rate variance*, *ERP mismatch*, or *Missing POD* — carriers see these same labels.
+- Anything that meets neither rule or issues that are expected to be addressed internally stays in **Needs Review** for you. For example:
+  - **ERP quote match** — does the invoiced amount match the ERP-recorded quote?
+- Auto-disputed invoices are labeled with reasons like *Rate variance*, *Missing POD* — carriers see these same labels.
 
 ### When a carrier resubmits an invoice
 
