@@ -87,6 +87,7 @@
           "carriers/update-shipment-tracking",
           "carriers/upload-proof-of-delivery",
           "carriers/submit-an-invoice",
+          "carriers/track-and-fix-invoices",
           "carriers/invite-teammates"
         ]
       },
