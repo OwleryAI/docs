@@ -37,7 +37,7 @@ Click any invoice on the **Disputed** tab to open its drawer. You'll see the rea
 2. **The Dispute Reason column** in the invoice table.
 3. **The History tab** in the invoice drawer, which shows the full status-change timeline for the invoice.
 
-Common auto-dispute labels include **Rate variance**, **ERP mismatch**, and **Missing POD** — these tell you exactly what needs to be fixed.
+Common auto-dispute labels include **Rate variance** and **Missing POD** — these tell you exactly what needs to be fixed.
 
 ### Fixing an invoice that's Under Review or Disputed
 
@@ -74,7 +74,7 @@ Every resubmission runs through the same flow:
 2. **Lock check.** If the invoice is **Approved**, **Payment Created**, or **Paid**, the update is blocked. Otherwise it proceeds.
 3. **In-place replacement.** Line items, total, load numbers, invoice date, party info, and reference numbers are updated on the existing invoice. The invoice number and current status stay the same, so a disputed invoice remains on the **Disputed** tab until the shipper's rules re-evaluate it.
 4. **Automatic re-evaluation.** The shipper's Auto-Decision Rules run immediately against the corrected data. If your fix clears the issue (e.g., the total is now within their threshold or a missing POD is now on file), the invoice can auto-approve or move back to **Under Review** within seconds. Watch the status on the Invoices page to confirm.
-5. **Exceptions refresh.** Price variance, missing POD, and ERP mismatch flags are recomputed against the new data.
+5. **Exceptions refresh.** Price variance and missing POD are recomputed against the new data.
 
 <Note>
   If a person on the shipper's team **manually disputed** the invoice (rather than it being auto-disputed by a rule), resubmitting will update the invoice data but **won't** override their decision — the invoice stays on **Disputed**. Reach out to the shipper directly to resolve.
