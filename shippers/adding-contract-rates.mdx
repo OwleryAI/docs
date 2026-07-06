@@ -1,0 +1,91 @@
+---
+title: "Managing Contract Rates"
+---
+
+## Adding Contract Rates
+
+There are two ways:\
+
+#### Option 1: Manual Entry (the \+ button)
+
+Click the _\+_ icon in the toolbar. This opens a dialog titled _Add Contract Rate_ (or _Edit Contract Rate_ if you're editing an existing one). Here's what you fill in:\
+
+- _Carrier_ _(required)_ — Search and select the carrier.
+- _Fuel Charge Table_ _(optional)_ — Link a fuel surcharge schedule. The dropdown shows each schedule's name, type, and number of tiers. Leave blank for an "All In" rate.
+- _Shipment Mode_ — Truck, Rail, etc.
+- _TL / LTL_ — Full Truckload or Less Than Truckload. Changes the pricing section below.
+- _Dry Van / Reefer_ — Equipment type. Selecting Reefer reveals temperature fields.
+- _Solo / Team_ _(TL only)_ — Whether the rate is for a solo driver or a team.
+- _LTL Pricing_ _(LTL only)_ — Choose _Pallets_ (quantity-based) or _Weight_ (weight-based) pricing.
+- _Currency_ — USD, CAD, or MXN.
+- _Rate_ _(TL with fixed stops)_ — A single line-haul price for the lane.
+- _Rate with accessorials_ toggle _(TL with fixed stops)_ — When enabled, the Rate field splits into _Line Haul_ (base charge) and _Stop Charge_ fields. You can add up to 6 stop charges, each with an editable description. The total is shown at the bottom.
+- _Use dropoff candidate pricing_ checkbox _(TL only, in dialog header)_ — Enables per-stop-count pricing with stop whitelists and tiered ranges. Useful for lanes where carriers charge different rates based on how many stops the load has.
+
+\
+\
+Then below the pricing section, you define each stop on the lane using the _Route Stop Config_ editor. Each stop has:\
+
+- A _Stop Address Type_ (accessible via the ⋮ menu next to the stop label):
+  - _Select an address_ — Match by specific facility/facilities. This is the default and most common.
+  - _Zip Code/Range_ — Match any location within a zip code or zip code range.
+  - _Input any address_ — Match by specific street address(es).
+  - _Any location_ — Match any location. Used for catch-all or variable stops.
+- _Live_ or _Drop_ — Whether the driver waits or can drop the trailer.
+- _Transit Min Hours_ / _Transit Max Hours_ — Estimated transit time from the previous stop.
+- _Select Facility or Zipcode_ — The actual facility or location picker (shown for "Select an address" type).
+- Add/remove stops using the buttons at the bottom of the list.
+
+\
+\
+Additional settings further down:\
+
+- _Total Distance_ — Manually enter the lane's distance in miles (optional).
+- _Open-ended stop_ checkbox — For lanes with a variable number of beyond the defined stops.
+- _Set max stop count_ — Cap the number of stops this rate matches.
+
+\
+\
+If _Reefer_ is selected, temperature fields appear:
+
+- _Min temp_ / _Max temp_ — Temperature range in °F.
+- _Precooling temp_ — Pre-cool temperature in °F.
+- _Continuous_ / _Cycle-Sentry_ — Cooling mode.
+
+\
+
+#### Option 2: CSV Upload
+
+Click the _Upload_ button (split button with dropdown):\
+
+- _Upload_ — Opens the _Upload Contract Rate_ dialog where you drag-and-drop a CSV file. On the next step, you'll see a _Confirm Upload Contract Rate_ screen with two tabs:
+  - _Validation_ — Shows how many rows passed validation, contract info (carrier, fuel schedule, dates), and duplicate handling options. If duplicates are found, you pick an _Update Strategy_:
+    - _Add as new contracts_ — Create new rates, leave existing ones untouched.
+    - _Update matching contracts_ — Overwrite existing rates that match the same criteria.
+    - _Add new and expire old contracts_ — Create new rates and expire matching existing ones.
+  - _CSV Preview_ — See the raw CSV data before confirming.
+- _Download Template_ — Downloads a CSV template pre-populated with your existing rates from the current tab. Edit in Excel/Sheets and re-upload. Fastest way to bulk-edit or bulk-add.
+
+## Editing and Managing Rates
+
+Each row has a ⋮ menu with:\
+
+- _Edit_ — Opens the _Edit Contract Rate_ dialog with all the same fields described above.
+- _Edit Contract Dates_ — Set or change the activation and expiration dates. These determine which tab the rate appears in.
+- _Delete_ — Permanently removes the rate.
+
+\
+\
+In the detail drawer header, there are icon buttons for the same actions plus:
+
+- _Convert to Routing Guide_ (up-arrow icon) — Admin only. Promotes the rate to a routing guide entry.
+
+\
+
+### Bulk Operations
+
+- _Bulk Edit Contract Dates_ (calendar icon) — Click to enter selection mode, check rows, then click _Continue Edit_ to set/clear activation and expiration dates for all selected rates.
+- _Bulk Delete_ (trash icon) — Click to enter selection mode, check rows, then click _Continue Delete_ to confirm.
+
+\
+Press the ✕ button to exit bulk mode without changes
