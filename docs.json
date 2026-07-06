@@ -56,7 +56,16 @@
             ]
           },
           "shippers/item-master",
-          "shippers/contract-rates",
+          {
+            "group": "Contract Rates",
+            "icon": "handshake",
+            "pages": [
+              "shippers/contract-rates-overview",
+              "shippers/contract-rates-page",
+              "shippers/adding-contract-rates",
+              "shippers/fuel-surcharges"
+            ]
+          },
           {
             "group": "Shipper Settings",
             "icon": "gear",

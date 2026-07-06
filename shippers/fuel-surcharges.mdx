@@ -1,0 +1,54 @@
+---
+title: "Fuel Surcharges"
+---
+
+The _Fuel Charges_ page (Dashboard → Fuel Charges) is where you manage fuel surcharge schedules. These can be linked to contract rates so surcharges are automatically applied based on the current fuel price.\
+
+### The Fuel Charges Table
+
+Columns:
+
+- _Name_ — A note or label for the schedule.
+- _Type_ — _Percentage_ or _Per-Mile_.
+- _Currency_ — USD, CAD, or MXN.
+- _Rate Tiers_ — How many price → surcharge tiers the schedule has.
+
+\
+\
+Click a row to open a detail drawer showing the full tier table:
+
+- _Fuel Price Range_ — The fuel price band (e.g., \$2.000 – \$2.499).
+- _Fuel Surcharge Rate_ (percentage) or _Rate Per Mile_ (per-mile) — The surcharge that applies when fuel is in that range.
+
+\
+
+### Creating a Fuel Schedule
+
+Fuel schedules are created by CSV upload:\
+
+1. Click the _Upload CSV_ button.
+2. From the dropdown, pick your template:
+   - _Download Percentage Template_ — Columns: `Fuel Price From`, `Fuel Price To`, `Surcharge Rate`
+   - _Download Per-Mile Template_ — Columns: `Fuel Price From`, `Fuel Price To`, `Rate Per Mile`
+3. Fill in your tiers. The _last tier_ should have an empty `Fuel Price To` to mean "and above." Fuel prices use 3 decimal places (mills precision).
+4. Click _Upload CSV_ again, select your file. The system validates and shows a preview. Confirm to create.
+
+\
+
+### Pairing a Fuel Schedule with a Contract Rate
+
+1. Open a contract rate (create new or edit existing).
+2. In the _Fuel Charge Table_ dropdown, select the schedule you want.
+3. The dropdown shows each schedule as `name - type - N tiers`.
+4. Save.
+
+\
+\
+Once paired, the schedule appears in the contract rate's detail drawer → _Fuel Schedule_ tab, and the _All In_ column on the main table changes from "All In" to "Fuel Schedule."\
+
+### Tips
+
+- No fuel schedule = "All In" rate (fuel included in base price).
+- If using a per-mile schedule, fill in the _Total Distance_ field on the contract rate so the system can calculate the surcharge.
+- The same fuel schedule can be reused across multiple contract rates.
+- Use _Download Template_ on the contracts page to export all your existing rates with their linked fuel schedules for bulk review.
