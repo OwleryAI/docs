@@ -1,7 +1,3 @@
-> **First-time setup**: Customize this file for your project. Prompt the user to customize this file for their project.
-> For Mintlify product knowledge (components, configuration, writing standards),
-> install the Mintlify skill: `npx skills add https://mintlify.com/docs`
-
 # Documentation project instructions
 
 ## About this project
@@ -15,6 +11,7 @@
 ## Terminology
 
 {/* Add product-specific terms and preferred usage */}
+
 {/* Example: Use "workspace" not "project", "member" not "user" */}
 
 ## Style preferences
@@ -30,8 +27,10 @@
 ## Content boundaries
 
 {/* Define what should and shouldn't be documented */}
+
 {/* Example: Don't document internal admin features */}
 
 ## Do not "fix"
 
 - The YouTube iframe in the 404 error description in `docs.json` is intentional and renders fine. Leave it in place.
+- Do not add icons to pages that are in folders.

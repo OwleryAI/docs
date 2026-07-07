@@ -16,6 +16,8 @@ Every carrier you sent the request to gets a row in the **Details** tab.
 
 {/* ✅ VERIFY WITH TEAM: Confirm the exact fields shown on each response row (price, mode, estimated stop dates, expiration, notes?) and whether responses can be sorted, e.g. lowest price first. */}
 
+{/* ✅ VERIFY WITH TEAM: Confirm the exact fields shown on each response row (price, mode, estimated stop dates, expiration, notes?) and whether responses can be sorted, e.g. lowest price first. */}
+
 A few things to check before you commit:
 
 - **Is the rate competitive?** Flip to the **Lane History** tab for a historical rate chart on this exact origin–destination pair.
@@ -28,10 +30,14 @@ When you've found your winner, select that carrier's response.
 
 {/* ✅ VERIFY WITH TEAM: Confirm the exact button label on a response row (Select? Accept? Award?) and whether a confirmation dialog appears before the tender is sent. */}
 
+{/* ✅ VERIFY WITH TEAM: Confirm the exact button label on a response row (Select? Accept? Award?) and whether a confirmation dialog appears before the tender is sent. */}
+
 Depending on your workspace setup, this happens in one or two steps:
 
 - **One-step tendering** — selecting the response tenders the load to that carrier immediately. The quote moves to **Tendered**.
 - **Two-step tendering** — selecting the carrier first moves the quote to **Carrier Selected**, and you send the tender as a separate action. This gives you a checkpoint to finalize details before the carrier is committed.
+
+{/* ✅ VERIFY WITH TEAM: Confirm how two-step tendering is enabled (workspace setting? per-quote choice?) and what the second-step action is called in the UI. */}
 
 {/* ✅ VERIFY WITH TEAM: Confirm how two-step tendering is enabled (workspace setting? per-quote choice?) and what the second-step action is called in the UI. */}
 
@@ -52,6 +58,22 @@ Need to unwind a tender? Cancel it and the quote moves to **Cancelled**; you can
 {/* ✅ VERIFY WITH TEAM: Confirm where the cancel-tender action lives and whether re-tendering to another carrier reuses the same quote or requires a re-quote. */}
 
 ## Handy to know
+
+- **You can show carriers competitive pressure** (controlled via your Shipper Settings) -  other bids come in significantly lower, high bidders may get an alert prompting them to revise. It can pay to leave a quote open a little longer before tendering.
+- **The tendered price shows in the table** - once you tender, the accepted response's price appears in the **Tendered At** column on the Quotes page.
+- **Expired doesn't mean dead** - carriers can resubmit on an open request after their quote expires, and you can always re-quote to restart bidding.
+
+Once the carrier accepts, the shipment becomes a load you can track end to end:
+
+{/* ✅ VERIFY WITH TEAM: Confirm whether the load is created automatically on tender acceptance or whether the shipper clicks a "Book" / "Create Load" action, and where that action lives. */}
+
+- Track the tender's full lifecycle — including cancellations and re-tenders — in the drawer's **Tender History** tab, which also shows the load status once a load exists.
+- Jump to the load, related orders, and any other connected records from the **Linked Items** tab.
+- Manage the shipment itself — live tracking, status updates, and documents like PODs — from the **Loads** page.
+
+Need to unwind a tender? Cancel it and the quote moves to **Cancelled**; you can then tender to a different carrier or **Re-quote** to start a fresh round. The full trail stays visible in **Tender History**.
+
+{/* ✅ VERIFY WITH TEAM: Confirm where the cancel-tender action lives and whether re-tendering to another carrier reuses the same quote or requires a re-quote. */}
 
 - **You can show carriers competitive pressure** (controlled via your Shipper Settings) -  other bids come in significantly lower, high bidders may get an alert prompting them to revise. It can pay to leave a quote open a little longer before tendering.
 - **The tendered price shows in the table** - once you tender, the accepted response's price appears in the **Tendered At** column on the Quotes page.
