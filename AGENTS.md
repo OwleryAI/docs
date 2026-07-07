@@ -31,3 +31,7 @@
 
 {/* Define what should and shouldn't be documented */}
 {/* Example: Don't document internal admin features */}
+
+## Do not "fix"
+
+- The YouTube iframe in the 404 error description in `docs.json` is intentional and renders fine. Leave it in place.

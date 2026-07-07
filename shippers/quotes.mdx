@@ -8,17 +8,19 @@ Below the create form, the **Quotes** table is your home base for everything you
 
 ## The Quotes table
 
-Each row is one quote. The key columns:
+Each row is one quote.
 
-- **ID** — short quote identifier, like `Q-1234`.
-- **Status** — where the quote stands (see statuses below).
-- **# Quotes** — a breakdown of responses: **green** = quoted, **orange** = pending or expired, **grey** = unavailable.
-- **Tendered At** — the price of the accepted or tendered response.
-- **Equipment** — the equipment type you requested.
-- **Pickup / Dropoff** — locations and dates.
-- **Items** — a quick freight summary.
-- **Created At / Created By** — when it was made and by whom.
-- **Action** — the re-quote button to re-send the same request.
+| Column | What it shows |
+| --- | --- |
+| **ID** | Short quote identifier, like `Q-1234`. |
+| **Status** | Where the quote stands (see statuses below). |
+| **# Quotes** | A breakdown of responses: **green** = quoted, **orange** = pending or expired, **grey** = unavailable. |
+| **Tendered At** | The price of the accepted or tendered response. |
+| **Equipment** | The equipment type you requested. |
+| **Pickup / Dropoff** | Locations and dates. |
+| **Items** | A quick freight summary. |
+| **Created At / Created By** | When it was made and by whom. |
+| **Action** | The re-quote button to re-send the same request. |
 
 Filter the table by status, equipment type, pickup or dropoff date, or who created the quote. You can also sort by created, pickup, or dropoff date. Click **Download CSV** to export whatever you're currently viewing.
 
@@ -26,12 +28,14 @@ Filter the table by status, equipment type, pickup or dropoff date, or who creat
 
 ## Quote statuses
 
-- **Open** — request sent, waiting on responses.
-- **Quoted** — at least one carrier rate has come in.
-- **Tendered** — a carrier was selected and the load was tendered.
-- **Accepted** — the carrier accepted the tender.
-- **Carrier Selected** — a carrier was chosen but not yet fully tendered (two-step tendering).
-- **Cancelled** — the tender was cancelled.
+| Status | What it means |
+| --- | --- |
+| **Open** | Request sent, waiting on responses. |
+| **Quoted** | At least one carrier rate has come in. |
+| **Tendered** | A carrier was selected and the load was tendered. |
+| **Accepted** | The carrier accepted the tender. |
+| **Carrier Selected** | A carrier was chosen but not yet fully tendered (two-step tendering). |
+| **Cancelled** | The tender was cancelled. |
 
 ## What's in the quote drawer
 
@@ -42,10 +46,6 @@ Click any row to open the drawer. Besides the **Details** tab — where you revi
 - **Documents** — files attached to the tendered response (BOL, packing list, shipping label, and so on), ready to download.
 - **Tender History** — the full tender lifecycle, including cancellations, re-tenders, and load status if a load was created.
 - **Linked Items** — everything connected to this quote: related orders, loads, and other records.
-
-<Card title="Reviewing responses and tendering?" icon="circle-check" href="/shippers/review-responses-and-tender">
-  The Details tab gets its own walkthrough — comparing carrier rates, sending rate cons and BOLs, and booking the load.
-</Card>
 
 ## Re-quote an existing quote
 

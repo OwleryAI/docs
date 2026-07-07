@@ -1,37 +1,46 @@
 ---
 title: "Item Master"
+description: "Your product catalogue — Owlery reads it every time a load or order is created."
 icon: "box-archive"
 ---
 
-**Where to find it:** `Dashboard → Item Master`Your product catalogue. Owlery reads it every time a load or order is created.
+**Where to find it:** `Dashboard → Item Master`
 
+Your product catalogue. Owlery reads it every time a load or order is created.
 
-### **Three ways to add items**
+### Three ways to add items
 
 - **Manually** — **\+ Add Item**, one SKU at a time.
 - **CSV upload** — download the template, one row per SKU, re-upload. Owlery validates before saving.
 - **Integration sync** — items flow in from a connected WMS or ERP.
 
 
-### **The fields that drive everything**
+### The fields that drive everything
 
 - **SKU** — required and unique.
 - **Packaging hierarchy** — dimensions and weight per level (each → case → pallet) powers automatic pallet counts.
 - **Handling, reefer & hazmat** toggles tell Owlery how the item must ship.
 
 
-### **Editing & cleanup**
+### Editing & cleanup
 
 - **Bulk Edit** mode uses Keep / Yes / No / Clear per field — “Keep” leaves existing values alone.
 - **Archive** instead of deleting to keep history; restore any time.
 - **Re-SKU** and **Variant** uploads rename or map codes while preserving history.
 
 
-### **When something looks off**
+### When something looks off
 
-- Wrong pallet counts on a load? Check the **packaging hierarchy** first.
-- “Missing Item Master Data” means a SKU has no packaging info — add dimensions and weight.
+<AccordionGroup>
+  <Accordion title="Wrong pallet counts on a load">
+    Check the **packaging hierarchy** first — pallet counts are calculated from the dimensions and weight at each packaging level (each → case → pallet).
+  </Accordion>
 
-<Card title="Don't accidentally erase data" type="warning">
-  On CSV upload, the Clear empty fields toggle erases data for any blank column when on. Leave it off unless you mean to wipe values.
-</Card>
+  <Accordion title='"Missing Item Master Data" warning'>
+    This means a SKU has no packaging info — add dimensions and weight to the item.
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  **Don't accidentally erase data** — on CSV upload, the **Clear empty fields** toggle erases data for any blank column when on. Leave it off unless you mean to wipe values.
+</Warning>
