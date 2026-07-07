@@ -5,11 +5,27 @@ description: "Add contract rates manually or by CSV upload, then edit, bulk-upda
 
 ## Adding Contract Rates
 
+There are two ways:\
+
+Click the _\+_ icon in the toolbar. This opens a dialog titled _Add Contract Rate_ (or _Edit Contract Rate_ if you're editing an existing one). Here's what you fill in:\
+
+\
+\
+Then below the pricing section, you define each stop on the lane using the _Route Stop Config_ editor. Each stop has:\
+
+\
+\
+Additional settings further down:\
+
+\
+
+Click the _Upload_ button (split button with dropdown):\
+
 There are two ways: one at a time in the dialog, or in bulk by CSV upload.
 
 <Tabs>
   <Tab title="Manual entry (the + button)">
-    Click the **+** icon in the toolbar. This opens a dialog titled **Add Contract Rate** (or **Edit Contract Rate** if you're editing an existing one). Here's what you fill in:
+    Click the **\+** icon in the toolbar. This opens a dialog titled **Add Contract Rate** (or **Edit Contract Rate** if you're editing an existing one). Here's what you fill in:
 
     - **Carrier** _(required)_ — Search and select the carrier.
     - **Fuel Charge Table** _(optional)_ — Link a fuel surcharge schedule. The dropdown shows each schedule's name, type, and number of tiers. Leave blank for an "All In" rate.
@@ -47,7 +63,6 @@ There are two ways: one at a time in the dialog, or in bulk by CSV upload.
     - **Precooling temp** — Pre-cool temperature in °F.
     - **Continuous** / **Cycle-Sentry** — Cooling mode.
   </Tab>
-
   <Tab title="CSV upload (bulk)">
     Click the **Upload** button (split button with dropdown):
 
@@ -63,7 +78,8 @@ There are two ways: one at a time in the dialog, or in bulk by CSV upload.
 
 ## Editing and Managing Rates
 
-Each row has a ⋮ menu with:
+Each row has a ⋮ menu with:\
+ Each row has a ⋮ menu with:
 
 - **Edit** — Opens the **Edit Contract Rate** dialog with all the same fields described above.
 - **Edit Contract Dates** — Set or change the activation and expiration dates. These determine which tab the rate appears in.
@@ -72,6 +88,8 @@ Each row has a ⋮ menu with:
 In the detail drawer header, there are icon buttons for the same actions plus:
 
 - **Convert to Routing Guide** (up-arrow icon) — Admin only. Promotes the rate to a routing guide entry.
+
+\
 
 ### Bulk Operations
 
