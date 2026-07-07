@@ -51,6 +51,7 @@
             "pages": [
               "shippers/orders",
               "shippers/quotes",
+              "shippers/review-responses-and-tender",
               "shippers/loads",
               "shippers/invoices"
             ]
