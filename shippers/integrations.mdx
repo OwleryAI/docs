@@ -1,31 +1,41 @@
 ---
 title: "Integrations"
+description: "Connect Owlery to your ERPs, brokers, and carriers so data moves on its own."
 icon: "plug"
 ---
 
-**Where to find it:** `Settings → Integrations`Connect Owlery to your other systems so data moves on its own.
+**Where to find it:** `Settings → Integrations`
 
+Connect Owlery to your other systems so data moves on its own.
 
-### **The three types you can connect**
+### The three types you can connect
 
 - **ERP / Order systems** — NetSuite, QuickBooks, SAP, Cin7, Katana and more. Pulls orders in and writes shipment data back.
 - **Brokers (3PL / TMS)** — CH Robinson, Echo, TQL, RXO and many others. Get rates, tender loads, and track.
 - **Direct carriers** — ODFL, Estes, FedEx Freight, Saia and more. Rate, create BOLs, and schedule pickups directly.
 
 
-### **How to add one**
+### How to add one
 
-- Click **\+ Add Integration** and pick your system.
-- Enter the credentials — these vary by vendor (API key, OAuth login, or username/password).
-- Click **Test & Save**. Owlery validates the connection before saving, then syncing begins on the next poll.
+<Steps>
+  <Step title="Pick your system">
+    Click **\+ Add Integration** and pick your system.
+  </Step>
+  <Step title="Enter the credentials">
+    These vary by vendor — API key, OAuth login, or username/password.
+  </Step>
+  <Step title="Test & Save">
+    Click **Test & Save**. Owlery validates the connection before saving, then syncing begins on the next poll.
+  </Step>
+</Steps>
 
 
-### **Keeping connections healthy**
+### Keeping connections healthy
 
 - Check sync status right on the Integrations page — **green** means the last sync worked, **yellow/red** means there’s an issue.
 - Admins can trigger a manual **Re-Sync** from the integration panel any time.
 - You can run **multiple integrations of the same type** (e.g. two NetSuite instances for different subsidiaries).
 
-<Card title="Tip" type="tip">
+<Tip>
   If you change a password or rotate an API key with a vendor, update it in Owlery right away to avoid sync interruptions.
-</Card>
+</Tip>
