@@ -1,0 +1,42 @@
+---
+title: "Edit a Load Number"
+description: "How to correct a load number after accepting a tender so it matches the shipment ID on your invoice."
+sidebarTitle: "Edit a Load Number"
+---
+
+The **Load Number** you enter when accepting a tender needs to match the shipment ID you'll use when invoicing. If you entered the wrong number — a typo, the customer's order number, a stale reference, or the wrong load from your TMS — you can update it after the fact from the load itself.
+
+<Warning>
+  Owlery matches invoices to loads by Load Number. If your invoice's shipment ID doesn't match the Load Number on the load, the invoice won't attach to the right shipment and may be rejected or delayed.
+</Warning>
+
+<Steps>
+  <Step title="Open the load">
+    Go to **Shipments (Loads)** in the left sidebar, find the load, and click the row to open the load drawer.
+  </Step>
+  <Step title="Open the actions menu">
+    In the top-right of the load drawer, click the **three-dot menu** (⋮) next to the load number.
+  </Step>
+  <Step title="Select Edit Load Number">
+    Choose **Edit Load Number** from the dropdown.
+
+    {/*  📸 SCREENSHOT: The load drawer with the three-dot actions menu open in the top-right, highlighting the Edit Load Number option above Cancel Load.  */}
+  </Step>
+  <Step title="Enter the correct number and save">
+    Type the correct Load Number — the same shipment ID you'll use on your invoice — and confirm. The load updates immediately.
+  </Step>
+</Steps>
+
+<Frame>
+  <img
+    src="/images/image-3.png"
+    alt="Image"
+    title="Image"
+    className="mx-auto"
+    style={{ width:"76%" }}
+  />
+</Frame>
+
+<Note>
+  You should ideally update any Load Number **before** you submit the invoice. Once the number matches, invoicing works the same as any other load — see [Submit an Invoice](/carriers/submit-an-invoice).
+</Note>

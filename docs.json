@@ -99,7 +99,8 @@
             "icon": "file-signature",
             "pages": [
               "carriers/submit-a-quote",
-              "carriers/accept-a-tender"
+              "carriers/accept-a-tender",
+              "carriers/edit-a-load-number"
             ]
           },
           {
