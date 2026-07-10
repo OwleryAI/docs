@@ -55,6 +55,7 @@
               "shippers/orders",
               "shippers/quotes",
               "shippers/review-responses-and-tender",
+              "shippers/two-step-tendering",
               "shippers/loads",
               "shippers/invoices"
             ]
