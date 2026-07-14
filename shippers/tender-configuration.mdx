@@ -1,0 +1,118 @@
+---
+title: "Automatically Send Documents on Tender"
+description: "Configure which documents (BOL, packing list, shipping label, customs invoice) Owlery generates and emails to carriers and facilities the moment you tender a quote."
+sidebarTitle: "Tender Configuration"
+---
+
+**Where to find it:** `Quotes → open any quote`
+
+When you tender a quote in Owlery, you can automatically generate and send Bills of Lading, packing lists, shipping labels, and Canada customs invoices — all in one step. This page covers where to find the settings, what each option does, and how to review everything before you confirm.
+
+## Where the settings live
+
+Open any rate quote from the **Quotes** page. Next to the rate response table you'll see the **Configuration** card. It shows a summary of what will be sent on tender, and a **Configure** button to adjust the settings.
+
+{/* 📸 SCREENSHOT: The Sending Configuration card as it appears below the rate response table on a quote, with the summary lines and the Configure button visible. */}
+
+<Note>
+  Your configuration is saved to your organization and remembered across all future quotes until you change it.
+</Note>
+
+## What each setting does
+
+Click **Configure** on the Sending Configuration card to open the settings table.
+
+{/* 📸 SCREENSHOT: The Configure dialog showing the document rows (BOL, Packing List, Shipping Label, Canada Customs Invoice) with Carrier / Facilities / CC columns, and the live Summary panel at the bottom. */}
+
+### Bill of Lading (BOL)
+
+Generates and emails a Bill of Lading at tender time.
+
+- **Carrier** — toggle on to email the BOL to the carrier assigned to the load.
+- **Facilities** — check the stops that should receive the BOL. If every stop is checked, the row switches to **All facilities**.
+- **CC** — toggle on to CC the order owner on the BOL email.
+
+### Packing list
+
+Generates and emails a packing list at tender time. _Sent to facilities only._
+
+- **Facilities** — the packing list is sent to the first pickup facility on the quote.
+
+### Shipping label
+
+Generates and emails a shipping label at tender time. _Sent to facilities only._
+
+- **Facilities** — the shipping label is sent to the first pickup facility on the quote.
+
+<Tip>
+  The Shipping Label option requires a shipping label template on your account. If you don't see it, contact [support@owlery.ai](mailto:support@owlery.ai).
+</Tip>
+
+### Canada customs invoice
+
+Generates and emails a Canada customs invoice at tender time. Only appears for cross-border Canada moves where the feature is enabled on your account.
+
+- **Carrier** — toggle on to email the invoice to the carrier.
+- **Facilities** — check the stops that should receive the invoice.
+
+### Send order to facility
+
+When toggled on, Owlery sends the related purchase order(s) to the pickup and dropoff facilities via their connected integrations. Orders are matched by reference number.
+
+### Rate confirmation email
+
+When toggled on, the carrier or broker receives a rate confirmation email at tender. This is the standard tender notification — leave this on unless you handle ratecons outside Owlery.
+
+## Reviewing before you tender
+
+You get three checkpoints so nothing goes out unless you've seen it.
+
+### 1. The summary card
+
+The **Sending Configuration** card on the quote shows exactly what will happen at a glance:
+
+- Which documents will be sent
+- To whom — carrier, facilities, or both
+- Warnings if any selected facility is missing email contacts
+
+### 2. The Configure dialog
+
+Click **Configure** to open the full settings table. A live **Summary** panel at the bottom updates as you toggle options, so you always know exactly what will be sent. Click **Save** to apply.
+
+### 3. The confirmation steps
+
+When you click the tender button, Owlery walks you through a step-by-step confirmation flow for every document you've configured. You preview each document before it's sent:
+
+- **Check BOL** — review the generated BOL and make any last adjustments.
+- **Check Packing List** — review the packing list before it's emailed.
+- **Check Shipping Label** — review the shipping label before it's emailed.
+- **Check Canada Customs Invoice** — review the customs invoice before it's emailed.
+- **Quote Write Back** — review and confirm any price write-back to your ERP.
+
+After you confirm each step, the tender is submitted and all documents are sent automatically.
+
+{/* 📸 SCREENSHOT: One of the "Check BOL" (or similar) confirmation steps in the tender flow, showing the document preview and Confirm button. */}
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Will my settings be saved for next time?">
+    Yes. Your configuration is saved at the organization level and applies to all future tenders unless you change it.
+  </Accordion>
+
+  <Accordion title="What happens if a facility has no email contacts?">
+    The summary card and confirmation steps show a warning. The document is still generated, but that facility won't receive the email. Add facility contacts under **Facilities → Contacts** to resolve this.
+  </Accordion>
+
+  <Accordion title="Can I configure different documents for different lanes?">
+    Yes. If your team uses the Routing Guide with Direct Tender, each lane can have its own document-sending configuration. Contact [support@owlery.ai](mailto:support@owlery.ai) to learn more.
+  </Accordion>
+
+  <Accordion title="What if a document email fails to send?">
+    The tender itself is not affected. The failure is logged and the Owlery team is alerted automatically.
+  </Accordion>
+
+  <Accordion title="Why don't I see the Shipping Label or Canada Customs Invoice options?">
+    These require specific templates and feature flags on your account. Contact [support@owlery.ai](mailto:support@owlery.ai) to get them set up.
+  </Accordion>
+</AccordionGroup>
