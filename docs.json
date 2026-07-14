@@ -55,6 +55,7 @@
               "shippers/orders",
               "shippers/quotes",
               "shippers/review-responses-and-tender",
+              "shippers/tender-configuration",
               "shippers/two-step-tendering",
               "shippers/loads",
               "shippers/invoices"
@@ -76,7 +77,6 @@
             "icon": "gear",
             "pages": [
               "shippers/shipper-settings",
-              "shippers/tender-configuration",
               "shippers/payment-due-date-rules"
             ]
           },
