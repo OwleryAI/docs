@@ -117,6 +117,7 @@
             "icon": "file-invoice-dollar",
             "pages": [
               "carriers/submit-an-invoice",
+              "untitled-page",
               "carriers/track-and-fix-invoices"
             ]
           },
