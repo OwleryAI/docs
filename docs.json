@@ -76,6 +76,7 @@
             "icon": "gear",
             "pages": [
               "shippers/shipper-settings",
+              "shippers/tender-configuration",
               "shippers/payment-due-date-rules"
             ]
           },

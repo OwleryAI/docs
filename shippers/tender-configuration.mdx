@@ -1,0 +1,108 @@
+---
+title: "Tender Configuration"
+description: "Configure Owlery to automatically send BOLs, packing lists, shipping labels, customs invoices, and orders to carriers and facilities the moment a load is tendered."
+sidebarTitle: "Tender Configuration"
+---
+
+<Info>
+  **Reminder:** if you are an Enterprise customer with individual subsidiary organizations, tender configuration must be set at the subsidiary organization level like all other shipper settings.
+</Info>
+
+**Where to find it:** `Dashboard → Shipper Settings → Tendering → Tender Configuration`
+
+Tender Configuration controls what Owlery does automatically the moment a load is tendered — which documents get generated, who they're sent to, and which stops they cover. Set it once and every future tender (manual or AI-agent assisted) follows the same playbook.
+
+{/* 📸 SCREENSHOT: The Tender Configuration panel inside Shipper Settings → Tendering, showing the top-level toggles (Send Rate Confirmation, Send Orders to Facilities) and the collapsed document sections (BOL, Packing List, Shipping Label, Canada Customs Invoice). */}
+
+## What Owlery can send on tender
+
+There are two "always-on" toggles and four document configurations. Everything is optional — leave a section unconfigured and Owlery simply skips it.
+
+| Setting | Sent to | What it does |
+| --- | --- | --- |
+| **Send Rate Confirmation Email** | Carrier | Emails the rate confirmation (ratecon) to the winning carrier or broker on tender. |
+| **Send Orders to Facilities** | Pickup & dropoff facilities | Sends the parent order(s), matched by reference number, to the facilities on the load. |
+| **BOL** | Facilities and/or carrier | Generates a Bill of Lading and emails it out. |
+| **Packing List** | Facilities only | Generates a packing list and emails it to facilities. |
+| **Shipping Label** | Facilities only | Generates shipping labels and emails them to facilities. |
+| **Canada Customs Invoice** | Facilities and/or carrier | Generates a Canada customs invoice for cross-border loads. |
+
+<Note>
+  Packing lists and shipping labels are always facility-only. BOLs and Canada customs invoices can also go to the carrier.
+</Note>
+
+## Rate confirmation and orders
+
+These two are simple on/off toggles at the top of Tender Configuration:
+
+- **Send Rate Confirmation Email** — the standard tender notification to the awarded carrier. Turn this off only if you handle ratecons outside Owlery.
+- **Send Orders to Facilities** — sends the parent order(s) to the pickup and dropoff facilities via their integrations. Orders are matched to the load by reference number. This send is best-effort: if a facility integration fails, the tender itself still succeeds and the Owlery team is alerted to investigate.
+
+## Document configurations
+
+Each document (BOL, packing list, shipping label, customs invoice) has its own section with the same core controls:
+
+- **Stop Indexes** — which stops trigger document generation. Stops are 0-indexed: `0` is the first pickup, `1` is the next stop, and so on. Leave the list empty to skip that document entirely.
+- **Send to All Facilities** — when enabled, the document goes to *every* facility on the load, not just the ones tied to the stop indexes above.
+- **Send to Carrier** *(BOL and Canada Customs Invoice only)* — also email the document to the awarded carrier.
+- **CC Order Owner** *(BOL and Canada Customs Invoice only)* — CC the order owner on the outgoing email so they have a copy.
+
+### BOL
+
+Configure this if you want Owlery to generate a Bill of Lading at tender time and email it to the facilities, the carrier, or both. If you always need the BOL to include one or more specific facilities regardless of the stops on the load, add those facility IDs under **Facility IDs in BOL**.
+
+### Packing list
+
+Configure this if your facilities expect a packing list before the truck arrives. Packing lists go to facilities only.
+
+### Shipping label
+
+Configure this if your facilities print shipping labels for outbound freight. Shipping labels go to facilities only.
+
+### Canada customs invoice
+
+Configure this for cross-border loads into Canada. The invoice is only generated when the load qualifies as a Canada cross-border move and your organization has the customs feature enabled — contact [support@owlery.ai](mailto:support@owlery.ai) if you're not sure whether it's turned on.
+
+## What happens at tender time
+
+<Steps>
+  <Step title="You (or the AI agent) tender a load">
+    Tender from a quote, an order, or the AI agent. Owlery reads your Tender Configuration.
+  </Step>
+  <Step title="The load is created and the carrier is notified">
+    The tender is committed. If **Send Rate Confirmation Email** is on, the ratecon goes to the carrier.
+  </Step>
+  <Step title="Documents are generated and emailed">
+    For each document you've configured, Owlery generates the file, attaches the relevant order data, and emails it to the recipients you selected (facilities, carrier, and/or CC'd order owner).
+  </Step>
+  <Step title="Orders are pushed to facilities">
+    If **Send Orders to Facilities** is on, the parent order(s) linked by reference number are transmitted to the pickup and dropoff facilities via their integrations.
+  </Step>
+</Steps>
+
+## Per-lane overrides with Direct Tender
+
+If you use the **Routing Guide** with **Direct Tender** (instant booking) enabled, you can override these document-sending settings on a **per-lane** basis. Each route config has its own Tender Configuration that takes precedence over the organization-level defaults whenever a Direct Tender matches that lane.
+
+Set this up from **Routing Guide → route config → Direct Tender Config** when creating or editing a route config.
+
+## Document templates
+
+The BOL, packing list, shipping label, and Canada customs invoice are all generated from templates. If you need to customize a template — adding your logo, adjusting fields, changing layout — reach out to [support@owlery.ai](mailto:support@owlery.ai) and our team will update the template for you.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="What happens if a document email fails to send?">
+    The tender itself is not rolled back. The failure is logged and the Owlery team is alerted to investigate.
+  </Accordion>
+  <Accordion title="Can I send different documents on different lanes?">
+    Yes — use the Routing Guide's per-lane Direct Tender configuration. Each route config can have its own document-sending settings that override the organization defaults.
+  </Accordion>
+  <Accordion title="Do these settings apply to auto-tender (workflow) tenders?">
+    Auto-tender uses a separate configuration path today. Contact [support@owlery.ai](mailto:support@owlery.ai) to set up document sending for auto-tender.
+  </Accordion>
+  <Accordion title="Can I update just one document setting without touching the others?">
+    Yes. Owlery merges partial updates, so changing (for example) the BOL stop indexes doesn't affect your packing list or ratecon settings.
+  </Accordion>
+</AccordionGroup>
