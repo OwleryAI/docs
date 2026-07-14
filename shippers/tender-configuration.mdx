@@ -4,13 +4,13 @@ description: "Configure which documents (BOL, packing list, shipping label, cust
 sidebarTitle: "Tender Configuration"
 ---
 
-**Where to find it:** `Quotes → open any quote → Sending Configuration card`
+**Where to find it:** `Quotes → open any quote`
 
 When you tender a quote in Owlery, you can automatically generate and send Bills of Lading, packing lists, shipping labels, and Canada customs invoices — all in one step. This page covers where to find the settings, what each option does, and how to review everything before you confirm.
 
 ## Where the settings live
 
-Open any rate quote from the **Quotes** page. Below the rate response table you'll see the **Sending Configuration** card. It shows a summary of what will be sent on tender, and a **Configure** button to adjust the settings.
+Open any rate quote from the **Quotes** page. Next to the rate response table you'll see the **Configuration** card. It shows a summary of what will be sent on tender, and a **Configure** button to adjust the settings.
 
 {/* 📸 SCREENSHOT: The Sending Configuration card as it appears below the rate response table on a quote, with the summary lines and the Configure button visible. */}
 
@@ -34,13 +34,13 @@ Generates and emails a Bill of Lading at tender time.
 
 ### Packing list
 
-Generates and emails a packing list at tender time. *Sent to facilities only.*
+Generates and emails a packing list at tender time. _Sent to facilities only._
 
 - **Facilities** — the packing list is sent to the first pickup facility on the quote.
 
 ### Shipping label
 
-Generates and emails a shipping label at tender time. *Sent to facilities only.*
+Generates and emails a shipping label at tender time. _Sent to facilities only._
 
 - **Facilities** — the shipping label is sent to the first pickup facility on the quote.
 
@@ -62,10 +62,6 @@ When toggled on, Owlery sends the related purchase order(s) to the pickup and dr
 ### Rate confirmation email
 
 When toggled on, the carrier or broker receives a rate confirmation email at tender. This is the standard tender notification — leave this on unless you handle ratecons outside Owlery.
-
-### Quote price write-back
-
-If your organization has freight cost recording enabled, the tendered price is automatically written back to your order management system. This appears automatically when applicable — there's no toggle to configure.
 
 ## Reviewing before you tender
 
@@ -103,15 +99,19 @@ After you confirm each step, the tender is submitted and all documents are sent 
   <Accordion title="Will my settings be saved for next time?">
     Yes. Your configuration is saved at the organization level and applies to all future tenders unless you change it.
   </Accordion>
+
   <Accordion title="What happens if a facility has no email contacts?">
     The summary card and confirmation steps show a warning. The document is still generated, but that facility won't receive the email. Add facility contacts under **Facilities → Contacts** to resolve this.
   </Accordion>
+
   <Accordion title="Can I configure different documents for different lanes?">
     Yes. If your team uses the Routing Guide with Direct Tender, each lane can have its own document-sending configuration. Contact [support@owlery.ai](mailto:support@owlery.ai) to learn more.
   </Accordion>
+
   <Accordion title="What if a document email fails to send?">
     The tender itself is not affected. The failure is logged and the Owlery team is alerted automatically.
   </Accordion>
+
   <Accordion title="Why don't I see the Shipping Label or Canada Customs Invoice options?">
     These require specific templates and feature flags on your account. Contact [support@owlery.ai](mailto:support@owlery.ai) to get them set up.
   </Accordion>
