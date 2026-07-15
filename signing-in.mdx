@@ -81,10 +81,10 @@ If your company doesn't use Google or Microsoft, you can sign in with a secure e
 <Tip>
   If your company uses an email security tool like Proofpoint, Mimecast, or Barracuda, links from Owlery — including your sign-in link and file downloads (invoices, reports, PODs) — may be rewritten to route through the security tool. That can break the sign-in link and cause downloads to show **Download Blocked** or **Unable to process file at this time**.
 
-  You have two options — either one works:
+  You have two options if this happens – either one works:
 
   - **Copy the sign-in link and paste it into your browser** instead of clicking it. This is the fastest fix and works right away.
-  - **Ask your IT team to allowlist `owlery.ai` (and `*.owlery.ai`)** in your email security tool. This is the permanent fix, but IT teams are often slow to act — most people should use the copy-paste option in the meantime.
+  - **Ask your IT team to allowlist** `owlery.ai `**(and** `*.owlery.ai`**)** in your email security tool. This is the permanent fix, but IT teams are often slow to act — most people should use the copy-paste sign in link option in the meantime.
 </Tip>
 
 ## What Owlery stores about you
@@ -115,6 +115,6 @@ When you sign in, Owlery only stores three things: your **name**, your **email a
 
     **The permanent fix:** ask your IT team to allowlist `owlery.ai` in your email security tool. This can take a while, so use the copy-paste option in the meantime.
 
-    **Why this happens:** Owlery generates your files directly in your browser and hands them to you through a private, one-time link that only exists inside your current browser tab. Nothing is ever posted to a public URL, which keeps your invoices and reports from being shared, cached, or scraped. When a security tool tries to re-open that link from its own scanner, the file isn't there — so the download fails.
+    **Why this happens:** Owlery generates your files directly in your browser and hands them to you through a private, one-time link that only exists inside your current browser tab. Nothing is ever posted to a public URL, which keeps your data and reports from being shared, cached, or scraped. When a security tool tries to re-open that link from its own scanner, the file isn't there — so the download fails.
   </Accordion>
 </AccordionGroup>
