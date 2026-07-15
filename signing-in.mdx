@@ -79,7 +79,12 @@ If your company doesn't use Google or Microsoft, you can sign in with a secure e
 </Columns>
 
 <Tip>
-  If your company uses an email security tool like Proofpoint, the sign-in link may not work when clicked. Copy the link and paste it into your browser instead.
+  If your company uses an email security tool like Proofpoint, Mimecast, or Barracuda, links from Owlery — including your sign-in link and file downloads (invoices, reports, PODs) — may be rewritten to route through the security tool. That can break the sign-in link and cause downloads to show **Download Blocked** or **Unable to process file at this time**.
+
+  You have two options — either one works:
+
+  - **Copy the sign-in link and paste it into your browser** instead of clicking it. This is the fastest fix and works right away.
+  - **Ask your IT team to allowlist `owlery.ai` (and `*.owlery.ai`)** in your email security tool. This is the permanent fix, but IT teams are often slow to act — most people should use the copy-paste option in the meantime.
 </Tip>
 
 ## What Owlery stores about you
@@ -101,5 +106,15 @@ When you sign in, Owlery only stores three things: your **name**, your **email a
 
   <Accordion title="I signed in but don't see my data">
     Owlery matches you to your organization by your email domain. If you're signed in with your correct work email and still don't see what you expect, check with a teammate - they probably just need to add you to the right team.
+  </Accordion>
+
+  <Accordion title="My download shows 'Download Blocked' or 'Unable to process file'">
+    This almost always means your company's email security tool (Proofpoint, Mimecast, Barracuda, etc.) is intercepting the download and blocking it.
+
+    **The quickest fix:** copy the sign-in link from your email and paste it into your browser instead of clicking it, then try the download again.
+
+    **The permanent fix:** ask your IT team to allowlist `owlery.ai` in your email security tool. This can take a while, so use the copy-paste option in the meantime.
+
+    **Why this happens:** Owlery generates your files directly in your browser and hands them to you through a private, one-time link that only exists inside your current browser tab. Nothing is ever posted to a public URL, which keeps your invoices and reports from being shared, cached, or scraped. When a security tool tries to re-open that link from its own scanner, the file isn't there — so the download fails.
   </Accordion>
 </AccordionGroup>
