@@ -118,8 +118,14 @@
             "icon": "file-invoice-dollar",
             "pages": [
               "carriers/submit-an-invoice",
-              "carriers/track-and-fix-invoices",
-              "carriers/freight-pay"
+              "carriers/track-and-fix-invoices"
+            ]
+          },
+          {
+            "group": "Freight Pay",
+            "icon": "money-bill-1-wave",
+            "pages": [
+              "carriers/remittance-details"
             ]
           },
           "carriers/invite-teammates"
