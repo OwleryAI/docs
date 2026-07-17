@@ -118,7 +118,8 @@
             "icon": "file-invoice-dollar",
             "pages": [
               "carriers/submit-an-invoice",
-              "carriers/track-and-fix-invoices"
+              "carriers/track-and-fix-invoices",
+              "carriers/freight-pay"
             ]
           },
           "carriers/invite-teammates"
