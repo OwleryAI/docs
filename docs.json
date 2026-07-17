@@ -121,6 +121,13 @@
               "carriers/track-and-fix-invoices"
             ]
           },
+          {
+            "group": "Freight Pay",
+            "icon": "money-bill-1-wave",
+            "pages": [
+              "carriers/remittance-details"
+            ]
+          },
           "carriers/invite-teammates"
         ]
       },
