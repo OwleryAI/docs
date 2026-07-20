@@ -144,7 +144,8 @@
         "tab": "Dock Scheduling",
         "icon": "calendar-clock",
         "pages": [
-          "dock-scheduling/coming-soon"
+          "dock-scheduling/overview",
+          "dock-scheduling/book-an-appointment"
         ]
       }
     ]
@@ -192,7 +193,11 @@
     },
     {
       "source": "/dock-scheduling",
-      "destination": "/dock-scheduling/coming-soon"
+      "destination": "/dock-scheduling/overview"
+    },
+    {
+      "source": "/dock-scheduling/coming-soon",
+      "destination": "/dock-scheduling/overview"
     }
   ],
   "errors": {
