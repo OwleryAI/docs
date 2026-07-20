@@ -1,0 +1,101 @@
+---
+title: "Configure Facility Dock Scheduling Settings"
+description: "Set operating hours, appointment length, capacity, and booking rules for each facility."
+sidebarTitle: "Facility Settings"
+---
+
+Appointment rules are configured per facility, per stop type (Pickup or Dropoff), and per mode (Live or Drop). You can have separate settings for Live Pickup, Drop Pickup, Live Dropoff, and Drop Dropoff at the same facility.
+
+<Note>
+  You need a facility profile before you can add appointment settings. If your facility isn't listed, create it in `Management → Master Data → Facilities` — see [Facility profile](/facilities/facility-profile).
+</Note>
+
+## Add appointment settings to a facility
+
+<Steps>
+  <Step title="Open Facilities">
+    Go to `Management → Master Data → Facilities` and select your facility.
+  </Step>
+  <Step title="Add a facility setting">
+    For each combination of stop type and mode you want to enable, create a new facility setting.
+  </Step>
+  <Step title="Configure the fields below and save">
+    You can create up to four settings per facility — Live Pickup, Drop Pickup, Live Dropoff, Drop Dropoff.
+  </Step>
+</Steps>
+
+## Fields
+
+### Stop type and mode
+
+- **Pickup / Dropoff** — which direction this setting applies to.
+- **Live / Drop** — whether the carrier waits with the truck (Live) or drops the trailer (Drop).
+
+### Appointment type
+
+- **By Appointment** — carriers pick a specific timeslot. You control slot length and operating hours.
+- **First Come First Served (FCFS)** — no timeslots. Carriers book a day; you set a daily cap.
+
+### Operating hours
+
+Set open and close times for each day of the week. Times use 24-hour minutes from midnight — for example, `480 = 8:00 AM`, `1020 = 5:00 PM`. Hours can span midnight (end times up to `2879 = 23:59 the next day`) for overnight shifts.
+
+### Appointment length
+
+*By Appointment only.* Slot length — 15 min, 30 min, 1 hr, 1.5 hr, 2 hr, 2.5 hr, or 3 hr. Owlery uses this plus your operating hours to calculate available slots per day.
+
+<Tip>
+  If you're not sure where to start, try 1 hour and adjust once you see how traffic flows.
+</Tip>
+
+### Daily FCFS capacity
+
+*FCFS only.* How many trucks can book on a single day.
+
+### Daily max capacity
+
+Hard cap on total appointments per day. Leave as **All** for no limit.
+
+### Disabled appointment days
+
+Block bookings inside a rolling window from today:
+
+- **0 days** — block same-day booking.
+- **1 day** — block same and next day.
+- **Custom** — block further out for facilities that need more lead time.
+
+### Email notifications
+
+Choose which stop statuses trigger email alerts (for example, on **Loaded** or **Unloaded**).
+
+### Driver info
+
+Choose which stop statuses require driver information to be collected (name, phone, truck/trailer number).
+
+### Unmanaged facility appointments
+
+Toggle **ON** if the facility manages appointments outside Owlery and you only want to track equipment status. Bookers can self-confirm without facility approval when this is on.
+
+### Allow standalone appointment booking
+
+Toggle **ON** to let external users book appointments at this facility without an existing order.
+
+### Require freight details
+
+Toggle **ON** to require pallet count and reefer temperature at booking time.
+
+## Organization-level settings
+
+Some settings apply across every facility in your org.
+
+### Driver late reasons
+
+Go to `Management → Settings → Facility Settings` and configure **Driver Late Reasons**. These appear as selectable options when marking a driver late at the guard shack.
+
+### Create appointments from orders
+
+Go to `Management → Settings → Shipper Settings` and open the **Quoting** section. Toggle **Create Appointments From Orders** to **Yes** so your team can create dock appointments straight from order data — see [Shipper Settings](/shippers/shipper-settings).
+
+## Next step
+
+Once your facility settings are saved, you're ready to [book an appointment](/shippers/dock-scheduling/book-appointment).

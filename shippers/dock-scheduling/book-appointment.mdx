@@ -1,0 +1,71 @@
+---
+title: "Book a Dock Appointment"
+description: "Create a new dock appointment from the Dock Scheduling page or directly from an order."
+sidebarTitle: "Book an Appointment"
+---
+
+**Where to find it:** `Dashboard → Dock Scheduling`
+
+There are two ways to create an appointment — from the Dock Scheduling page or from an existing order.
+
+## Option 1: From the Dock Scheduling page
+
+Use this when you're booking against a facility you don't have an order for yet, or when the appointment isn't order-linked.
+
+<Steps>
+  <Step title="Open Dock Scheduling">
+    Go to `Dashboard → Dock Scheduling` and click the **Add Appointment** tab.
+  </Step>
+  <Step title="Pick a facility">
+    Select the facility from the autocomplete.
+  </Step>
+  <Step title="Choose stop type and mode">
+    Pick **Pickup** or **Dropoff**, then **Live** or **Drop**. Available options depend on how the facility is configured — see [Configure facility settings](/shippers/dock-scheduling/facility-settings).
+  </Step>
+  <Step title="Pick a date and time">
+    Select a date on the calendar. Available slots appear based on the facility's operating hours and appointment length:
+
+    - **Green slots** — available.
+    - **Disabled slots** — already occupied or in the past.
+
+    Pick a slot, or choose **Customize Time** to enter a specific start.
+  </Step>
+  <Step title="Link orders (optional)">
+    Enter order numbers to link the appointment to one or more orders.
+  </Step>
+  <Step title="Enter freight details (if required)">
+    If the facility requires freight details, enter **pallet count** and **reefer temperature** min/max.
+  </Step>
+  <Step title="Submit">
+    The appointment is created in **NotScheduled** or **Proposed** status, depending on who books it and how the facility is configured.
+  </Step>
+</Steps>
+
+## Option 2: From an order
+
+Use this when you already have the order in Owlery and want to book against it directly.
+
+<Note>
+  This flow requires **Create Appointments From Orders** to be enabled in `Management → Settings → Shipper Settings` under the **Quoting** section.
+</Note>
+
+<Steps>
+  <Step title="Open the order">
+    Go to `Dashboard → Orders` and click the order you want to book against.
+  </Step>
+  <Step title="Create the appointment">
+    Use the **Create Appointment** action on the order. Facility and order data pre-fill from the order.
+  </Step>
+  <Step title="Confirm date, time, and details">
+    Adjust the timeslot and any freight details, then submit.
+  </Step>
+</Steps>
+
+## Appointment statuses at booking
+
+New appointments land in one of two statuses:
+
+- **NotScheduled** — the appointment exists but no time has been proposed yet.
+- **Proposed** — a time has been proposed and is waiting on facility confirmation.
+
+From here, the appointment moves through *Confirmed → Arrived → Loaded/Unloaded → Departed*. See [Manage appointments](/shippers/dock-scheduling/manage-appointments) for the full lifecycle.
