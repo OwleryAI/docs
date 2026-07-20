@@ -71,6 +71,14 @@ There are two ways to create invoices directly in Owlery: individually from a lo
     Need to make a correction? Finalized invoices can be edited from the **Invoices** page as long as the status is `Unpaid` or `Disputing`.
   </Tab>
   <Tab title="Set up EDI Connection">
+    <Warning>
+      The **Shipment ID** you send on the EDI 210 (segment `B3-03`) must match the **Load Number** in Owlery exactly. If it doesn't match, the shipper won't be able to tie the invoice back to the load, and payment is likely to be significantly delayed.
+
+      If you entered the wrong Load Number when accepting the tender, update it to unblock invoicing — see [Edit a Load Number](/carriers/edit-a-load-number).
+
+      If an EDI invoice was submitted with the wrong Shipment ID, with the correct one — just keep the same Invoice Number (segment `B3-02`) so it processes as an update.
+    </Warning>
+
     Review EDI Guidelines for 210: [https://owlery.ai/dashboard/edi-guidelines](https://owlery.ai/dashboard/edi-guidelines)
 
     Complete Test Scenario for 210: [https://owlery.ai/dashboard/edi-test](https://owlery.ai/dashboard/edi-test)
