@@ -81,6 +81,17 @@
             ]
           },
           {
+            "group": "Dock Scheduling",
+            "icon": "calendar-clock",
+            "pages": [
+              "shippers/dock-scheduling/overview",
+              "shippers/dock-scheduling/facility-settings",
+              "shippers/dock-scheduling/book-appointment",
+              "shippers/dock-scheduling/manage-appointments",
+              "shippers/dock-scheduling/calendar"
+            ]
+          },
+          {
             "group": "Analytics",
             "icon": "chart-line",
             "pages": [

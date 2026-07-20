@@ -1,0 +1,67 @@
+---
+title: "Manage Appointments"
+description: "Propose times, confirm slots, update equipment status, and edit appointment details."
+sidebarTitle: "Manage Appointments"
+---
+
+Every appointment moves through the same lifecycle:
+
+`NotScheduled → Proposed → Confirmed → Arrived → Loaded/Unloaded → Departed`
+
+Open any appointment from the **Appointments** tab in Dock Scheduling to work through it.
+
+## Propose a time
+
+Bookers (shippers and carriers) propose a time to the facility.
+
+<Steps>
+  <Step title="Open the appointment">
+    From the **Appointments** tab, click the appointment to open the drawer.
+  </Step>
+  <Step title="Open the Scheduler">
+    Click the **Scheduler** tab. You'll see a date and time picker.
+  </Step>
+  <Step title="Pick a slot and propose">
+    Select an available slot and click **Propose**. Add a reason if needed. The appointment moves to **Proposed**.
+  </Step>
+</Steps>
+
+## Confirm a time
+
+Facility users confirm proposed appointments.
+
+<Steps>
+  <Step title="Open the proposed appointment">
+    Facility users see every proposed appointment in the queue.
+  </Step>
+  <Step title="Adjust the time (optional)">
+    Change the slot in the scheduler if the proposed time doesn't work.
+  </Step>
+  <Step title="Confirm">
+    Click **Confirm**. The appointment moves to **Confirmed**.
+  </Step>
+</Steps>
+
+<Note>
+  If **Unmanaged Facility Appointments** is turned on for the facility, bookers can self-confirm without facility approval — see [facility settings](/shippers/dock-scheduling/facility-settings#unmanaged-facility-appointments).
+</Note>
+
+## Update equipment status
+
+Facility users move each appointment through the gate lifecycle from the status stepper below the scheduler.
+
+- **Arrived** — driver is at the gate. Timestamp is auto-recorded.
+- **Loaded** or **Unloaded** — freight has been handled.
+- **Departed** — driver has left. Timestamp is auto-recorded.
+
+If a **Driver Late Reason** is configured on the facility, you can select it when marking arrival. See [facility settings](/shippers/dock-scheduling/facility-settings#driver-late-reasons).
+
+## Edit appointment details
+
+From the appointment drawer you can update:
+
+- **Carrier and driver info** — name, phone, email, truck number, trailer number.
+- **Notes** — free-text notes visible to everyone on the appointment.
+- **Freight details** — pallet count, reefer temperature min and max.
+
+Changes save immediately.
