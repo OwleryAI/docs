@@ -1,0 +1,130 @@
+---
+title: "Connect Ramp to Owlery"
+description: "Set up a Ramp developer app and link it to Owlery so invoice and bill data syncs automatically."
+sidebarTitle: "Ramp"
+---
+
+Connecting Ramp lets Owlery read and write bill data, pull vendor records, and sync accounting info from your Ramp account. The setup takes about 10 minutes and has two parts: create an app in Ramp, then link it in Owlery.
+
+<Note>
+  You'll need **admin access in Ramp** to create a developer app. If you don't see the Developer section in Ramp, ask your Ramp admin to set this up or grant you access.
+</Note>
+
+## Part 1 — Create your app in Ramp
+
+<Steps>
+  <Step title="Open the Developer section">
+    In Ramp, scroll down in the left-hand navigation to **Company** and select **Developer**. On the **Apps** tab, click **Create new app**.
+
+    <Frame>
+      ![Image](/images/image-7.png "Image")
+    </Frame>
+
+    {/*  📸 SCREENSHOT: Ramp left nav expanded to Company → Developer. The Apps tab is selected, showing the "Create new app" button under My apps.  */}
+  </Step>
+  <Step title="Name the app">
+    Enter `Owlery` as the **App name**, accept Ramp's Developer Terms of Service, and click **Create app**.
+
+    <Frame>
+      ![Image](/images/image-8.png "Image")
+    </Frame>
+
+    {/*  📸 SCREENSHOT: The "Create a new app" modal with "Owlery" typed into the App name field and the terms checkbox checked.  */}
+  </Step>
+</Steps>
+
+## Part 2 — Configure the app
+
+Once the app is created, you'll land on its settings page. Work through each section below.
+
+### Redirect URI
+
+Under **Redirect URIs**, click **\+ Add new URI** and add this URL:
+
+```text
+https://owlery.ai/api/auth/integrations/callback/ramp
+```
+
+This tells Ramp where to send you after you authorize the connection.
+
+### Grant types
+
+Under **Grant types**, enable all three toggles:
+
+- **Authorization code**
+- **Client credentials**
+- **Refresh token**
+
+All three need to be on for the connection to work.
+
+<Frame>
+  ![Image](/images/image-9.png "Image")
+</Frame>
+
+{/*  📸 SCREENSHOT: The Grant types section in the Ramp app settings showing all three toggles enabled (green).  */}
+
+### Scopes
+
+Scroll to **Scopes** and click **Configure allowed scopes**. Add each of the following:
+
+| Scope | What it does |
+| --- | --- |
+| `bills:write` | Lets Owlery create and update bills |
+| `bills:read` | Lets Owlery read bill data |
+| `vendors:read` | Lets Owlery read vendor records |
+| `entities:read` | Lets Owlery read entity data |
+| `accounting:read` | Lets Owlery read accounting data |
+
+### Save your credentials
+
+After saving the app, Ramp displays a **Client ID** and **Client Secret**. Copy both — you'll need them in the next step.
+
+<Warning>
+  The Client Secret is only shown once. If you lose it, you'll need to generate a new one in Ramp.
+</Warning>
+
+{/*  TODO: Confirm whether Ramp actually only shows the secret once, or if it can be retrieved later.  */}
+
+## Part 3 — Connect in Owlery
+
+<Steps>
+  <Step title="Add Ramp as a provider">
+    In Owlery, go to add an integration. In the search box, type `ramp` and select **Ramp**.
+
+    <Frame>
+      ![Image](/images/image-10.png "Image")
+    </Frame>
+
+    {/*  TODO: Confirm the exact Owlery nav path — e.g., Settings → Integrations → Add Provider, or Dashboard → Integrations. The source PDF doesn't specify.  */}
+
+    {/*  📸 SCREENSHOT: The "Add a provider" dialog in Owlery with "ramp" typed into the search box and Ramp highlighted in the results.  */}
+  </Step>
+  <Step title="Enter your credentials">
+    Paste the values from Ramp:
+
+    - **Client ID** — from your Ramp app
+    - **Client Secret** — from your Ramp app
+    - **API URL** — enter `https://api.ramp.com`
+  </Step>
+  <Step title="Authorize the connection">
+    Click **Continue**. You'll be redirected to Ramp to approve Owlery's access. Once you approve, Ramp sends you back to Owlery and the connection is live.
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="I don't see the Developer section in Ramp">
+    The Developer section is only visible to Ramp admins. Ask your Ramp admin to either create the app for you or grant you admin access.
+  </Accordion>
+
+  <Accordion title="The redirect fails or I get an error after approving">
+    Double-check that the redirect URI in your Ramp app matches exactly: `https://owlery.ai/api/auth/integrations/callback/ramp`. Extra spaces or a missing trailing path segment will break the redirect.
+  </Accordion>
+
+  <Accordion title="Owlery isn't syncing data from Ramp">
+    Make sure all five scopes are enabled on your Ramp app. If you added scopes after the initial authorization, you may need to disconnect and reconnect in Owlery to pick up the new permissions.
+  </Accordion>
+</AccordionGroup>
+
+{/*  TODO: Confirm whether re-authorization is actually needed after adding scopes, or if Owlery handles this automatically.  */}

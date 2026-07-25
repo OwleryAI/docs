@@ -47,7 +47,14 @@
               "shippers/getting-started-in-4-steps"
             ]
           },
-          "shippers/integrations",
+          {
+            "group": "Integrations",
+            "icon": "plug",
+            "pages": [
+              "shippers/integrations-overview",
+              "shippers/ramp"
+            ]
+          },
           {
             "group": "Platform",
             "icon": "layer-group",
