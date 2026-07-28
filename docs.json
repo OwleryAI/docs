@@ -62,6 +62,7 @@
               "shippers/orders",
               "shippers/quotes",
               "shippers/review-responses-and-tender",
+              "shippers/rate-quote-date-warnings",
               "shippers/tender-configuration",
               "shippers/two-step-tendering",
               "shippers/loads",

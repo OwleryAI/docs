@@ -1,0 +1,42 @@
+---
+title: "Rate quote date warnings"
+description: "How Owlery compares estimated pickup and dropoff dates with the dates requested on an order."
+sidebarTitle: "Rate Quote Date Warnings"
+---
+
+When a carrier's estimated transit date does not fit the dates requested on your order, Owlery shows a calendar warning beside the rate. The warning is informational, so you can still select the rate after reviewing the dates.
+
+## How Owlery compares dates
+
+Owlery compares the response to the matching order stop by stop number and stop type.
+
+Before comparing, Owlery interprets each date pair using these rules:
+
+- If only one boundary is present, the present date is treated as an exact date. For example, `July 10–(missing)` means exactly July 10.
+- If the start and end dates are the same, the pair is treated as an exact date.
+- If the dates arrive in reverse order, Owlery normalizes them chronologically.
+- If a pair has no valid date, Owlery does not show a warning because there is nothing reliable to compare.
+
+The ordered dates become the allowed range. Owlery then selects the relevant estimated date:
+
+- **Pickup** uses the estimated start date, or the earliest estimated date.
+- **Dropoff** uses the estimated end date, or the latest estimated date.
+
+The selected estimated date must fall on or between the ordered dates to avoid a warning.
+
+## Examples
+
+| Stop | Ordered dates | Estimated dates | Result |
+| --- | --- | --- | --- |
+| Pickup | July 10 | July 10–11 | No warning: pickup uses July 10. |
+| Pickup | July 10 | July 11–12 | Warning: pickup is estimated for July 11. |
+| Dropoff | July 10–12 | July 9–12 | No warning: dropoff uses July 12. |
+| Dropoff | July 10–12 | July 9–13 | Warning: dropoff is estimated for July 13. |
+| Pickup | July 10–(missing) | July 10–11 | No warning: the ordered pickup date is exactly July 10. |
+| Dropoff | (missing)–July 12 | July 10–12 | No warning: the ordered dropoff date is exactly July 12. |
+
+## Find the affected stop
+
+Hover over the calendar warning beside the rate. The tooltip identifies the stop number and type and shows both the estimated and ordered dates.
+
+If the dates do not work for your shipment, review the affected order stop or choose another response with dates that fit the requested range.
