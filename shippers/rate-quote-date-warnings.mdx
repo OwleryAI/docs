@@ -10,18 +10,18 @@ When a carrier's estimated transit date does not fit the dates requested on your
 
 Owlery compares the response to the matching order stop by stop number and stop type.
 
-The dates you see in Owlery are formatted for people, not shown as separate start and end fields:
+Owlery shows dates in one of these ways:
 
-- One available date, or two matching dates, appears as one exact date, such as `July 10`.
-- Two different dates appear as a range, such as `July 10 – July 12`.
-- If no valid date is available, Owlery leaves the date blank and does not show a warning.
+- A single date appears as one exact date, such as `July 10`.
+- A span of dates appears as a range, such as `July 10 – July 12`.
+- If no estimated date is shown for a stop, Owlery does not show a warning for that stop because there is no estimate to compare.
 
-Behind that presentation, Owlery treats one-date and matching-date values as exact dates. If dates arrive in reverse order, Owlery puts them in chronological order before comparing them.
+If the dates shown are in reverse order, Owlery puts them in chronological order before comparing them.
 
 The ordered dates become the allowed range. Owlery then selects the relevant date from the estimate:
 
-- **Pickup** uses the earliest estimated date shown.
-- **Dropoff** uses the latest estimated date shown.
+- **Pickup** uses the first date shown in the estimated range.
+- **Dropoff** uses the last date shown in the estimated range.
 
 The selected estimated date must fall on or between the ordered dates to avoid a warning. The comparison is inclusive, so matching the first or last ordered date is valid.
 
