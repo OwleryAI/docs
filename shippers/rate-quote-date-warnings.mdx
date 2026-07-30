@@ -10,30 +10,37 @@ When a carrier's estimated transit date does not fit the dates requested on your
 
 Owlery compares the response to the matching order stop by stop number and stop type.
 
-Before comparing, Owlery interprets each date pair using these rules:
+The dates you see in Owlery are formatted for people, not shown as separate start and end fields:
 
-- If only one boundary is present, the present date is treated as an exact date. For example, `July 10–(missing)` means exactly July 10.
-- If the start and end dates are the same, the pair is treated as an exact date.
-- If the dates arrive in reverse order, Owlery normalizes them chronologically.
-- If a pair has no valid date, Owlery does not show a warning because there is nothing reliable to compare.
+- One available date, or two matching dates, appears as one exact date, such as `July 10`.
+- Two different dates appear as a range, such as `July 10 – July 12`.
+- If no valid date is available, Owlery leaves the date blank and does not show a warning.
 
-The ordered dates become the allowed range. Owlery then selects the relevant estimated date:
+Behind that presentation, Owlery treats one-date and matching-date values as exact dates. If dates arrive in reverse order, Owlery puts them in chronological order before comparing them.
 
-- **Pickup** uses the estimated start date, or the earliest estimated date.
-- **Dropoff** uses the estimated end date, or the latest estimated date.
+The ordered dates become the allowed range. Owlery then selects the relevant date from the estimate:
 
-The selected estimated date must fall on or between the ordered dates to avoid a warning.
+- **Pickup** uses the earliest estimated date shown.
+- **Dropoff** uses the latest estimated date shown.
+
+The selected estimated date must fall on or between the ordered dates to avoid a warning. The comparison is inclusive, so matching the first or last ordered date is valid.
 
 ## Examples
 
-| Stop | Ordered dates | Estimated dates | Result |
+| Stop | Ordered date shown | Estimated date shown | Result |
 | --- | --- | --- | --- |
-| Pickup | July 10 | July 10–11 | No warning: pickup uses July 10. |
-| Pickup | July 10 | July 11–12 | Warning: pickup is estimated for July 11. |
-| Dropoff | July 10–12 | July 9–12 | No warning: dropoff uses July 12. |
-| Dropoff | July 10–12 | July 9–13 | Warning: dropoff is estimated for July 13. |
-| Pickup | July 10–(missing) | July 10–11 | No warning: the ordered pickup date is exactly July 10. |
-| Dropoff | (missing)–July 12 | July 10–12 | No warning: the ordered dropoff date is exactly July 12. |
+| Pickup | July 10 | July 10 – July 11 | No warning: pickup uses July 10. |
+| Pickup | July 10 | July 11 – July 12 | Warning: pickup is estimated for July 11. |
+| Dropoff | July 10 – July 12 | July 9 – July 12 | No warning: dropoff uses July 12. |
+| Dropoff | July 10 – July 12 | July 9 – July 13 | Warning: dropoff is estimated for July 13. |
+| Pickup | July 10 | July 10 – July 11 | No warning: the ordered pickup date is exactly July 10. |
+| Dropoff | July 12 | July 10 – July 12 | No warning: the ordered dropoff date is exactly July 12. |
+
+## Where dates appear
+
+In the response list, the **Transit** column shows the pickup date, an arrow, and the dropoff date. It also shows the business-day transit estimate. When the response provides a range of business days, the dropoff side is shown as a date range.
+
+Open a response to see the **Estimated Dates** table. It lists each stop as `Stop N of M`, its type, and the formatted estimated date or date range.
 
 ## Find the affected stop
 
