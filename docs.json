@@ -52,8 +52,7 @@
             "icon": "plug",
             "pages": [
               "shippers/integrations-overview",
-              "shippers/ramp",
-              "shippers/tai-tms"
+              "shippers/ramp"
             ]
           },
           {
@@ -134,6 +133,13 @@
             "icon": "money-bill-1-wave",
             "pages": [
               "carriers/remittance-details"
+            ]
+          },
+          {
+            "group": "TMS Integrations",
+            "icon": "plug",
+            "pages": [
+              "carriers/tai-tms"
             ]
           },
           "carriers/invite-teammates"
