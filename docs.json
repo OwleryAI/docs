@@ -135,6 +135,13 @@
               "carriers/remittance-details"
             ]
           },
+          {
+            "group": "TMS Integrations",
+            "icon": "plug",
+            "pages": [
+              "carriers/tai-tms"
+            ]
+          },
           "carriers/invite-teammates"
         ]
       },
