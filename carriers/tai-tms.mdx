@@ -1,30 +1,30 @@
 ---
 title: "Connect Tai TMS to Owlery"
-description: "Connect your Tai TMS account to Owlery so load status, shipment details, and location updates sync automatically."
 sidebarTitle: "Tai TMS"
+description: "Connect your Tai TMS account to Owlery so load statuses, shipment details, and location updates sync automatically."
 ---
 
 If you use Tai TMS, you can connect it to Owlery so load status updates, shipment details, and location tracking flow in automatically — no manual entry required.
 
-The setup has two parts: share your Tai credentials with the Owlery team, then configure three webhook endpoints inside Tai.
+The setup has two parts: share Tai log in credentials for your customer, then configure three webhook endpoints inside Tai.
 
 <Note>
-  You'll need access to the **Tai portal** with a login that has the **Shipper Customer** role. Any user account with Shipper Customer permissions will work — it doesn't have to be a specific person's login, but it does need that role.
+  The role of the Tai user should be the same you would give to your customer to log into Tai.
 </Note>
 
-## Part 1 — Share your Tai credentials with Owlery
+## Part 1: Share Tai log in credentials for your customer
 
 Owlery needs two things from your Tai account to establish the connection:
 
 <Steps>
-  <Step title="Gather your Tai credentials">
+  <Step title="Gather Tai credentials">
     Collect the following from your Tai account:
 
-    - **Tai portal username and password** — any login with the **Shipper Customer** role.
-    - **API key** — the API key associated with your Shipper Customer account in Tai.
+    - **Tai portal username and password** — any login for your customer will do.
+    - **API key** — the API key associated with that Shipper Customer account in Tai.
   </Step>
   <Step title="Send credentials securely">
-    Share both the login credentials and the API key with the Owlery team using a secure method (e.g. a password manager share link, encrypted message, or your organization's preferred secure channel).
+    Share both the login credentials and the API key using a secure method (e.g. a password manager share link, encrypted message, or your organization's preferred secure channel).
 
     Email [**support@owlery.ai**](mailto:support@owlery.ai) to coordinate handoff if you're unsure how to share them.
   </Step>
@@ -34,10 +34,10 @@ Owlery needs two things from your Tai account to establish the connection:
 </Steps>
 
 <Warning>
-  Never send credentials in plain-text email. Use a secure sharing method so your Tai login and API key stay protected.
+  You should never credentials in plain-text email. Use a secure sharing method so your Tai login and API key stay protected.
 </Warning>
 
-## Part 2 — Set up webhooks in Tai
+## Part 2: Set up webhooks in Tai
 
 Webhooks let Tai push real-time updates to Owlery whenever something changes on a load. You'll need to configure three endpoints in Tai for each shipper.
 
@@ -79,9 +79,9 @@ Webhooks let Tai push real-time updates to Owlery whenever something changes on 
 
 | What Owlery needs from you | Where to get it |
 | --- | --- |
-| Tai portal username & password (Shipper Customer role) | Your Tai account |
-| Tai API key (Shipper Customer account) | Your Tai account |
-| Webhook API token | Request from Owlery support |
+| Tai portal username & password (any role for your Shipper Customer) | Tai |
+| Tai API key (for that Shipper Customer account) | Tai |
+| Webhook API token | Request from Owlery Support |
 
 | Webhook endpoint | Purpose |
 | --- | --- |
