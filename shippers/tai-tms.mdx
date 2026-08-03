@@ -1,0 +1,94 @@
+---
+title: "Connect Tai TMS to Owlery"
+description: "If your broker uses Tai TMS, connect it to Owlery so load status, details, and location updates flow automatically."
+sidebarTitle: "Tai TMS"
+---
+
+Brokers that use Tai TMS can connect to Owlery automatically. Once the connection is live, load status updates, shipment details, and location tracking flow into Owlery without any manual work.
+
+The setup has two parts: share your Tai credentials with the Owlery team, then configure three webhook endpoints inside Tai.
+
+<Note>
+  You'll need access to the **Tai portal** with a login that has the **Shipper Customer** role. Any user account with Shipper Customer permissions will work — it doesn't have to be a specific person's login, but it does need that role.
+</Note>
+
+## Part 1 — Share your Tai credentials with Owlery
+
+Owlery needs two things from your Tai account to establish the connection:
+
+<Steps>
+  <Step title="Gather your Tai credentials">
+    Collect the following from your Tai account:
+
+    - **Tai portal username and password** — any login with the **Shipper Customer** role.
+    - **API key** — the API key associated with your Shipper Customer account in Tai.
+  </Step>
+  <Step title="Send credentials securely">
+    Share both the login credentials and the API key with the Owlery team using a secure method (e.g. a password manager share link, encrypted message, or your organization's preferred secure channel).
+
+    Email [**support@owlery.ai**](mailto:support@owlery.ai) to coordinate handoff if you're unsure how to share them.
+  </Step>
+  <Step title="Wait for confirmation">
+    The Owlery team will configure the connection on their end and let you know when it's ready. At that point, they'll run a test tender and load to verify everything works.
+  </Step>
+</Steps>
+
+<Warning>
+  Never send credentials in plain-text email. Use a secure sharing method so your Tai login and API key stay protected.
+</Warning>
+
+## Part 2 — Set up webhooks in Tai
+
+Webhooks let Tai push real-time updates to Owlery whenever something changes on a load. You'll need to configure three endpoints in Tai for each shipper.
+
+<Steps>
+  <Step title="Request a webhook API token from Owlery">
+    Email [**support@owlery.ai**](mailto:support@owlery.ai) and let them know which shipper you need a webhook token for. Owlery will generate a token specific to that shipper and send it back to you.
+  </Step>
+  <Step title="Add the webhook endpoints in Tai">
+    In your Tai portal, navigate to the webhook configuration for the shipper and add the following three endpoints. Use the API token from Step 1 to authenticate each one.
+
+    **Status updates**
+
+    ```text
+    https://api.owlery.ai/api/ext/v1/loads/tracking/tai/status
+    ```
+
+    **Load details**
+
+    ```text
+    https://api.owlery.ai/api/ext/v1/loads/tracking/tai/detail
+    ```
+
+    **Location tracking**
+
+    ```text
+    https://api.owlery.ai/api/ext/v1/loads/tracking/tai/location
+    ```
+  </Step>
+  <Step title="Verify the connection">
+    Once the webhooks are saved, coordinate with the Owlery team to run a test tender and load. This confirms that status, detail, and location events are flowing correctly.
+  </Step>
+</Steps>
+
+<Tip>
+  Each shipper gets its own webhook API token. If you manage multiple shippers in Tai, repeat Part 2 for each one — request a separate token and configure the same three endpoints per shipper.
+</Tip>
+
+## Quick reference
+
+| What Owlery needs from you | Where to get it |
+| --- | --- |
+| Tai portal username & password (Shipper Customer role) | Your Tai account |
+| Tai API key (Shipper Customer account) | Your Tai account |
+| Webhook API token | Request from Owlery support |
+
+| Webhook endpoint | Purpose |
+| --- | --- |
+| `.../tai/status` | Load status changes (picked up, in transit, delivered, etc.) |
+| `.../tai/detail` | Shipment detail updates |
+| `.../tai/location` | Real-time location tracking |
+
+## Need help?
+
+If anything isn't working or you're unsure where to find a setting in Tai, email [**support@owlery.ai**](mailto:support@owlery.ai) and the team will walk you through it.
