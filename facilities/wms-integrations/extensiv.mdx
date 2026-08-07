@@ -4,7 +4,7 @@ description: "How Owlery connects to Extensiv's REST API to sync inbound receive
 sidebarTitle: "Extensiv"
 ---
 
-Owlery connects to Extensiv (formerly 3PL Central) through its standard REST API at `secure-wms.com`. Once your 3PL provides OAuth2 credentials, Owlery syncs inbound receivers, outbound orders, and supporting reference data automatically — no manual imports, no CSV uploads.
+Owlery connects to Extensiv (formerly 3PL Central) through its standard REST API at `secure-wms.com`. Once you provide OAuth2 credentials, Owlery syncs inbound receivers, outbound orders, and supporting reference data automatically — no manual imports, no CSV uploads.
 
 ## What you need from your 3PL
 
@@ -38,7 +38,7 @@ Owlery syncs inbound receivers incrementally by last modified date, so only new 
 
 For each receiver, Owlery captures line items (SKU, quantity, lot codes, expiration dates), PO numbers, and facility info. Sync can optionally be scoped to only active customers and specific facilities.
 
-## Outbound — Sales Orders
+## Outbound — Orders
 
 Outbound order sync works the same way — incremental by last modified date.
 
