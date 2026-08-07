@@ -151,7 +151,14 @@
         "pages": [
           "facilities/facility-profile",
           "facilities/dock-appointment-settings",
-          "facilities/driver-check-in"
+          "facilities/driver-check-in",
+          {
+            "group": "WMS Integrations",
+            "icon": "plug",
+            "pages": [
+              "facilities/wms-integrations/extensiv"
+            ]
+          }
         ]
       },
       {
