@@ -1,0 +1,49 @@
+---
+title: "Rate quote date warnings"
+description: "How Owlery compares estimated pickup and dropoff dates with the dates requested on an order."
+sidebarTitle: "Rate Quote Date Warnings"
+---
+
+When a carrier's estimated transit date does not fit the dates requested on your order, Owlery shows a calendar warning beside the rate. The warning is informational, so you can still select the rate after reviewing the dates.
+
+## How Owlery compares dates
+
+Owlery compares the response to the matching order stop by stop number and stop type.
+
+Owlery shows dates in one of these ways:
+
+- A single date appears as one exact date, such as `July 10`.
+- A span of dates appears as a range, such as `July 10 – July 12`.
+- If no estimated date is shown for a stop, Owlery does not show a warning for that stop because there is no estimate to compare.
+
+If the dates shown are in reverse order, Owlery puts them in chronological order before comparing them.
+
+The ordered dates become the allowed range. Owlery then selects the relevant date from the estimate:
+
+- **Pickup** uses the first date shown in the estimated range.
+- **Dropoff** uses the last date shown in the estimated range.
+
+The selected estimated date must fall on or between the ordered dates to avoid a warning. The comparison is inclusive, so matching the first or last ordered date is valid.
+
+## Examples
+
+| Stop | Ordered date shown | Estimated date shown | Result |
+| --- | --- | --- | --- |
+| Pickup | July 10 | July 10 – July 11 | No warning: pickup uses July 10. |
+| Pickup | July 10 | July 11 – July 12 | Warning: pickup is estimated for July 11. |
+| Dropoff | July 10 – July 12 | July 9 – July 12 | No warning: dropoff uses July 12. |
+| Dropoff | July 10 – July 12 | July 9 – July 13 | Warning: dropoff is estimated for July 13. |
+| Pickup | July 10 | July 10 – July 11 | No warning: the ordered pickup date is exactly July 10. |
+| Dropoff | July 12 | July 10 – July 12 | No warning: the ordered dropoff date is exactly July 12. |
+
+## Where dates appear
+
+In the response list, the **Transit** column shows the pickup date, an arrow, and the dropoff date. It also shows the business-day transit estimate. When the response provides a range of business days, the dropoff side is shown as a date range.
+
+Open a response to see the **Estimated Dates** table. It lists each stop as `Stop N of M`, its type, and the formatted estimated date or date range.
+
+## Find the affected stop
+
+Hover over the calendar warning beside the rate. The tooltip identifies the stop number and type and shows both the estimated and ordered dates.
+
+If the dates do not work for your shipment, review the affected order stop or choose another response with dates that fit the requested range.
