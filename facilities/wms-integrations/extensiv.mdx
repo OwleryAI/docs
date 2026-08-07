@@ -1,0 +1,70 @@
+---
+title: "Extensiv (3PL Central)"
+description: "How Owlery connects to Extensiv's REST API to sync inbound receivers, outbound orders, and supporting data."
+sidebarTitle: "Extensiv"
+---
+
+Owlery connects to Extensiv (formerly 3PL Central) through its standard REST API at `secure-wms.com`. Once your 3PL provides OAuth2 credentials, Owlery syncs inbound receivers, outbound orders, and supporting reference data automatically — no manual imports, no CSV uploads.
+
+## What you need from your 3PL
+
+Before Owlery can connect, your 3PL needs to provide three things:
+
+- **Client ID** and **Client Secret** — the OAuth2 application credentials for their Extensiv account.
+- **User login** — a username and password Owlery uses to obtain an access token.
+
+Owlery handles token refresh automatically (every hour), so there's nothing to maintain after the initial setup.
+
+## Authentication
+
+Owlery authenticates against Extensiv's token endpoint:
+
+```text
+POST AuthServer/api/Token
+```
+
+An access token is obtained using the credentials above and refreshed every hour. All subsequent API calls use this token.
+
+## Inbound — Receivers / ASNs
+
+Owlery syncs inbound receivers incrementally by last modified date, so only new or changed records are pulled on each sync cycle.
+
+| What Owlery does | Endpoint |
+| --- | --- |
+| List receivers (paginated, filtered by date, customer, and facility) | `GET inventory/receivers` |
+| Get a single receiver | `GET inventory/receivers/{id}` |
+| Get line items for a receiver | `GET inventory/receivers/{id}/items` |
+| Create a new receiver (ASN) | `POST inventory/receivers` |
+
+For each receiver, Owlery captures line items (SKU, quantity, lot codes, expiration dates), PO numbers, and facility info. Sync can optionally be scoped to only active customers and specific facilities.
+
+## Outbound — Sales Orders
+
+Outbound order sync works the same way — incremental by last modified date.
+
+| What Owlery does | Endpoint |
+| --- | --- |
+| List orders (paginated, filtered by date, customer, and facility) | `GET orders` |
+| Get a single order | `GET orders/{id}` |
+| Get line items for an order | `GET orders/{id}/items` |
+| Create a new outbound order | `POST orders` |
+
+Owlery captures order details, line items, ship-to addresses, and saved elements. You can filter sync to only pull B2B freight orders and skip D2C/parcel orders (like Omaha Steaks) using the "Order Type" saved element — this is configurable per customer.
+
+## Supporting data
+
+Owlery also pulls reference data used for mapping and timezone resolution:
+
+| What Owlery does | Endpoint |
+| --- | --- |
+| List active customers (when customer-scoped sync is on) | `GET customers` |
+| List all facilities (for mapping and timezone resolution) | `GET properties/facilities` |
+| Get facility location details | `GET properties/facilities/locations` |
+
+## Rate limiting and reliability
+
+Owlery is built to stay well within Extensiv's API limits and minimize unnecessary traffic:
+
+- **Rate limiting** — Owlery respects Extensiv's rate limits (approximately 5 requests per second).
+- **Embedded line items** — list requests include `Detail=ReceiveItems` or `Detail=OrderItems` to fetch line items inline, reducing the number of round-trips.
+- **Incremental sync** — every sync filters by `LastModifiedDate`, so Owlery only pulls records that have changed since the last run.
