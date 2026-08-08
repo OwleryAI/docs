@@ -215,16 +215,22 @@ Owlery is designed around NetSuite's API behavior and governance limits:
 
 ## What Owlery needs from you
 
-Most of the implementation work stays with Owlery. Your team provides:
+After your NetSuite administrator authorizes the connection, your team only needs to **confirm the field mappings and workflow Owlery recommends**.
 
-1. A NetSuite administrator or technical contact for credentials and role permissions.
-2. Representative transaction IDs for each order type and important exception.
-3. A short explanation of which records should enter Owlery and which events should return to NetSuite.
-4. Confirmation of the resulting field mappings and workflow during validation.
+Owlery learns the supporting requirements from your connected NetSuite account:
+
+| What Owlery learns | What we inspect |
+| --- | --- |
+| Representative transactions and important exceptions | Existing purchase, sales, and transfer orders; their statuses; line-item structures; custom fields; and related fulfillment or receipt records |
+| Which records should enter Owlery | Enabled transaction types, sync flags, ship methods, transaction-number patterns, subsidiaries, classifications, departments, statuses, and other selection fields |
+| Which events should return to NetSuite | Existing fulfillment and receipt behavior, shipment-related custom fields, lot and location requirements, and the write-back capabilities supported by the account |
+
+We use this information to propose the smallest configuration that fits your existing process. Your team reviews the recommendation and confirms that it reflects the intended business outcome.
 
 Owlery handles:
 
-- Reviewing your records and custom fields
+- Discovering representative records and exception patterns
+- Reviewing your settings, records, and custom fields
 - Recommending the integration design
 - Configuring mappings, filters, routing, and write-back strategies
 - Testing normal, partial, and exception workflows
@@ -236,20 +242,20 @@ This approach minimizes the amount of new process your team needs to learn. It a
 ## Implementation process
 
 <Steps>
-  <Step title="Workflow discovery">
-    You show us representative orders and describe the outcomes your operations and accounting teams need.
+  <Step title="Connect NetSuite">
+    Your NetSuite administrator authorizes Owlery with token-based credentials and the required role permissions.
   </Step>
-  <Step title="Mapping design">
-    Owlery identifies the relevant NetSuite records, fields, permissions, subsidiaries, filters, and write-back events. We propose the configuration and call out any optional custom fields.
+  <Step title="Account discovery">
+    Owlery identifies representative transactions, exceptions, custom fields, statuses, subsidiaries, filters, and existing fulfillment and receipt behavior from the connected account.
   </Step>
-  <Step title="Connection and configuration">
-    Your NetSuite administrator provides token-based credentials. Owlery configures the connection and the approved mappings.
+  <Step title="Mapping recommendation">
+    We propose the inbound and write-back configuration and call out any optional custom fields or permissions.
   </Step>
-  <Step title="Scenario validation">
-    We validate representative sales, purchase, and transfer orders, including the exceptions that matter to your workflow.
+  <Step title="Customer confirmation">
+    Your team confirms that the recommended field mappings and workflow produce the intended business outcome.
   </Step>
   <Step title="Controlled rollout">
-    Owlery enables the agreed sync and write-back behavior, monitors the first records, and adjusts configuration when real account behavior differs from the samples.
+    Owlery validates representative and exception scenarios, enables the agreed behavior, monitors the first records, and adjusts the configuration when needed.
   </Step>
 </Steps>
 
