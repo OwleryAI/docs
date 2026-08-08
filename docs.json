@@ -52,6 +52,7 @@
             "icon": "plug",
             "pages": [
               "shippers/integrations-overview",
+              "shippers/netsuite",
               "shippers/ramp"
             ]
           },
