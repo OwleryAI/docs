@@ -1,0 +1,166 @@
+---
+title: "Connect SAP Business One to Owlery"
+description: "Learn how Owlery synchronizes SAP Business One sales and purchase orders, enriches shipment data, and adapts order selection to your account."
+sidebarTitle: "SAP Business One"
+---
+
+Owlery connects to SAP Business One through the Service Layer API. The integration brings sales and purchase orders into Owlery, resolves the related facilities and trading partners, and can enrich sales orders with delivery-note shipment references.
+
+The integration is configuration-driven. Owlery can adapt the orders it selects, the customer accounts it includes, and the carrier codes it treats as parcel without asking you to restructure SAP Business One.
+
+**Where to find it:** `Settings → Integrations`
+
+<Info>
+  Owlery leads the integration design. After access is established, we inspect your existing orders, customer codes, carrier data, and delivery notes. Your team confirms the recommended workflow, and Owlery handles the filters, mapping, validation, and rollout.
+</Info>
+
+<Note>
+  SAP Business One Service Layer deployments differ in hosting, network access, certificates, and custom fields. Owlery confirms technical availability and the connection endpoint during implementation; this connector is not a generic self-service setup.
+</Note>
+
+## How the integration works
+
+<Steps>
+  <Step title="Connect securely">
+    Owlery signs in to the SAP Business One Service Layer with a company database, username, and password. SAP returns a time-limited session that Owlery uses for subsequent requests.
+  </Step>
+  <Step title="Discover your order patterns">
+    Owlery reviews representative sales orders, purchase orders, business partners, warehouses, customer codes, delivery notes, and shipment fields. We use the values already in your account to recommend the smallest set of selection and routing rules.
+  </Step>
+  <Step title="Synchronize changed orders">
+    Owlery retrieves sales and purchase orders in pages. Incremental syncs use the SAP update date so unchanged records do not need to be processed repeatedly.
+  </Step>
+  <Step title="Resolve related records">
+    The integration follows order references to business partners and warehouses. It converts those records into Owlery customers, suppliers, and the facilities supported by each order type.
+  </Step>
+  <Step title="Enrich shipment references">
+    Owlery follows the relationship between sales orders and delivery notes to retrieve available tracking, bill of lading, and carrier values. A second synchronization pass can detect delivery-note changes even when the original sales order was not updated.
+  </Step>
+  <Step title="Reconcile in Owlery">
+    Owlery preserves the SAP document and line identities used for later refreshes. Authorized users can also look up a specific transaction or search by a delivery-note tracking or bill of lading value.
+  </Step>
+</Steps>
+
+## Authentication and access
+
+Owlery needs the following values for the SAP Business One company you want to connect:
+
+- **Company database**
+- **Service Layer username**
+- **Service Layer password**
+
+The SAP user needs read access to the records used by your workflow. Depending on the configuration, this can include sales orders, purchase orders, delivery notes, business partners, and warehouses.
+
+Owlery also confirms how the Service Layer is reachable from the integration environment. Your team does not need to design the API calls or OData queries.
+
+## Data synchronized from SAP Business One
+
+### Orders
+
+| SAP Business One record | How Owlery uses it |
+| --- | --- |
+| Sales Order | Creates a customer shipment with warehouse pickup, customer delivery, dates, items, and references |
+| Purchase Order | Creates a supplier shipment with supplier identity, delivery address, due date, and line items |
+| Delivery Note | Enriches a linked sales order with available tracking, bill of lading, and carrier information |
+
+Depending on the source record, Owlery can synchronize:
+
+- SAP document number and internal document identity
+- Open or closed document status
+- Created and updated dates
+- Customer or supplier identity and available contacts
+- Warehouse pickup and ship-to delivery addresses
+- Required and due dates
+- Item code, description, quantity, line number, unit price, and line total
+- Common quantity, weight, and volume units from document lines
+- Customer purchase order, SAP references, bill of lading, and tracking or PRO number
+- Journal memo, opening remarks, and closing remarks
+- Carrier or SCAC values available on the order or linked delivery note
+
+## Configuration options
+
+| Configuration area | Available controls |
+| --- | --- |
+| Order types | Synchronize sales orders, purchase orders, or both for the selected workflow |
+| Incremental sync | Retrieve records changed after the last successful synchronization |
+| Sales order customer scope | Exclude a list of `CardCode` values or synchronize only an approved list |
+| Per-order-type query rules | Apply a separate Service Layer OData filter to sales or purchase orders |
+| Default query rule | Apply a fallback OData filter when an order type does not have its own rule |
+| Parcel classification | Mark sales orders as parcel when an order or linked delivery note contains a configured carrier code |
+| Exact lookup | Retrieve a sales or purchase order by document number |
+| Shipment-reference lookup | Find a linked sales order using a delivery-note tracking or bill of lading value |
+| Full synchronization | Run a complete order synchronization when a backfill or reconciliation requires it |
+
+<Tip>
+  You do not need to write the OData filters yourself. Owlery studies your existing records and recommends the rules that express your intended freight scope.
+</Tip>
+
+## Delivery-note enrichment
+
+SAP Business One may add shipping information to a Delivery Note without changing the source Sales Order. Owlery handles this with two complementary paths:
+
+- During normal sales-order processing, Owlery queries linked delivery-note lines and applies available tracking, bill of lading, and carrier values.
+- After the main incremental order sync, Owlery scans recently changed delivery notes, follows their base-document references to the affected sales orders, and refreshes those orders.
+
+The integration chunks large lookups to stay within Service Layer URL limits and uses explicit page sizes so matching delivery records are not silently omitted by default API limits.
+
+## Synchronization and reliability
+
+- **Pagination** processes large order sets in bounded pages.
+- **Incremental watermarks** order changed transactions by SAP update date.
+- **Delivery lookback** includes a buffer around date-only delivery-note updates to reduce boundary misses.
+- **Reference caching** avoids repeatedly requesting the same warehouse or business partner during one synchronization.
+- **Targeted retries** retry selected supporting-record lookups when a temporary request fails.
+- **Chunked enrichment** keeps delivery-note and order lookups within Service Layer request limits.
+- **Exact refresh** retrieves the current SAP record when an individual Owlery order needs reconciliation.
+
+## Write-back scope
+
+The current SAP Business One integration is focused on bringing order and shipment-reference data into Owlery. It does not currently write fulfillment, receipt, quote, or shipment updates back to SAP Business One.
+
+Owlery will confirm this boundary during solution design. If your workflow requires outbound updates, we document the required SAP record, event, and field before proposing an extension.
+
+## What Owlery needs from you
+
+After your SAP Business One administrator provides access, your team only needs to **confirm that Owlery's recommended order scope and mapping reflect the intended business outcome**.
+
+Owlery learns the supporting requirements from the connected company:
+
+| What Owlery learns | What we inspect |
+| --- | --- |
+| Representative transactions and exceptions | Existing sales orders, purchase orders, document lines, business partners, warehouses, and delivery notes |
+| Which records should enter Owlery | Update patterns, order types, `CardCode` values, document statuses, and fields suitable for OData selection rules |
+| How freight and parcel should be distinguished | Carrier and SCAC values on orders and linked delivery notes |
+| Which shipment references are available | Tracking, bill of lading, customer purchase order, and related SAP reference fields |
+
+Owlery handles:
+
+- Discovering representative records and exception patterns
+- Recommending sales and purchase order scope
+- Creating customer-code and OData filters
+- Mapping facilities, partners, dates, items, units, and references
+- Validating delivery-note enrichment
+- Coordinating backfill and rollout
+- Monitoring synchronization and troubleshooting Service Layer responses
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Do we need to create the SAP queries?">
+    No. Owlery reviews your existing records and creates the Service Layer filters needed for the agreed order scope. Your team confirms the outcome.
+  </Accordion>
+
+  <Accordion title="Can Owlery separate freight and parcel orders?">
+    Yes. Sales orders can be included or excluded by `CardCode`, and configured carrier codes can classify synchronized orders as parcel.
+  </Accordion>
+
+  <Accordion title="Can Owlery find shipment references added after the sales order?">
+    Yes. Owlery can follow linked delivery notes and refresh affected sales orders when available tracking, bill of lading, or carrier data changes.
+  </Accordion>
+
+  <Accordion title="Does this integration write back to SAP Business One?">
+    Not currently. The implemented integration synchronizes SAP Business One data into Owlery. Owlery will document any required outbound workflow separately before proposing an extension.
+  </Accordion>
+</AccordionGroup>
+
+Need help planning your SAP Business One connection? Email [support@owlery.ai](mailto:support@owlery.ai).
