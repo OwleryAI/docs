@@ -1,0 +1,290 @@
+---
+title: "Connect NetSuite to Owlery"
+description: "Learn how Owlery synchronizes NetSuite orders and item data, writes shipment activity back, and adapts to your account configuration."
+sidebarTitle: "NetSuite"
+---
+
+Owlery connects to NetSuite through the SuiteTalk REST Record API and SuiteQL. The integration can bring order and item data into Owlery, then write selected fulfillment, receipt, shipment, and freight updates back to NetSuite.
+
+The integration is configuration-driven. Owlery can adapt to your subsidiaries, custom fields, statuses, item types, addresses, units of measure, lot requirements, and operating workflows without asking you to replace the way your team uses NetSuite.
+
+**Where to find it:** `Settings → Integrations`
+
+<Info>
+  Owlery leads the integration design. Your team provides access, identifies the workflows that matter, and reviews representative transactions. We handle the mapping, configuration, edge cases, validation, and rollout.
+</Info>
+
+## How the integration works
+
+<Steps>
+  <Step title="Connect securely">
+    Owlery authenticates with NetSuite token-based OAuth 1.0. Requests are signed with HMAC-SHA256 and sent to the SuiteTalk endpoint for your NetSuite account.
+  </Step>
+  <Step title="Discover your configuration">
+    Owlery can read account metadata such as classifications, departments, locations, cost categories, units of measure, and item records. We use that metadata to configure mappings against your actual NetSuite values.
+  </Step>
+  <Step title="Synchronize orders and items">
+    Owlery retrieves new and changed records through paginated, incremental syncs. Each NetSuite record is converted into the facilities, stops, dates, items, references, and statuses used by your Owlery workflows.
+  </Step>
+  <Step title="Apply your business rules">
+    Rules decide which orders to include, how to route subsidiaries, which fields supply dates and addresses, how statuses map, and how item and packaging data should be interpreted.
+  </Step>
+  <Step title="Write back selected events">
+    If enabled, Owlery can transform NetSuite orders into item fulfillments or receipts and update shipment fields when freight is booked, picked up, or delivered.
+  </Step>
+  <Step title="Monitor and reconcile">
+    Owlery paces requests against NetSuite governance limits, retries safe concurrency rejections, reports failures, and preserves stable record identities during re-syncs.
+  </Step>
+</Steps>
+
+## Authentication and access
+
+To connect, Owlery needs the following token-based authentication values from your NetSuite administrator:
+
+- **Account ID / Realm**
+- **Consumer Key**
+- **Consumer Secret**
+- **Access Token**
+- **Token Secret**
+
+The NetSuite role attached to the token needs permission to read the record types you want to synchronize. It also needs write permission for any fulfillment, receipt, or order-field updates you enable.
+
+During connection testing, Owlery verifies access to purchase orders, sales orders, and transfer orders separately. This makes missing permissions easier to identify before synchronization begins.
+
+<Note>
+  Optional features may require access to supporting records such as locations, employees, classifications, departments, cost categories, inventory numbers, and units of measure. Owlery will identify the permissions needed for your selected workflow.
+</Note>
+
+## Data synchronized from NetSuite
+
+### Orders
+
+Owlery supports three primary NetSuite transaction families:
+
+| NetSuite record | How Owlery uses it |
+| --- | --- |
+| Sales Order | Creates a customer shipment with its origin, destination, dates, references, and line items |
+| Purchase Order | Creates a supplier shipment and can identify outsourced purchase-order lines |
+| Transfer Order | Creates an internal inventory movement between origin and destination facilities |
+
+Depending on the record and your configuration, Owlery can synchronize:
+
+- Internal ID, transaction number, external ID, and reference numbers
+- NetSuite status and a configurable Owlery status
+- Created and last-modified timestamps
+- Creator, employee, or sales representative email
+- Customer, vendor, subsidiary, classification, department, and sales channel
+- Pickup and delivery facilities, addresses, and dates
+- Header notes and line-level handling notes
+- Line number, item, SKU, quantity, fulfilled or received quantity, unit, rate, and amount
+- Lot or inventory assignments and expiration dates
+- Ship method and other configured custom fields
+
+### Item master
+
+Owlery can synchronize inventory, assembly, kit, non-inventory, service, shipping, and other charge item records. The default configuration recognizes more than 15 operational item types, and the included record types can be customized for your account.
+
+Item mapping can include:
+
+- SKU, name, description, and NetSuite record type
+- Base and transaction units of measure
+- Item weight and weight unit
+- Case, carton, each, and pallet packaging relationships
+- Cases per pallet, including `TI × HI` calculations where applicable
+- Temperature ranges for configured refrigerated products
+- Lot numbers and expiration dates
+
+## Configuration options
+
+NetSuite accounts differ substantially. Owlery provides a broad set of configuration controls so the integration follows your data model and operating rules.
+
+| Configuration area | Available controls |
+| --- | --- |
+| Order scope | Enable or disable purchase, sales, and transfer-order synchronization independently |
+| Sync selection | Use an optional NetSuite sync flag and filter by ship method or transaction-number patterns |
+| Ship methods | Configure include or exclude lists and apply each rule to selected order types |
+| Transaction numbers | Exclude orders using starts-with, ends-with, contains, or does-not-contain rules |
+| Status mapping | Keep Owlery defaults or override individual NetSuite statuses by transaction type |
+| Pickup and delivery dates | Select standard or custom fields separately for each order type, or disable a date when it does not apply |
+| Pickup addresses | Read a standard address, a custom HTML address, a NetSuite Location, or a vendor or customer address-book entry |
+| Address fallback | Fall back through available order, location, entity, and custom-location data when the preferred source is incomplete |
+| Classification routing | Map a classification or any of its parent classifications to parcel or freight mode |
+| Department routing | Map a department hierarchy to parcel or freight mode, optionally by order type |
+| Subsidiary routing | Route records from one NetSuite connection into the correct child organization using the order subsidiary |
+| Sales channel mapping | Read a sales channel from the order or linked customer and map it to one or more GL codes |
+| SKU mapping | Use the NetSuite item SKU or override it with a configured transaction-line field |
+| Notes | Choose the transaction body field and transaction-line field used for operational and BOL instructions |
+| Item types | Use Owlery's default item set or choose the exact NetSuite record types to include |
+| Facility identity | Control whether the NetSuite Location ID is used as the stable facility source ID |
+| Weight and packaging | Read weight from item records and build configurable item-master packaging relationships |
+| Purchase-order splitting | Split one PO into stable child shipments using configured quantity fields on each line |
+| Landed cost | Select the NetSuite cost category and allocate freight by weight, quantity, or line value |
+| Write-back strategy | Enable individual fulfillment, receipt, load ID, delivery date, and freight-booked actions |
+| Write-back triggers | Trigger by load event, order event, order type, or order tag, depending on the workflow |
+| Lot behavior | Use source lot assignments, warehouse lot data, NetSuite auto-assignment, or explicit inventory detail based on account requirements |
+
+<Tip>
+  You do not need to select every setting before the project starts. Owlery reviews sample transactions and recommends the smallest configuration that supports your workflow.
+</Tip>
+
+## Addresses and facilities
+
+Addresses are often one of the most account-specific parts of a NetSuite implementation. Owlery can resolve facilities from:
+
+- The shipping address stored directly on an order
+- A NetSuite Location record
+- A vendor or customer address-book entry
+- A configured custom body field
+- A `<br>`-delimited address stored in a custom field
+- A linked custom location record
+
+Owlery can apply different address sources to sales, purchase, and transfer orders. If the preferred source is missing or incomplete, the integration can use configured fallbacks while preserving the identity of the facility.
+
+Invalid custom addresses are reported for review instead of being silently accepted as complete locations.
+
+## Status, classification, and department rules
+
+Owlery includes default status mappings for purchase, sales, and transfer orders. You can override a mapping when your NetSuite process interprets a standard status differently.
+
+Classification and department rules support NetSuite hierarchies. A rule can match the value directly or match one of its parent records. This lets you apply one rule to an entire branch of your NetSuite structure instead of configuring every child value individually.
+
+For example, one parent classification can identify parcel orders while unmatched classifications remain freight orders.
+
+## Subsidiaries and multiple organizations
+
+A single NetSuite connection can route orders to different Owlery child organizations using the NetSuite subsidiary ID. Owlery validates that every configured destination belongs to the same organization family, preventing records from being routed outside the authorized account structure.
+
+Incremental synchronization also checks the complete organization family. This prevents child-organization activity from being missed when one parent connection serves multiple subsidiaries.
+
+You can also connect multiple NetSuite accounts when separate credentials or account boundaries are the better fit.
+
+## Lots, units, and packaging
+
+Owlery resolves the transaction unit against the item's NetSuite Units Type record. When NetSuite returns an unavailable or unsupported unit record, Owlery can preserve the line using a safe default and report the condition for review.
+
+For lot-controlled inventory, Owlery can:
+
+- Read issue and receipt inventory numbers
+- Preserve expiration dates
+- Split one NetSuite line into multiple Owlery item lines when it contains multiple lots
+- Recombine those item lines by original NetSuite line during write-back
+- Match lots by item and location
+- Send explicit inventory assignments only when the NetSuite account requires them
+
+This distinction matters because NetSuite accounts with Inventory Status enabled can require different fulfillment behavior from accounts using lot tracking without Inventory Status.
+
+## Write-back workflows
+
+Write-back is optional and configured as individual strategies. You can enable only the actions your NetSuite process needs.
+
+| Owlery event or workflow | NetSuite action |
+| --- | --- |
+| Sales order is ready for fulfillment | Transform the Sales Order into an Item Fulfillment |
+| Transfer shipment leaves its origin | Transform the Transfer Order into an Item Fulfillment |
+| Transfer shipment arrives | Transform the Transfer Order into an Item Receipt |
+| Purchase shipment arrives | Transform the Purchase Order into an Item Receipt |
+| Load is picked up | Write the Owlery load number to configured transaction lines |
+| Load is delivered | Write the delivered timestamp to the source transaction |
+| Freight is booked | Mark the source transaction as freight booked |
+| Item receipt is created | Add allocated freight as landed cost when configured |
+
+Fulfillment and receipt payloads can include line quantities, item and header locations, tracking numbers, shipment dates, transaction dates, and lot assignments. Owlery reads the original NetSuite lines before writing back so the update uses the correct NetSuite line and item identities.
+
+### Landed-cost allocation
+
+When enabled, Owlery can post the booked freight cost to a NetSuite Item Receipt. You choose a NetSuite cost category and one of three allocation methods:
+
+- **Weight** — distributes cost according to line weight, normalizing mixed weight units first
+- **Quantity** — distributes cost according to the received quantity
+- **Value** — distributes cost according to extended line value
+
+Owlery reconciles rounding so the allocated line amounts equal the total freight cost exactly. If NetSuite has already created the receipt, Owlery can locate the existing receipt and update its landed-cost fields instead.
+
+## Synchronization and reliability
+
+Owlery is designed around NetSuite's API behavior and governance limits:
+
+- **Incremental synchronization** retrieves new and modified records instead of repeatedly importing the full account.
+- **Pagination** keeps large record sets manageable.
+- **Request pacing** limits concurrent calls and spaces requests to reduce governance conflicts.
+- **Targeted backoff** retries requests blocked by NetSuite's concurrency limit with exponential backoff and jitter.
+- **Safe write retries** only retry concurrency rejections that NetSuite blocked before processing. Validation and authentication failures are not blindly retried.
+- **Stable reconciliation** preserves child-order identities, soft-deletes records that no longer meet configured rules, and restores them if they become eligible again.
+- **Reference lookup** lets an authorized user find and intentionally import an exact NetSuite transaction outside the normal background filter.
+- **Structured errors** preserve useful NetSuite details for troubleshooting while presenting actionable guidance to your team.
+
+## What Owlery needs from you
+
+After your NetSuite administrator authorizes the connection, your team only needs to **confirm the field mappings and workflow Owlery recommends**.
+
+Owlery learns the supporting requirements from your connected NetSuite account:
+
+| What Owlery learns | What we inspect |
+| --- | --- |
+| Representative transactions and important exceptions | Existing purchase, sales, and transfer orders; their statuses; line-item structures; custom fields; and related fulfillment or receipt records |
+| Which records should enter Owlery | Enabled transaction types, sync flags, ship methods, transaction-number patterns, subsidiaries, classifications, departments, statuses, and other selection fields |
+| Which events should return to NetSuite | Existing fulfillment and receipt behavior, shipment-related custom fields, lot and location requirements, and the write-back capabilities supported by the account |
+
+We use this information to propose the smallest configuration that fits your existing process. Your team reviews the recommendation and confirms that it reflects the intended business outcome.
+
+Owlery handles:
+
+- Discovering representative records and exception patterns
+- Reviewing your settings, records, and custom fields
+- Recommending the integration design
+- Configuring mappings, filters, routing, and write-back strategies
+- Testing normal, partial, and exception workflows
+- Coordinating rollout and backfill behavior
+- Monitoring synchronization and troubleshooting NetSuite API responses
+
+This approach minimizes the amount of new process your team needs to learn. It also keeps the integration aligned with the way your business already operates.
+
+## Implementation process
+
+<Steps>
+  <Step title="Connect NetSuite">
+    Your NetSuite administrator authorizes Owlery with token-based credentials and the required role permissions.
+  </Step>
+  <Step title="Account discovery">
+    Owlery identifies representative transactions, exceptions, custom fields, statuses, subsidiaries, filters, and existing fulfillment and receipt behavior from the connected account.
+  </Step>
+  <Step title="Mapping recommendation">
+    We propose the inbound and write-back configuration and call out any optional custom fields or permissions.
+  </Step>
+  <Step title="Customer confirmation">
+    Your team confirms that the recommended field mappings and workflow produce the intended business outcome.
+  </Step>
+  <Step title="Controlled rollout">
+    Owlery validates representative and exception scenarios, enables the agreed behavior, monitors the first records, and adjusts the configuration when needed.
+  </Step>
+</Steps>
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Do we need to change our NetSuite processes?">
+    Usually, no. Owlery starts by mapping your existing records, fields, statuses, and workflows. If an optional custom field would make selection or write-back clearer, we will explain the benefit and the smallest change required.
+  </Accordion>
+
+  <Accordion title="Can Owlery work with custom NetSuite fields?">
+    Yes. Custom body and line fields can supply dates, addresses, SKUs, notes, sales channels, order-selection flags, and shipment splits. Owlery can also write agreed shipment values to supported custom fields.
+  </Accordion>
+
+  <Accordion title="Can we start with read-only synchronization?">
+    Yes. Inbound order and item synchronization can be enabled without write-back. Individual write-back strategies can be introduced after your team validates the inbound data.
+  </Accordion>
+
+  <Accordion title="Can we backfill historical or excluded orders?">
+    Yes. Owlery supports full re-syncs and exact-reference lookups. When an exact order is outside the normal selection rules, Owlery can require explicit confirmation before importing it.
+  </Accordion>
+
+  <Accordion title="Can one connection support multiple subsidiaries?">
+    Yes. One connection can route NetSuite subsidiaries into the appropriate Owlery child organizations. Separate NetSuite connections are also supported when account or permission boundaries require them.
+  </Accordion>
+
+  <Accordion title="Who maintains the mapping after go-live?">
+    Owlery owns the integration configuration and works with your designated contact when NetSuite fields, roles, subsidiaries, or workflows change.
+  </Accordion>
+</AccordionGroup>
+
+Need help planning your NetSuite connection? Email [support@owlery.ai](mailto:support@owlery.ai) and include a few representative transaction numbers.
