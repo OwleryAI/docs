@@ -1,0 +1,179 @@
+---
+title: "Connect SAP S/4HANA to Owlery"
+description: "Learn how Owlery synchronizes SAP S/4HANA sales, purchasing, and stock-transfer data and writes selected tender results back."
+sidebarTitle: "SAP S/4HANA"
+---
+
+Owlery connects to SAP S/4HANA through OData services. The integration can bring sales orders, purchase requisitions, purchase orders, and stock transfer orders into Owlery. For configured tender workflows, it can also write the selected carrier, Owlery quote number, and allocated freight amount back to SAP.
+
+The integration follows relationships across SAP documents. It can connect sales orders to delivery documents, purchase orders to purchase requisitions, and requisitions to sales orders so facilities, dates, items, references, and pricing remain aligned with the underlying business flow.
+
+**Where to find it:** `Settings → Integrations`
+
+<Info>
+  Owlery leads the integration design. After access is established, we inspect your order types, document relationships, plants, partners, item units, statuses, pricing conditions, and outbound services. Your team confirms the recommended workflow, and Owlery handles the mapping, configuration, validation, and rollout.
+</Info>
+
+## How the integration works
+
+<Steps>
+  <Step title="Connect securely">
+    Owlery authenticates to the agreed SAP S/4HANA services with a dedicated API username and password. We confirm that the user can read each selected record family and call any outbound service enabled for write-back.
+  </Step>
+  <Step title="Discover the document flow">
+    Owlery reviews representative sales orders, delivery documents, purchase requisitions, purchase orders, stock transfers, partners, plants, pricing elements, and text records. We use those relationships to recommend the smallest configuration that supports your process.
+  </Step>
+  <Step title="Synchronize changed records">
+    Owlery retrieves changed records in pages. Sales and purchase order headers use SAP change timestamps, while purchase requisitions use item-level changes because a reliable header change field is not always available.
+  </Step>
+  <Step title="Build operational shipments">
+    Sales orders can be grouped by production plant or by individual item. Purchase requisition and purchase order items become separately traceable Owlery orders. Stock-transfer purchase orders use their supplying and receiving plants as shipment stops.
+  </Step>
+  <Step title="Enrich linked data">
+    Owlery follows delivery, partner, account-assignment, address, item text, and pricing relationships. This can add bill of lading numbers, ship-via partners, customer delivery addresses, supplier addresses, notes, and recorded freight conditions.
+  </Step>
+  <Step title="Write back selected tender results">
+    When enabled for your workflow, Owlery validates the target SAP records and writes the chosen carrier, Owlery quote number, and allocated quote amount to the configured SAP partner, text, and pricing services.
+  </Step>
+</Steps>
+
+## Authentication and access
+
+Owlery needs a dedicated SAP S/4HANA API username and password. The user needs access to the OData services required by the selected scope.
+
+Inbound workflows can require services for sales orders, outbound deliveries, purchase requisitions, purchase orders, partners, addresses, texts, and pricing elements.
+
+Optional write-back requires create, update, or delete permissions for the agreed partner, text, or pricing endpoints. Some SAP environments use custom services for purchase-order partners, texts, or pricing. Owlery confirms those services during discovery.
+
+<Note>
+  SAP service names, permissions, partner functions, text types, and pricing conditions can differ by implementation. Owlery documents the exact access required for your approved workflow.
+</Note>
+
+## Data synchronized from SAP S/4HANA
+
+| SAP record | How Owlery uses it |
+| --- | --- |
+| Sales Order | Creates customer shipments grouped by production plant or sales-order item |
+| Outbound Delivery | Adds shipped quantities, bill of lading references, and pickup dates to linked sales orders |
+| Purchase Requisition | Creates a purchasing shipment for each requisition item and follows available sales-order assignments |
+| Purchase Order | Creates a supplier shipment for each purchase-order item |
+| Stock Transfer Purchase Order | Creates an internal transfer between supplying and receiving plants |
+
+Depending on the document family, Owlery can synchronize document and item identities, timestamps, statuses, materials, quantities, units, weights, prices, plants, partners, facilities, dates, references, item text, notes, pricing conditions, and currency.
+
+## Order grouping and document relationships
+
+### Sales order grouping
+
+You can choose how Owlery turns one SAP sales order into operational shipments:
+
+| Grouping | Owlery order identity | When it is useful |
+| --- | --- | --- |
+| Production plant | `{SalesOrder}-{Plant}` | Multiple lines leave the same production plant as one shipment |
+| Sales-order item | `{SalesOrder}-{SalesOrderItem}` | Each line needs independent planning, tendering, or tracking |
+
+Plant grouping is the default. Owlery recommends the grouping that matches how your team tenders and tracks freight.
+
+### Purchasing relationships
+
+Owlery preserves purchase requisition and purchase order links in both directions. Account assignments can identify a related sales order and customer delivery address. Owlery reconciles the linked documents even when they arrive on different synchronization pages, supporting drop-ship and make-to-order flows without duplicating those relationships outside SAP.
+
+## Configuration options
+
+| Configuration area | Available controls |
+| --- | --- |
+| Sales order grouping | Group by production plant or by individual sales-order item |
+| Purchase requisition origin | Include all origins or select the SAP requisition-origin values that belong in Owlery |
+| Record families | Enable or disable sales, purchase, and transfer synchronization for the agreed scope |
+| Standard purchase versus transfer | Treat SAP purchase order type `UB` as a stock transfer and other types as supplier purchase orders |
+| Full or incremental sync | Run a backfill or retrieve records changed since the previous successful synchronization |
+| Exact lookup | Retrieve a sales, requisition, purchase, or transfer document by its SAP number and optional item number |
+| Quote write-back | Enable selected carrier, quote number, and quote amount actions for the supported order families |
+| Write-back scope | Enable each outbound action independently for the customer workflow |
+| Freight allocation | Split one tendered amount across multiple Owlery orders and SAP items using available weights while preserving the exact total |
+| Additional freight rules | Apply an agreed pricing rule when the customer's SAP pricing design requires a separate freight-charge condition |
+
+### Purchase requisition origins
+
+The origin filter can distinguish requisitions created by processes such as material requirements planning, direct procurement, production orders, store orders, manual entry, converted planned orders, sales and distribution documents, SAP APO, SAP IBP, projects, external requirements, and self-service procurement.
+
+Leave the filter empty to include all origins. Owlery reviews the origin values in your connected system and recommends the subset that belongs in your transportation workflow.
+
+## Operational mapping
+
+Owlery resolves facilities from the SAP relationship appropriate to each document: production plants and ship-to partners for sales orders, suppliers and linked customer addresses for purchasing, and supplying and receiving plants for stock transfers. It maps requested, delivery, loading, and linked sales-order dates when available.
+
+Material lines retain their SAP item identities, quantities, prices, weights, volumes, and common shipment units. For outbound delivery batch splits, Owlery uses child delivery lines when they represent the actual shipped quantities.
+
+Status mapping can reflect open, in progress, confirmed, rejected, cancelled, closed, or deleted records where the source fields support that distinction. Bill of lading values are tied to the relevant sales-order item or plant group.
+
+## Write-back workflows
+
+Write-back is optional. Owlery enables only the actions approved for your SAP design.
+
+| Owlery tender result | SAP S/4HANA action |
+| --- | --- |
+| Carrier selected for a sales order | Validate the SCAC against SAP business-partner data and update the item-level ship-via partner |
+| Carrier selected for a purchase or transfer order | Validate the SCAC and create or update the configured purchase-order partner |
+| Owlery quote selected for a sales order | Write the Owlery quote number to the configured sales-order item text |
+| Owlery quote selected for a purchase or transfer order | Create or update the configured purchase-order item text |
+| Freight amount selected for a sales order | Create or replace the configured sales-order item pricing condition |
+| Freight amount selected for a purchase or transfer order | Create or update the configured purchase-order item pricing condition through the approved SAP service |
+
+Before writing, Owlery validates document-number formats, supported order types, source item identities, quote availability, item weights when allocation is required, and carrier codes when a SCAC is being recorded.
+
+### Exact freight allocation
+
+One Owlery tender can cover multiple SAP-derived shipments. Owlery first allocates the quote across the Owlery orders, then across the SAP items within each order using available item weights. Residual-aware rounding ensures the cents written across all items equal the selected tender amount exactly.
+
+## Synchronization and reliability
+
+- **Incremental synchronization** uses SAP change timestamps and bounded lookback windows.
+- **Purchase requisition fallback** uses creation time when an item does not have a last-change timestamp.
+- **Delivery re-enrichment** scans changed outbound delivery items because SAP may not update the parent sales-order timestamp when delivery data changes.
+- **Pagination** processes record families in pages and continues until each family is drained.
+- **Chunked lookups** retrieve batches of related sales orders without exceeding practical OData request sizes.
+- **Relationship caching** avoids repeating address calls for the same partner or plant during a synchronization.
+- **Exact lookup** retrieves a specific document and optional item for reconciliation or controlled backfill.
+
+## What Owlery needs from you
+
+After your SAP administrator authorizes the required services, your team only needs to **confirm that Owlery's recommended document flow, grouping, mappings, and write-back behavior produce the intended business outcome**.
+
+Owlery learns the supporting requirements from the connected environment:
+
+| What Owlery learns | What we inspect |
+| --- | --- |
+| Representative transactions and important exceptions | Existing sales orders, deliveries, requisitions, purchase orders, stock transfers, item hierarchies, texts, and pricing records |
+| Which records should enter Owlery | Enabled document families, requisition origins, purchase order types, processing statuses, plants, and document relationships |
+| How shipments should be grouped | Production plants, sales-order items, delivery splits, and how your team tenders and tracks freight |
+| Which events should return to SAP | Existing partner, text, and pricing records plus the services and permissions available for controlled write-back |
+
+Owlery handles:
+
+- Discovering representative records and document relationships
+- Recommending grouping and requisition-origin settings
+- Mapping plants, partners, addresses, dates, statuses, items, units, references, and pricing
+- Configuring the approved write-back strategies
+- Testing multi-order and multi-item freight allocation
+- Validating delivery re-enrichment and exception paths
+- Coordinating rollout, backfill, monitoring, and troubleshooting
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Can one SAP sales order create more than one Owlery shipment?">
+    Yes. Sales orders can be grouped by production plant or split into one Owlery order per sales-order item.
+  </Accordion>
+
+  <Accordion title="Can Owlery distinguish stock transfers from purchase orders?">
+    Yes. SAP purchase order type `UB` is handled as a stock transfer between plants. Other purchase order types follow the supplier purchasing workflow.
+  </Accordion>
+
+  <Accordion title="Can Owlery write tender results back to SAP?">
+    Yes, for configured deployments. Supported actions include carrier SCAC, Owlery quote number, and allocated quote amount for sales, purchase, and transfer workflows. The exact SAP partner, text, pricing services, and permissions are confirmed during implementation.
+  </Accordion>
+
+</AccordionGroup>
+
+Need help planning your SAP S/4HANA connection? Email [support@owlery.ai](mailto:support@owlery.ai).

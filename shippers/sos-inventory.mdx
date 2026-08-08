@@ -1,0 +1,177 @@
+---
+title: "Connect SOS Inventory to Owlery"
+description: "Learn how Owlery synchronizes SOS Inventory orders and item data and adapts SKU mapping to your account."
+sidebarTitle: "SOS Inventory"
+---
+
+Owlery connects to SOS Inventory through its OAuth 2.0 API. The integration brings sales orders, purchase orders, transfer orders, and item records into Owlery, then resolves the related locations, customers, vendors, units, and addresses used for transportation planning.
+
+The integration is designed for a focused inbound workflow. Owlery learns the structure of your connected records and can adapt the source field used as the operational SKU when your SOS Inventory account does not use the standard `sku` field.
+
+**Where to find it:** `Settings → Integrations`
+
+<Info>
+  Owlery leads the integration design. After your team authorizes the connection, we inspect your existing orders, items, locations, vendors, customers, and units. Your team confirms the recommended mapping, and Owlery handles configuration, validation, and rollout.
+</Info>
+
+## How the integration works
+
+<Steps>
+  <Step title="Authorize Owlery">
+    An authorized user connects SOS Inventory through OAuth 2.0. Owlery stores the resulting access and refresh credentials securely and refreshes the connection when required.
+  </Step>
+  <Step title="Discover your records">
+    Owlery reviews representative sales, purchase, and transfer orders together with their referenced items, locations, customers, and vendors. We confirm whether the standard SOS Inventory SKU is the operational identifier used by your team.
+  </Step>
+  <Step title="Synchronize orders and items">
+    Owlery retrieves each order family and the item master in pages. Incremental order syncs request records updated since the previous successful run, with a small overlap to reduce boundary misses.
+  </Step>
+  <Step title="Resolve related data">
+    Owlery batches supporting-record lookups and caches repeated references during the synchronization. This turns SOS Inventory IDs into usable facilities, trading partners, item details, and packaging relationships.
+  </Step>
+  <Step title="Map transportation data">
+    The integration builds pickup and delivery stops, expected dates, customer or supplier relationships, line quantities, prices, units, and selected references for Owlery.
+  </Step>
+  <Step title="Monitor API limits">
+    Owlery paces requests to respect SOS Inventory's API throttle and stops paging each record family when the API-reported total has been retrieved.
+  </Step>
+</Steps>
+
+## Authentication and access
+
+SOS Inventory uses OAuth 2.0. An authorized user grants Owlery access through the SOS Inventory authorization flow. Your team does not need to copy API passwords into Owlery.
+
+The connected account needs permission to read the record families used by the integration, including:
+
+- Items and item units of measure
+- Sales orders
+- Purchase orders
+- Transfers
+- Locations
+- Customers
+- Vendors
+
+Owlery coordinates access-token refreshes so concurrent requests do not attempt to replace the same refresh token at the same time.
+
+## Data synchronized from SOS Inventory
+
+### Orders
+
+| SOS Inventory record | How Owlery uses it |
+| --- | --- |
+| Sales Order | Creates a customer shipment from an SOS location to the order's shipping address |
+| Purchase Order | Creates a supplier shipment from the vendor address to the purchase-order shipping address |
+| Transfer | Creates an internal shipment between the source and destination SOS locations |
+
+Depending on the record, Owlery can synchronize:
+
+- SOS record ID and order number
+- Open or closed status where the source record provides it
+- Order date
+- Customer or vendor identity
+- Source and destination locations
+- Expected ship date, expected delivery date, or the earliest sales-line due date
+- Customer purchase order reference on sales orders
+- Item identity, description, quantity, line number, unit price, line total, and unit of measure
+- Transfer comments as operational notes
+
+### Item master
+
+Owlery can synchronize:
+
+- SOS item ID and item type
+- SKU, name, and description
+- Barcode and notes
+- Source synchronization timestamp when available
+- Base and alternate units of measure
+- Packaging conversion relationships between the base unit and alternate units
+
+For example, if an item has a base unit and an alternate case unit with a conversion, Owlery preserves that relationship for shipment-unit planning.
+
+## Configuration options
+
+SOS Inventory has a deliberately focused configuration surface:
+
+| Configuration area | Available controls |
+| --- | --- |
+| SKU source | Use the standard SOS Inventory `sku` field or select another item field |
+| Display name fallback | When `name` is used as the SKU, use the first available full name, description, purchase description, or original name as the item name |
+| Full or incremental sync | Run a complete synchronization or retrieve orders updated since the previous successful run |
+| Exact order refresh | Refresh an Owlery order directly by its SOS Inventory record ID |
+| Search | Search across the SOS-supported order query fields, including number, comment, customer purchase order, or customer name |
+
+<Tip>
+  Most customers do not need a custom setting. Owlery inspects the connected item records and recommends a SKU override only when another SOS Inventory field is the identifier your team actually uses.
+</Tip>
+
+## SKU mapping
+
+By default, Owlery uses the SOS Inventory `sku` value. Some accounts use another item field, such as `name`, as the operational SKU. Owlery can select that field without requiring you to rewrite existing item records.
+
+When `name` becomes the SKU, Owlery chooses a separate display name from the first populated value among full name, description, purchase description, and the original name. This keeps the operational identifier and human-readable item label distinct where the source data allows it.
+
+The configured field must be available on the SOS Inventory item response. Owlery validates representative item records before enabling the override.
+
+## Synchronization and reliability
+
+SOS Inventory applies strict request pacing. Owlery's implementation accounts for that behavior:
+
+- **Request pacing** spaces API calls to remain above the documented minimum interval, with an additional operational buffer.
+- **Pagination** requests up to the SOS Inventory maximum page size and follows the reported total count.
+- **Incremental overlap** subtracts one minute from the previous successful synchronization boundary to reduce the chance of missing a record at the edge.
+- **Parallel order-family reads** retrieve sales, purchase, and transfer pages together while the shared request limiter controls actual API pacing.
+- **Batched reference lookup** groups item, location, customer, and vendor IDs into bounded requests.
+- **Local reference caching** avoids repeatedly requesting the same supporting record during one synchronization.
+- **Refresh locking** allows only one process to rotate an expiring OAuth refresh token at a time.
+- **Exact refresh** retrieves the current SOS record by ID when an individual order needs reconciliation.
+
+## Write-back scope
+
+The current SOS Inventory integration is read-only. It synchronizes orders, items, and supporting records from SOS Inventory into Owlery. It does not currently write shipment, fulfillment, receipt, quote, or status updates back to SOS Inventory.
+
+Owlery will confirm this boundary during solution design. If your workflow requires outbound updates, we document the desired event and target SOS Inventory record before proposing an extension.
+
+## What Owlery needs from you
+
+After an authorized user connects SOS Inventory, your team only needs to **confirm that Owlery's recommended SKU mapping and workflow reflect the intended business outcome**.
+
+Owlery learns the supporting requirements from the connected account:
+
+| What Owlery learns | What we inspect |
+| --- | --- |
+| Representative transactions and important exceptions | Existing sales, purchase, and transfer orders plus their items, locations, customers, and vendors |
+| Which identifiers your team uses | Standard SKU, item name, full name, descriptions, and other available item fields |
+| How orders become shipments | Source and destination locations, shipping addresses, expected dates, due dates, quantities, prices, and units |
+| Whether the standard mapping is sufficient | Address completeness, alternate units, packaging conversions, and missing supporting records |
+
+Owlery handles:
+
+- Discovering representative records and exceptions
+- Recommending the SKU source
+- Mapping orders, facilities, partners, dates, items, units, packaging, and references
+- Validating full and incremental synchronization
+- Coordinating initial backfill and controlled rollout
+- Monitoring API pacing and troubleshooting SOS Inventory responses
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Do we need to change how our items are stored?">
+    Usually, no. Owlery uses the standard SOS Inventory SKU by default and can use another available item field when that better matches your existing operating model.
+  </Accordion>
+
+  <Accordion title="Can Owlery synchronize all three order types?">
+    Yes. The implemented integration supports sales orders, purchase orders, and transfers.
+  </Accordion>
+
+  <Accordion title="Can Owlery preserve item packaging conversions?">
+    Yes. Owlery maps the base unit and alternate item units into packaging relationships when SOS Inventory provides the conversion data.
+  </Accordion>
+
+  <Accordion title="Does Owlery write changes back to SOS Inventory?">
+    Not currently. The implemented integration synchronizes SOS Inventory data into Owlery. Owlery will document any required outbound workflow separately before proposing an extension.
+  </Accordion>
+
+</AccordionGroup>
+
+Need help planning your SOS Inventory connection? Email [support@owlery.ai](mailto:support@owlery.ai).

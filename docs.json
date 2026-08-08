@@ -53,6 +53,13 @@
             "pages": [
               "shippers/integrations-overview",
               "shippers/netsuite",
+              "shippers/cin7-omni",
+              "shippers/cin7-core",
+              "shippers/katana",
+              "shippers/quickbooks",
+              "shippers/sap-business-one",
+              "shippers/sap-s4hana",
+              "shippers/sos-inventory",
               "shippers/ramp"
             ]
           },

@@ -1,0 +1,140 @@
+---
+title: "Connect Katana to Owlery"
+description: "Learn how Owlery synchronizes Katana orders, locations, items, and inventory, then writes supported fulfillment tracking back to Katana."
+sidebarTitle: "Katana"
+---
+
+Owlery connects to Katana through the Katana API. The integration can bring sales orders, purchase orders, stock transfers, locations, products, materials, and inventory into Owlery. A supported carrier-specific fulfillment workflow can also return tracking details to Katana.
+
+Owlery builds the integration around the records already in your Katana account. We inspect your locations, transaction patterns, statuses, customers, suppliers, variants, units, and fulfillment behavior. We then recommend the smallest setup that supports your freight workflow.
+
+**Where to find it:** `Settings → Integrations`
+
+<Info>
+  After your Katana administrator authorizes the connection, your team only needs to confirm that Owlery's recommended mapping and workflow reflect the intended business outcome. Owlery handles discovery, configuration, validation, and rollout.
+</Info>
+
+## How the integration works
+
+<Steps>
+  <Step title="Connect securely">
+    You authorize Owlery through Katana OAuth 2.0. Owlery uses account-specific access and refresh tokens to call the Katana API.
+  </Step>
+  <Step title="Discover your operating model">
+    Owlery reads representative orders and their linked locations, customers, suppliers, variants, products, and materials.
+  </Step>
+  <Step title="Synchronize records">
+    Owlery retrieves new and changed transactions in incremental time windows, then loads the related master data needed to build complete orders.
+  </Step>
+  <Step title="Map logistics data">
+    Katana records become Owlery orders with facilities, stops, dates, statuses, references, notes, items, prices, and units of measure.
+  </Step>
+  <Step title="Return supported tracking">
+    For the currently supported carrier-specific workflow, Owlery can create or update a Katana sales-order fulfillment with the carrier, tracking URL, and tracking number.
+  </Step>
+</Steps>
+
+## Authentication and access
+
+A Katana administrator authorizes Owlery through OAuth 2.0. The connection needs read access to the resources selected for synchronization. These can include orders, fulfillments, locations, customers, suppliers, variants, products, materials, and inventory.
+
+Write access to sales-order fulfillments is needed only when tracking write-back is enabled. In production, Owlery can refresh an expired access token. A connection-level lock prevents multiple workers from rotating the same refresh token.
+
+## Data synchronized from Katana
+
+| Katana record | How Owlery uses it |
+| --- | --- |
+| Sales order | Creates a customer shipment from a Katana location to the order's shipping address |
+| Purchase order | Creates a supplier shipment arriving at a Katana location |
+| Stock transfer | Creates an internal inventory movement between two Katana locations |
+| Location | Creates a facility with a stable Katana source ID |
+| Variant | Creates an item-master record for a product or material |
+| Inventory | Creates location-specific stock quantities for a variant |
+
+Order mapping can include the Katana ID and order number, status, created and updated timestamps, customer or supplier, facilities, dates, customer reference, notes, variants, quantities, units, prices, and totals.
+
+Owlery also handles account data that requires interpretation:
+
+- Sales destinations use the order's shipping address, while origins use Katana locations.
+- Country and state values are normalized when possible. A missing state can be derived from a postal code.
+- E-commerce context can identify a sales order as parcel.
+- Product and material units can map to quantity, weight, length, or volume units.
+- Katana permits duplicate SKUs, so Owlery preserves the variant ID as the stable item identity.
+- Inventory can include in-stock, committed, reorder-point, and missing-or-excess quantities by location.
+
+<Note>
+  The current inventory sync does not import Katana batch stock, lot codes, or expiration dates. Owlery will call this out if your workflow depends on batch-level inventory.
+</Note>
+
+## Configuration and learned behavior
+
+| Configuration area | Available behavior |
+| --- | --- |
+| Overall synchronization | Enable or disable the Katana connection's background synchronization |
+| Order scope | Enable or disable sales, purchase, and transfer-order synchronization independently |
+| Initial history | Run a full synchronization when historical records are required |
+| Ongoing changes | Retrieve records changed since the prior successful sync, with an overlap around time boundaries |
+| Exact order lookup | Find an order by its Katana order or transfer number outside the normal background sync |
+| Status interpretation | Map Katana transaction statuses to open, in-progress, closed, or unknown Owlery states |
+| Facility mapping | Build origins and destinations from Katana locations and shipping addresses |
+| Item identity and units | Preserve variant IDs while interpreting SKUs, names, and units for operations |
+| Tracking write-back | Enable the currently supported carrier-specific fulfillment workflow for Katana sales orders |
+
+You do not need to choose every setting before discovery. Owlery inspects the account, proposes the applicable order scope and mapping, and asks your team to confirm the result.
+
+## Fulfillment tracking write-back
+
+Owlery currently supports Katana fulfillment tracking for a specific carrier workflow. When the tender returns its tracking number, Owlery can:
+
+- Read the current Katana sales-order rows and quantities
+- Create a `PACKED` fulfillment when none exists
+- Add the carrier tracking number, tracking URL, and carrier name
+- Update only the tracking fields on one existing fulfillment
+- Treat already-matching tracking data as a successful no-op
+- Record the result separately for each Katana order in a consolidated shipment
+
+Owlery does not overwrite a different tracking number or guess when Katana returns multiple fulfillments. If a create request fails after Katana may have accepted it, Owlery queries again before returning the error. This recovery check reduces duplicate fulfillments after a timeout.
+
+## Synchronization and reliability
+
+- **Rate-limit pacing** keeps requests within the configured limit of 30 calls per minute.
+- **Pagination** retrieves up to 250 records per page and includes a page safety limit.
+- **Incremental windows** use Katana update timestamps and overlap the prior successful sync.
+- **Reference caching** fetches each needed customer, supplier, facility, and variant once within a sync run.
+- **Stable source identities** use Katana record IDs for orders, facilities, and variants.
+- **Targeted re-sync** can refresh one order directly from its Katana source record.
+- **Write-back audits** record an actionable success or failure for every affected order.
+- **Idempotent tracking** avoids unnecessary fulfillment creates and updates.
+
+## What Owlery learns from Katana
+
+| What Owlery learns | What we inspect |
+| --- | --- |
+| Representative transactions and exceptions | Existing sales orders, purchase orders, stock transfers, statuses, dates, addresses, lines, and fulfillments |
+| Which records should enter Owlery | The transaction families in use, their update patterns, locations, and customer or supplier relationships |
+| How facilities and items should map | Location IDs, shipping addresses, variant IDs, SKUs, product and material names, and units |
+| Which events can return to Katana | Existing fulfillment data and whether the supported carrier-specific tracking workflow applies |
+
+Owlery uses this information to recommend the integration setup. Your team confirms that the proposed order scope, mapping, and shipment workflow match the intended business outcome.
+
+## Implementation process
+
+<Steps>
+  <Step title="Authorize Katana">
+    Your Katana administrator connects the account through OAuth 2.0.
+  </Step>
+  <Step title="Account discovery">
+    Owlery inspects transactions, locations, variants, customers, suppliers, units, and fulfillment behavior.
+  </Step>
+  <Step title="Mapping recommendation">
+    We recommend the order scope and explain how Katana records will become Owlery orders, facilities, and items.
+  </Step>
+  <Step title="Customer confirmation">
+    Your team confirms that the recommended mapping produces the intended operational result.
+  </Step>
+  <Step title="Controlled rollout">
+    Owlery validates normal and exception scenarios, starts synchronization, and monitors the first records and enabled write-back.
+  </Step>
+</Steps>
+
+Need help planning your Katana connection? Email [support@owlery.ai](mailto:support@owlery.ai).

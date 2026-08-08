@@ -1,0 +1,164 @@
+---
+title: "Connect QuickBooks Online to Owlery"
+description: "Learn how Owlery synchronizes QuickBooks Online estimates and items, creates freight purchase orders, and supports connected invoicing workflows."
+sidebarTitle: "QuickBooks Online"
+---
+
+Owlery connects to QuickBooks Online through the Intuit API. The integration can create and synchronize Estimates, map QuickBooks Items to Owlery lines, create freight Purchase Orders from booked quotes, and support a connected invoice workflow.
+
+The integration is workflow-driven. Owlery learns how your orders, customers, Items, Vendors, GL codes, accessorial charges, and accounts relate. We then recommend the smallest set of mappings needed for your intended accounting outcome.
+
+**Where to find it:** `Settings → Integrations`
+
+<Info>
+  After your QuickBooks administrator authorizes the connection, your team only needs to confirm that Owlery's recommended accounting mappings and workflow reflect the intended business outcome. Owlery handles discovery, configuration, validation, and rollout.
+</Info>
+
+## How the integration works
+
+<Steps>
+  <Step title="Connect securely">
+    You authorize Owlery through Intuit OAuth 2.0 and select the QuickBooks Online company to connect.
+  </Step>
+  <Step title="Discover accounting relationships">
+    Owlery inspects the Customers, Items, Estimates, Vendors, Purchase Orders, Invoices, terms, and account references needed by the selected workflow.
+  </Step>
+  <Step title="Map operational orders">
+    In the supported order workflow, Owlery creates or updates a QuickBooks Estimate for an imported customer order and preserves the link to the originating Owlery order.
+  </Step>
+  <Step title="Synchronize changes">
+    Owlery reads changed Estimates and Items through QuickBooks Change Data Capture. Estimate statuses and line values update the linked Owlery order.
+  </Step>
+  <Step title="Write booked freight cost">
+    If enabled, Owlery converts a booked quote into a QuickBooks Purchase Order using configured Vendor, AP-account, freight-Item, and accessorial-Item mappings.
+  </Step>
+</Steps>
+
+## Authentication and access
+
+A QuickBooks administrator authorizes Owlery and selects the company to connect. Owlery stores the company account ID and account-specific access and refresh tokens.
+
+Permissions can include Customers, Items, Estimates, Vendors, Purchase Orders, Invoices, and payment terms. The exact access depends on the selected workflow.
+
+Owlery uses Intuit's OpenID discovery information to locate the token endpoint. In production, expired access tokens can be refreshed. A connection-level lock prevents concurrent workers from rotating the same refresh token.
+
+## Order and Estimate workflow
+
+QuickBooks Online does not expose a native sales-order record like many ERPs. Owlery's supported workflow represents the accounting-side customer order as a QuickBooks Estimate.
+
+Owlery can write the following data from an existing order:
+
+- Owlery order number as the QuickBooks document number
+- Customer matched by QuickBooks display name
+- Transaction date and cancellation status
+- Items resolved by SKU
+- Quantity, unit price, amount, and description
+- Source order number as a custom field
+- Destination address and expiration date
+- Operational transaction history in the customer memo
+
+If the Customer does not exist, the supported workflow can create it by display name. Items must resolve to usable QuickBooks Item records by SKU. Updates include the Estimate ID and SyncToken so QuickBooks can apply its concurrency rules.
+
+On synchronization, Owlery reads the Estimate ID, SyncToken, status, Item identities, SKU or description, quantity, unit price, and amount. The linked Owlery order retains the originating order's facilities, customer, and operational context.
+
+| QuickBooks Estimate status | Owlery status |
+| --- | --- |
+| Pending | Open |
+| Accepted | Confirmed |
+| Closed or Converted | Closed |
+| Rejected | Cancelled |
+
+Estimate lines are currently interpreted as cases. Owlery will confirm whether this matches your item model during discovery.
+
+<Note>
+  Owlery does not import every unrelated QuickBooks Estimate as a new freight order. The supported workflow synchronizes Estimates that match an originating Owlery order.
+</Note>
+
+## Freight Purchase Order write-back
+
+Owlery can create or update a QuickBooks Purchase Order when freight is booked from an Owlery quote.
+
+| Owlery value | QuickBooks destination |
+| --- | --- |
+| Carrier or broker profile | Vendor ID |
+| Order GL code | Freight Item ID |
+| Integration setting | AP account ID |
+| Accessorial category | Accessorial Item ID |
+| Quote short ID | Purchase Order document number |
+| Quote notes and date | Purchase Order memo and transaction date |
+
+The Purchase Order contains one freight line per linked order and can add separate accessorial and other-charge lines. Owlery treats line haul, fuel surcharge, and discounts as the freight amount. It validates that the signed line-item total matches the quote total before writing.
+
+When a quote covers multiple orders and item weights are available, Owlery normalizes mixed weight units, resolves variant packaging to the standard item, and allocates freight by weight. It then records the allocated quote price on each order and adds the Purchase Order reference to the quote and load.
+
+Before writing, Owlery queries QuickBooks using the deterministic document number. It creates a Purchase Order when none exists, updates one existing match, and stops for review if multiple matches exist.
+
+## Configuration and learned behavior
+
+| Configuration area | Available controls |
+| --- | --- |
+| Overall synchronization | Enable or disable background synchronization |
+| Estimate synchronization | Enable or disable the sales-side Estimate workflow |
+| Historical refresh | Run a paginated full Estimate scan for an intentional re-sync |
+| Quote write-back | Enable or disable ERP quote write-back |
+| Cross-system write-back | Allow orders from another connected source to create freight Purchase Orders in QuickBooks |
+| Carrier mapping | Map Owlery broker or carrier profiles to QuickBooks Vendor IDs |
+| Freight coding | Map Owlery GL codes to QuickBooks freight Item IDs |
+| AP account | Select the QuickBooks AP account for new freight Purchase Orders |
+| Accessorial coding | Map Owlery line-item categories to QuickBooks Item IDs |
+| Customer and Item matching | Match Customers by display name and Items by SKU |
+
+You do not need to assemble these mappings before discovery. Owlery inspects the connected records, proposes the mapping, and asks your team to confirm the accounting result.
+
+## Connected invoice workflow
+
+Owlery includes a specialized workflow for an Estimate linked to a QuickBooks Invoice and a supported trading-partner EDI connection. When enabled, Owlery can read the linked Invoice, Items, and payment term, then send the supported EDI 810 transaction. It checks that the order is closed and that an EDI 810 has not already been sent.
+
+This is a specific connected workflow, not a general-purpose invoice export for every QuickBooks account. Owlery confirms whether it applies during discovery.
+
+## Synchronization and reliability
+
+- **Incremental Change Data Capture** reads changed Estimates and Items.
+- **Cursor overlap** includes one minute around the prior successful sync.
+- **Lookback control** stays within QuickBooks' 30-day Change Data Capture limit.
+- **Intentional full refresh** uses a paginated Estimate query instead of the limited change window.
+- **Deletion reconciliation** marks deleted Estimates and invalidates deleted Items.
+- **Connection-scoped caching** keeps Item data isolated between QuickBooks companies.
+- **Request pacing** spaces QuickBooks API calls.
+- **Safe token refresh** serializes refresh-token rotation for each connection.
+- **API usage monitoring** tracks calls by endpoint and category and records monitored monthly usage.
+- **Change-volume monitoring** warns as a response approaches QuickBooks' 1,000-object Change Data Capture limit.
+
+## What Owlery learns from QuickBooks
+
+| What Owlery learns | What we inspect |
+| --- | --- |
+| Representative transactions and exceptions | Estimates, Items, Vendors, Purchase Orders, linked Invoices, terms, duplicate SKUs, and document relationships |
+| Which records should enter Owlery | Estimates that correspond to originating Owlery orders, changed Items, statuses, and deletions |
+| How accounting values should map | Customer names, Item SKUs, Vendor IDs, AP accounts, GL-code mappings, and accessorial mappings |
+| Which events should return to QuickBooks | The order-to-Estimate workflow and whether booked quotes should create freight Purchase Orders |
+| Whether the invoice workflow applies | Estimate-to-Invoice links, payment terms, existing EDI activity, and the connected trading partner |
+
+Owlery uses this information to recommend the integration setup. Your team confirms that the proposed mappings produce the intended operational and accounting outcome.
+
+## Implementation process
+
+<Steps>
+  <Step title="Authorize QuickBooks">
+    Your administrator connects the intended company through Intuit OAuth 2.0.
+  </Step>
+  <Step title="Account discovery">
+    Owlery inspects Customers, Items, Estimates, Vendors, accounts, and applicable Invoice relationships.
+  </Step>
+  <Step title="Mapping recommendation">
+    We recommend the Customer, Item, Vendor, AP-account, GL-code, accessorial, and write-back mappings that apply.
+  </Step>
+  <Step title="Customer confirmation">
+    Your team confirms that the recommended accounting mapping produces the intended result.
+  </Step>
+  <Step title="Controlled rollout">
+    Owlery validates normal and exception scenarios, enables the agreed workflow, and monitors the first records.
+  </Step>
+</Steps>
+
+Need help planning your QuickBooks Online connection? Email [support@owlery.ai](mailto:support@owlery.ai).

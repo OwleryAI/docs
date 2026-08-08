@@ -1,0 +1,150 @@
+---
+title: "Connect Cin7 Core to Owlery"
+description: "Learn how Owlery synchronizes Cin7 Core orders, products, facilities, and shipment dates while adapting to your fulfillment workflow."
+sidebarTitle: "Cin7 Core"
+---
+
+Cin7 Core, formerly DEAR Inventory, connects your purchasing, sales, inventory-transfer, and fulfillment data to Owlery. Owlery can synchronize the records needed for transportation planning and write selected shipment dates back to Cin7 Core.
+
+The integration is configuration-driven. Owlery reviews your connected account, recommends the smallest set of filters and mappings that supports your operation, and handles the detailed setup.
+
+**Where to find it:** `Settings → Integrations`
+
+<Info>
+  Cin7 Core was previously named DEAR Inventory. Cin7 Core and Cin7 Omni are separate products with different APIs and Owlery connectors.
+</Info>
+
+## How the integration works
+
+<Steps>
+  <Step title="Connect securely">
+    Your Cin7 Core administrator provides an API account ID and application key. Owlery validates access before synchronization begins.
+  </Step>
+  <Step title="Discover your operating model">
+    Owlery reads sales, purchases, stock transfers, products, locations, customers, and suppliers to identify your order scope, facilities, units, fulfillment patterns, and exceptions.
+  </Step>
+  <Step title="Synchronize and map records">
+    Owlery retrieves paginated records and maps their stops, contacts, items, quantities, prices, dates, and statuses into your freight workflows. Sales and purchases use update timestamps for incremental synchronization.
+  </Step>
+  <Step title="Apply your rules">
+    Filters can limit sales by source channel or customer. Sales can remain whole or split by fulfillment location.
+  </Step>
+  <Step title="Write back selected dates">
+    If enabled, pickup and delivery events update the corresponding sales, purchase, or stock-transfer dates in Cin7 Core.
+  </Step>
+</Steps>
+
+## Authentication and access
+
+Owlery needs an **API account ID** and **application key**. The credentials need read access to the records selected for your workflow and write access when date write-back is enabled.
+
+Owlery validates the credentials against the Cin7 Core location API. We then verify the specific sales, advanced-purchase, stock-transfer, product, location, customer, supplier, and write operations included in your implementation.
+
+## Data synchronized from Cin7 Core
+
+| Cin7 Core record | How Owlery uses it |
+| --- | --- |
+| Sale | Creates a customer shipment from the sale, shipping address, fulfillment, and order lines |
+| Advanced Purchase | Creates a supplier shipment from the purchase, supplier address, receiving activity, and order lines |
+| Stock Transfer | Creates an internal inventory movement between source and destination locations |
+
+Depending on the source record, Owlery can synchronize:
+
+- Source ID, order number, source status, and Owlery status
+- Order date, operational notes, customer references, and shipping instructions
+- Customer or supplier profiles and contacts
+- Pickup and delivery facilities
+- Requested and actual shipment, receiving, departure, and completion dates
+- SKU, name, expected quantity, and fulfilled or received quantity
+- Unit price, total value, unit of measure, weight, dimensions, and packaging
+
+Service sales and service purchases are excluded because they do not represent inventory freight movements.
+
+### Products and facilities
+
+Owlery can synchronize products, including deprecated products referenced by historical orders. Product mapping includes SKU, descriptions, unit, weight, and dimensions. Recognized values become freight packaging; an unsupported unit safely defaults to `each` for review.
+
+Facilities can come from Cin7 Core locations, child locations that inherit a parent address, customer and supplier address books, or an order's shipping address. Owlery can resolve a missing location ID by name and prefers a supplier's default shipping address for purchase pickups.
+
+## Configuration options
+
+| Configuration area | Available controls |
+| --- | --- |
+| Order scope | Enable or disable sales, purchase, and transfer synchronization independently |
+| Sales source channels | Synchronize all sales or allow only configured `SourceChannel` values; matching is case-insensitive |
+| Customer-name filtering | Exclude sales whose customer name begins with a configured prefix |
+| Customer identity filtering | Exclude records associated with selected customer source IDs |
+| Fulfillment-location splitting | Split a sale into orders by pick location, or keep it as one order |
+| Status handling | Map sale, purchase, and transfer lifecycles into Owlery order states |
+| Units and packaging | Interpret product units, weights, and dimensions for freight planning |
+| Exact order lookup | Find and synchronize a specific sale, purchase, or transfer reference |
+| Date write-back | Update sales `ShipBy`, purchase `RequiredBy`, and transfer departure or completion dates |
+
+<Tip>
+  Your team does not need to design these settings from scratch. Owlery inspects the account, recommends a configuration, and asks you to confirm the intended business outcome.
+</Tip>
+
+## Multi-location sales orders
+
+When location splitting is enabled, Owlery reads pick lines from the latest fulfillment, groups quantities by location ID, and matches them to the original sale lines by SKU. One SKU can be divided across multiple pickup locations.
+
+Owlery creates one linked freight order per location. Unallocated quantities are preserved separately for review. Later syncs reconcile changed assignments, preserve stable child-order identities where possible, and retire obsolete splits. You can disable splitting to keep every Cin7 Core sale as one Owlery order.
+
+## Date write-back workflows
+
+Write-back is optional. Owlery uses the actual stop date first and can fall back to the matching tracking event date.
+
+| Owlery event | Cin7 Core update |
+| --- | --- |
+| A sales load is picked up | Sale `ShipBy` |
+| A purchase load is delivered | Purchase `RequiredBy` |
+| A transfer load is picked up | Stock transfer `DepartureDate` |
+| A transfer load is delivered | Stock transfer `CompletionDate` |
+
+Split Owlery orders sharing one Cin7 Core source are grouped so the source record is updated once. Owlery retrieves the current record before writing and preserves unrelated fields.
+
+Requests are paced for Cin7 Core's API limits. Rate-limit responses use bounded exponential backoff; unrelated validation and authentication failures are not blindly retried.
+
+## Synchronization and reliability
+
+- **Incremental synchronization** uses update timestamps for sales and purchases.
+- **Pagination** retrieves large lists in API-sized pages and processes detail records in smaller batches.
+- **Targeted retries** retry temporarily unavailable detail records without discarding the rest of the page.
+- **Independent workflows** allow one order family to continue if another encounters an API error.
+- **Exact-reference lookup** supports a specific `SO`, `PO`, or transfer outside the background cycle.
+- **Stable reconciliation** handles changing fulfillment locations and quantities across later syncs.
+- **Actionable failures** report missing source IDs, missing dates, unsupported order types, and vendor errors.
+
+## What Owlery learns from your account
+
+After authorization, Owlery can discover the details that would otherwise require your team to prepare an integration specification.
+
+| What Owlery learns | What we inspect |
+| --- | --- |
+| Representative transactions and exceptions | Existing sales, advanced purchases, stock transfers, statuses, dates, line structures, fulfillment, and receiving activity |
+| Which records should enter Owlery | Transaction families, source channels, customers, service-record exclusions, and freight-relevant activity |
+| How facilities should map | Locations, parent-child relationships, order addresses, and customer and supplier address books |
+| How items should map | Products, SKUs, units, weights, dimensions, and representative order quantities |
+| Which events can return to Cin7 Core | Existing `ShipBy`, `RequiredBy`, `DepartureDate`, and `CompletionDate` behavior |
+
+Owlery recommends the inbound filters, mappings, splitting behavior, and optional write-back workflow. Your team only needs to confirm that the recommendation reflects the intended business outcome.
+
+We handle representative-record discovery, configuration, normal and exception testing, rollout, monitoring, and troubleshooting. Your administrator supplies the API credentials, and your team confirms the proposed result.
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Is this the same integration as Cin7 Omni?">
+    No. Cin7 Core and Cin7 Omni have different APIs and Owlery connectors. Cin7 Core has the broader production connector described on this page.
+  </Accordion>
+
+  <Accordion title="Can we keep multi-location sales as one order?">
+    Yes. Disable fulfillment-location splitting to keep each source sale as one Owlery order.
+  </Accordion>
+
+  <Accordion title="Can we start without write-back?">
+    Yes. You can validate inbound orders, products, and facilities before enabling date write-back.
+  </Accordion>
+</AccordionGroup>
+
+Need help planning your Cin7 Core connection? Email [support@owlery.ai](mailto:support@owlery.ai).

@@ -1,0 +1,131 @@
+---
+title: "Cin7 Omni integration scope"
+description: "Understand Owlery's current Cin7 Omni integration scope and how a customer-specific connection is designed."
+sidebarTitle: "Cin7 Omni"
+---
+
+Owlery has an inbound mapping foundation for Cin7 Omni sales and purchase orders. It is designed to translate freight-relevant Cin7 Omni order, contact, address, and line-item data into Owlery.
+
+<Warning>
+  The Cin7 Omni connector is not currently available as a standard self-service connection. Authentication and production enablement are scoped with Owlery before rollout. Contact [support@owlery.ai](mailto:support@owlery.ai) to review availability for your account.
+</Warning>
+
+<Info>
+  Cin7 Omni and Cin7 Core, formerly DEAR Inventory, are separate products. They use different APIs, credentials, records, and Owlery connectors. See the [Cin7 Core guide](/shippers/cin7-core) if your account was previously known as DEAR.
+</Info>
+
+## Current integration scope
+
+The current Cin7 Omni implementation includes mappings for:
+
+| Cin7 Omni record | Current Owlery mapping |
+| --- | --- |
+| Sales Order | Customer shipment with a delivery stop, customer contact, order status, notes, and line items |
+| Purchase Order | Supplier shipment with a pickup stop, supplier contact, order status, notes, and line items |
+
+The mapped order data can include:
+
+- Cin7 Omni order ID as the source identity and Owlery order number
+- Created and modified timestamps
+- Cin7 Omni source status and its corresponding Owlery status
+- Delivery instructions
+- Customer or supplier identity and contact details
+- Billing address used for the current pickup or delivery mapping
+- Item name and line comments
+- Expected and shipped quantity
+- Unit price
+- Barcode mapped as the current lot-code value
+
+The mapping recognizes `Draft`, `Submitted`, `Confirmed`, `Cancelled`, and `Closed` order states. Other values remain available as their source status and require review before a production rollout.
+
+## Synchronization design
+
+The connector foundation is designed to:
+
+- Retrieve sales and purchase orders changed since the last successful synchronization
+- Request paginated Cin7 Omni order lists
+- Pace requests against the documented minute and daily API allowances
+- Resolve missing city, state, or country values from a postal code when possible
+- Preserve the source record ID and modification timestamp for later synchronization
+
+Current rate controls are designed around 60 requests per minute and 5,000 requests per day.
+
+<Note>
+  These capabilities describe the implemented mapping foundation. They do not indicate that authentication, production synchronization, item-master synchronization, custom-field mapping, transfer orders, or write-back are generally available for Cin7 Omni today.
+</Note>
+
+## Configuration and discovery
+
+Cin7 Omni implementations must be scoped before connection. Owlery reviews your account requirements to determine whether the current foundation is sufficient or needs additional work.
+
+The design review covers:
+
+| Area | What Owlery evaluates |
+| --- | --- |
+| Authentication | The supported Cin7 Omni authorization method and credentials for your account |
+| Order scope | Whether sales orders, purchase orders, or both should enter Owlery |
+| Record selection | Which statuses, branches, sources, or other account values identify freight-relevant orders |
+| Address mapping | Whether billing, delivery, branch, or another address should supply each freight stop |
+| Order identity | Whether the Cin7 Omni ID, reference, customer order number, or another field should be customer-facing |
+| Item mapping | Which product code, barcode, quantity, and packaging fields should populate Owlery items |
+| Custom data | Whether Cin7 Omni custom fields are needed for dates, facilities, notes, references, or filtering |
+| Outbound events | Whether your workflow requires updates from Owlery to Cin7 Omni; write-back is not part of the current standard scope |
+
+Unlike the production Cin7 Core connector, Cin7 Omni does not currently expose a standard set of customer-configurable settings in Owlery.
+
+## What Owlery needs from you
+
+Because this connector requires a scoped enablement, Owlery first confirms technical availability and the account's authentication requirements. Once secure read access is available, we can inspect representative records and propose the detailed mapping.
+
+Your team confirms that the recommendation matches the intended business outcome. Owlery leads:
+
+- Technical fit and API-access review
+- Representative-record discovery after access is established
+- Inbound field and status mapping
+- Address and item interpretation
+- Exception analysis
+- Validation and rollout planning
+
+Any capability beyond the current sales and purchase inbound foundation is identified explicitly in the implementation scope before work begins.
+
+## Implementation process
+
+<Steps>
+  <Step title="Confirm product and availability">
+    Owlery confirms that your system is Cin7 Omni, not Cin7 Core, and reviews the current connector availability.
+  </Step>
+  <Step title="Validate API access">
+    We determine the supported authorization method and confirm that the required order records can be read safely.
+  </Step>
+  <Step title="Discover representative records">
+    After access is established, Owlery reviews sales and purchase records, statuses, addresses, contacts, line items, and exceptions.
+  </Step>
+  <Step title="Recommend the mapping">
+    We document the smallest inbound design that supports your workflow and identify any capabilities that require additional implementation.
+  </Step>
+  <Step title="Customer confirmation">
+    Your team confirms that the proposed mapping and scope produce the intended business outcome before rollout.
+  </Step>
+</Steps>
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Is Cin7 Omni available as a self-service connector?">
+    Not currently. Owlery must confirm technical availability and scope the connection before it is enabled.
+  </Accordion>
+
+  <Accordion title="Does the current scope include stock transfers or item-master synchronization?">
+    No standard support for those capabilities is present in the current Cin7 Omni implementation. Owlery will identify any additional development during scoping.
+  </Accordion>
+
+  <Accordion title="Can Owlery write shipment events back to Cin7 Omni?">
+    Write-back is not part of the current standard Cin7 Omni scope. We document any requested outbound workflow separately during solution design.
+  </Accordion>
+
+  <Accordion title="Is this the same as the Cin7 Core integration?">
+    No. Cin7 Core, formerly DEAR Inventory, has a separate production connector with broader synchronization, configuration, and date write-back capabilities.
+  </Accordion>
+</AccordionGroup>
+
+To review Cin7 Omni availability for your account, email [support@owlery.ai](mailto:support@owlery.ai).
